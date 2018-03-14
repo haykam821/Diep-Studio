@@ -1,0 +1,17 @@
+body {
+    margin: 0px;
+    overflow: hidden;
+}
+
+#sidebar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: 'Ubuntu';
+}
+
+#title {
+    text-align: center;
+}
