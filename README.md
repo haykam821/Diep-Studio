@@ -1,2 +1,2 @@
-# Diep-Studio
+# Diep Studio
 The new DSM.
