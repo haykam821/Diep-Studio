@@ -15,19 +15,33 @@
 
 <body>
     <canvas id="mainCanvas">Update your browser.</canvas>
-    <span id="coordinates">
-        X:
-        <span id="xPos">0</span><br>
-        Y:
+    <div id="coordinates">
+        <span>X:</span>
+        <span id="xPos">0</span>
+        <br> <span>Y:</span>
         <span id="yPos">0</span>
-    </span>
+    </div>
     <div id="sidebar">
-        <h1 id="title">Diep Studio</h2>
-        
+        <h1 class="head">Diep Studio</h1>
+
+        <p style="text-align: center; margin: 5px">
+            Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!
+        </p>
+
         <div id="options">
-            <span>Grid Size:</span> <input id="slotSize" type="number" min=1 value=24><br>
-            <span>Grid Background:</span> <input id="gridBackgroundColor" type="color" value="#cdcdcd"><br>
-            <span>Grid Color:</span> <input id="gridLineColor" type="color" value="#c0c0c0">
+            <h2 class="head">
+                Import/Export</h2>
+            <textarea rows="3" style="width: 100%; resize: none; height: auto" placeholder="Paste your text here"></textarea>
+
+            <h2 class="head">Grid Settings</h2>
+            <span>Grid Size:</span>
+            <input id="slotSize" type="number" min=1 value=24>
+            <br>
+            <span>Grid Background:</span>
+            <input id="gridBackgroundColor" type="color" value="#cdcdcd">
+            <br>
+            <span>Grid Color:</span>
+            <input id="gridLineColor" type="color" value="#c0c0c0">
         </div>
 
         <div id="icons">
