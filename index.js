@@ -1,7 +1,14 @@
 const canvas = document.getElementById("mainCanvas");
 const ctx = canvas.getContext("2d");
 
+const xPosDOM = document.getElementById("xPos");
+const yPosDOM = document.getElementById("yPos");
+
 const sidebar = document.getElementById("sidebar");
+
+let slotSize = 24;
+let gridBGColor = "#cdcdcd";
+let gridColor = "#c0c0c0";
 
 function updateCanvasSize() {
     canvas.width = window.innerWidth;
@@ -14,7 +21,26 @@ function updateCanvasSize() {
 window.addEventListener("resize", updateCanvasSize);
 window.addEventListener("load", updateCanvasSize);
 
-function drawGrid(x, y, width, height, slotSize, lineColor, ctxt) {
+canvas.addEventListener("mousemove", (event) => {
+    xPosDOM.innerHTML = event.clientX;
+    yPosDOM.innerHTML = event.clientY;
+});
+
+document.getElementById("sidebar").addEventListener("input", (event) => {
+    switch (event.target.id) {
+        case "gridSlotSize":
+            slotSize = parseInt(event.target.value);
+            break;
+        case "gridBackgroundColor":
+            gridBGColor = event.target.value;
+            break;
+        case "gridLineColor":
+            gridColor = event.target.value;
+            break;
+    }
+});
+
+function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0c0", ctxt) {
     var ctxtmp = document.getElementById(ctxt);
     var ctxx = ctxtmp.getContext('2d');
 
@@ -39,10 +65,9 @@ function drawGrid(x, y, width, height, slotSize, lineColor, ctxt) {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = "#cdcdcd";
+    ctx.fillStyle = gridBGColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    drawGrid(0, 0, canvas.width, canvas.height, 24, "#c0c0c0", "mainCanvas")
+    drawGrid(0, 0, canvas.width, canvas.height, slotSize, gridColor, "mainCanvas");
 
     // Again!
     window.requestAnimationFrame(draw);
