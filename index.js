@@ -10,6 +10,8 @@ let slotSize = 24;
 let gridBGColor = "#cdcdcd";
 let gridColor = "#c0c0c0";
 
+let objects = [];
+
 function updateCanvasSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -61,6 +63,23 @@ function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0
     ctxx.closePath();
     ctxx.restore();
 };
+function drawText(text, x, y, ctxt) {
+    var ctxtmp = document.getElementById(ctxt);
+    var ctxx = ctxtmp.getContext('2d');
+    ctxx.lineJoin = "round";
+
+    ctxx.save();
+    ctxx.lineWidth = 5;
+    ctxx.textAlign = "center";
+    ctxx.translate(x, y);
+    ctxx.strokeStyle = "#555555";
+    ctxx.strokeText(text, 0, 0, 2000000);
+    ctxx.fillStyle = "#ffffff";
+    ctxx.fillText(text, 0, 0, 2000000);
+    ctxx.restore();
+
+
+};
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -68,6 +87,10 @@ function draw() {
     ctx.fillStyle = gridBGColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     drawGrid(0, 0, canvas.width, canvas.height, slotSize, gridColor, "mainCanvas");
+
+    for (let item of objects) {
+        drawText(item.name, item.x, item.y, "mainCanvas");
+    }
 
     // Again!
     window.requestAnimationFrame(draw);
