@@ -18,7 +18,8 @@
     <div id="coordinates">
         <span>X:</span>
         <span id="xPos">0</span>
-        <br> <span>Y:</span>
+        <br>
+        <span>Y:</span>
         <span id="yPos">0</span>
     </div>
     <div id="sidebar">
@@ -32,17 +33,26 @@
             <h2 class="head">
                 Import/Export</h2>
             <textarea rows="3" style="width: 100%; resize: none; height: auto" placeholder="Paste your text here"></textarea>
-            <button style="width:50%;" id="import">Import</button><button style="width:50%;" id="export">Export</button>
+            <div class="buttonPair">
+                <button id="import">Import</button>
+                <button id="export">Export</button>
+            </div>
 
             <h2 class="head">Grid Settings</h2>
-            <span>Grid Size:</span>
-            <input id="slotSize" type="number" min=1 value=24>
+            <div class="optionRow">
+                <span>Grid Size:</span>
+                <input id="slotSize" type="number" min=1 value=24>
+            </div>
             <br>
-            <span>Grid Background:</span>
-            <input id="gridBackgroundColor" type="color" value="#cdcdcd">
+            <div class="optionRow">
+                <span>Grid Background:</span>
+                <input id="gridBackgroundColor" type="color" value="#cdcdcd">
+            </div>
             <br>
-            <span>Grid Color:</span>
-            <input id="gridLineColor" type="color" value="#c0c0c0">
+            <div class="optionRow">
+                <span>Grid Color:</span>
+                <input id="gridLineColor" type="color" value="#c0c0c0">
+            </div>
         </div>
 
         <div id="icons">

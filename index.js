@@ -16,7 +16,7 @@ function updateCanvasSize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    sidebar.style.width = window.innerWidth / 5;
+    sidebar.style.width = window.innerWidth / 5 > 232 ? window.innerWidth / 5 : 232;
     sidebar.style.height = window.innerHeight;
 }
 
