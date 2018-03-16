@@ -10,7 +10,14 @@ let slotSize = 24;
 let gridBGColor = "#cdcdcd";
 let gridColor = "#c0c0c0";
 
-let objects = [];
+let objects = [{
+    x: 0,
+    y: 0,
+    name: "0,0"
+}];
+
+let camX = -500;
+let camY = -500;
 
 function updateCanvasSize() {
     canvas.width = window.innerWidth;
@@ -24,8 +31,8 @@ window.addEventListener("resize", updateCanvasSize);
 window.addEventListener("load", updateCanvasSize);
 
 canvas.addEventListener("mousemove", (event) => {
-    xPosDOM.innerHTML = event.clientX;
-    yPosDOM.innerHTML = event.clientY;
+    xPosDOM.innerHTML = event.clientX + camX;
+    yPosDOM.innerHTML = event.clientY + camY;
 });
 
 document.getElementById("sidebar").addEventListener("input", (event) => {
@@ -63,6 +70,7 @@ function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0
     ctxx.closePath();
     ctxx.restore();
 };
+
 function drawText(text, x, y, ctxt) {
     var ctxtmp = document.getElementById(ctxt);
     var ctxx = ctxtmp.getContext('2d');
@@ -82,6 +90,7 @@ function drawText(text, x, y, ctxt) {
 };
 
 function draw() {
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = gridBGColor;
@@ -89,7 +98,7 @@ function draw() {
     drawGrid(0, 0, canvas.width, canvas.height, slotSize, gridColor, "mainCanvas");
 
     for (let item of objects) {
-        drawText(item.name, item.x, item.y, "mainCanvas");
+        drawText(item.name, item.x - camX, item.y - camY, "mainCanvas");
     }
 
     // Again!
