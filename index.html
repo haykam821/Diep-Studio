@@ -31,11 +31,18 @@
 
         <div id="options">
             <h2 class="head">
-                Import/Export</h2>
-            <textarea rows="3" style="width: 100%; resize: none; height: auto" placeholder="Paste your text here"></textarea>
+                Data Management</h2>
+            <textarea rows="3" style="width: 100%; resize: none; height: auto" placeholder="Paste your scene here"></textarea>
             <div class="buttonPair">
-                <button id="import">Import</button>
-                <button id="export">Export</button>
+                <button id="import" class="dbtn-blue" title="Imports a Diep Studio or DSM scene.">Import</button>
+                <button id="importSaved" class="dbtn-blue" title="This will replace the current scene with the one you last saved.">Import Saved</button>
+            </div>
+            <div class="buttonPair">
+                <button id="export" class="dbtn-green" title="Saves and exports as JSON.">Save & Export</button>
+                <button id="exportDSM" class="dbtn-green" title="Exports so you can use it with Diep Scene Maker.">Export to DSM</button>
+            </div>
+            <div class="buttonPair">
+                <button id="reset" class="dbtn-red" title="This will remove all progress on the current scene!">Clear</button>
             </div>
 
             <h2 class="head">Camera</h2>
