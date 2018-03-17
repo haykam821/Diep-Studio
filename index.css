@@ -11,6 +11,7 @@ body {
     color: white;
     font-family: 'Ubuntu';
     user-select: none;
+    overflow: scroll;
 }
 
 #coordinates {
@@ -31,12 +32,13 @@ body {
 
 #icons {
     text-align: center;
-    position: absolute;
+    position: sticky;
     margin-left: auto;
     margin-right: auto;
     left: 0px;
     right: 0px;
-    bottom: 20px;
+    bottom: 10px;
+    padding-top: 10px;
 }
 
 #icons>a {
