@@ -93,6 +93,13 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
         case "gridLineColor":
             gridColor = event.target.value;
             break;
+        case "export":
+            document.getElementById("dataBox").value = JSON.stringify(
+                exportScene(),
+                null,
+                4,
+            );
+            break;
     }
     console.log(event.target)
 });
@@ -108,7 +115,6 @@ function exportScene() {
         }
     }
 }
-alert(JSON.stringify(exportScene(), null, 4))
 
 function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0c0", ctxt) {
     var ctxtmp = document.getElementById(ctxt);
