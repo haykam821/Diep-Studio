@@ -97,6 +97,19 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
     console.log(event.target)
 });
 
+function exportScene() {
+    return {
+        objects: objects,
+        grid: {
+            backgroundColor: gridBGColor,
+            lineColor: gridColor,
+            lineWidth: null,
+            size: slotSize
+        }
+    }
+}
+alert(JSON.stringify(exportScene(), null, 4))
+
 function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0c0", ctxt) {
     var ctxtmp = document.getElementById(ctxt);
     var ctxx = ctxtmp.getContext('2d');
