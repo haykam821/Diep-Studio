@@ -6,18 +6,23 @@ const yPosDOM = document.getElementById("yPos");
 
 const sidebar = document.getElementById("sidebar");
 
-let slotSize = 24;
-let gridBGColor = "#cdcdcd";
-let gridColor = "#c0c0c0";
+let slotSize, gridBGColor, gridColor, objects, camX, camY;
 
-let objects = [{
-    x: 0,
-    y: 0,
-    name: "0,0"
-}];
+function setValues() {
+    slotSize = 24;
+    gridBGColor = "#cdcdcd";
+    gridColor = "#c0c0c0";
 
-let camX = -500;
-let camY = -500;
+    objects = [{
+        x: 0,
+        y: 0,
+        name: "0,0"
+    }];
+
+    camX = -500;
+    camY = -500;
+};
+setValues();
 
 function updateCanvasSize() {
     canvas.width = window.innerWidth;
@@ -47,6 +52,20 @@ document.getElementById("sidebar").addEventListener("input", (event) => {
             gridColor = event.target.value;
             break;
     }
+});
+document.getElementById("sidebar").addEventListener("click", (event) => {
+    switch (event.target.id) {
+        case "reset":
+            setValues();
+            break;
+        case "jumpCenter":
+            camX = camY = 0;
+            break;
+        case "gridLineColor":
+            gridColor = event.target.value;
+            break;
+    }
+    console.log(event.target)
 });
 
 function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0c0", ctxt) {
