@@ -6,25 +6,18 @@ const yPosDOM = document.getElementById("yPos");
 
 const sidebar = document.getElementById("sidebar");
 
-let slotSize, gridBGColor, gridColor, objects, camX, camY;
+let slotSize, gridBGColor, gridColor, gridLineStrokeSize, objects, camX, camY;
 
 function setValues() {
     slotSize = 24;
     gridBGColor = "#cdcdcd";
     gridColor = "#c0c0c0";
+    gridLineStrokeSize = 1;
 
     objects = [];
 
-    camX = 0;
-    camY = 0;
+    setCamToCenter();
 };
-setValues();
-
-objects.push({
-    x: 0,
-    y: 0,
-    name: "Origin"
-});
 
 const camMoveInterval = slotSize;
 
@@ -36,9 +29,17 @@ function updateCanvasSize() {
     sidebar.style.height = window.innerHeight;
 }
 
+function setCamToCenter() {
+    camX = (window.innerWidth + parseInt(sidebar.style.width)) / 2 * -1;
+    camY = window.innerHeight / 2 * -1;
+
+    return [camX, camY];
+}
+
 window.addEventListener("resize", updateCanvasSize);
 window.addEventListener("load", () => {
     updateCanvasSize();
+    setValues();
 
     let saved = localStorage.getItem("saved");
     if (saved) {
@@ -88,6 +89,9 @@ document.getElementById("sidebar").addEventListener("input", (event) => {
         case "gridLineColor":
             gridColor = event.target.value;
             break;
+        case "gridLineWidth":
+            gridLineStrokeSize = event.target.value;
+            break;
     }
 });
 document.getElementById("sidebar").addEventListener("click", (event) => {
@@ -96,7 +100,11 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
             setValues();
             break;
         case "jumpCenter":
-            camX = camY = 0;
+            setCamToCenter();
+            break;
+        case "jumpSceneStart":
+            camX = sceneStartX;
+            camY = sceneStartY;
             break;
         case "gridLineColor":
             gridColor = event.target.value;
@@ -123,7 +131,7 @@ function exportScene() {
         grid: {
             backgroundColor: gridBGColor,
             lineColor: gridColor,
-            lineWidth: null,
+            lineWidth: gridLineStrokeSize,
             size: slotSize
         }
     }
@@ -133,6 +141,7 @@ function importScene(obj) {
     objects = obj.objects || [];
     gridBGColor = obj.grid.backgroundColor || "#cdcdcd";
     gridColor = obj.grid.lineColor || "#c0c0c0";
+    gridLineStrokeSize = obj.grid.lineWidth || 1;
     slotSize = obj.grid.size || 24;
 }
 
@@ -144,7 +153,7 @@ function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0
     ctxx.translate(x, y);
     ctxx.beginPath();
     ctxx.strokeColor = lineColor;
-    ctxx.lineWidth = 1;
+    ctxx.lineWidth = gridLineStrokeSize;
 
     for (var i = 0; i < width || i < height; i += slotSize) {
         ctxx.moveTo(0, i);
