@@ -55,33 +55,31 @@ canvas.addEventListener("mousemove", (event) => {
 });
 
 window.addEventListener("keydown", (event) => {
-    if (document.activeElement.tagName === "TEXTAREA") {
-        return;
-    }
-
-    switch (event.code) {
-        case "KeyW":
-        case "ArrowUp":
-            camY -= camMoveInterval;
-            break;
-        case "KeyS":
-        case "ArrowDown":
-            camY += camMoveInterval;
-            break;
-        case "KeyA":
-        case "ArrowLeft":
-            camX -= camMoveInterval;
-            break;
-        case "KeyD":
-        case "ArrowRight":
-            camX += camMoveInterval;
-            break;
+    if (["TEXTAREA", "INPUT"].indexOf(document.activeElement.tagName) === -1) {
+        switch (event.code) {
+            case "KeyW":
+            case "ArrowUp":
+                camY -= camMoveInterval;
+                break;
+            case "KeyS":
+            case "ArrowDown":
+                camY += camMoveInterval;
+                break;
+            case "KeyA":
+            case "ArrowLeft":
+                camX -= camMoveInterval;
+                break;
+            case "KeyD":
+            case "ArrowRight":
+                camX += camMoveInterval;
+                break;
+        }
     }
 });
 
 document.getElementById("sidebar").addEventListener("input", (event) => {
     switch (event.target.id) {
-        case "gridSlotSize":
+        case "slotSize":
             slotSize = parseInt(event.target.value);
             break;
         case "gridBackgroundColor":
@@ -117,7 +115,6 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
             importScene(JSON.parse(document.getElementById("dataBox").value));
             break;
     }
-    console.log(event.target)
 });
 
 function exportScene() {
@@ -131,6 +128,7 @@ function exportScene() {
         }
     }
 }
+
 function importScene(obj) {
     objects = obj.objects || [];
     gridBGColor = obj.grid.backgroundColor || "#cdcdcd";
