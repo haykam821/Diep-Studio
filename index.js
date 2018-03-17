@@ -132,10 +132,10 @@ function exportScene() {
     }
 }
 function importScene(obj) {
-    objects = obj.objects;
-    gridBGColor = obj.grid.backgroundColor;
-    gridColor = obj.grid.lineColor;
-    slotSize = obj.grid.size;
+    objects = obj.objects || [];
+    gridBGColor = obj.grid.backgroundColor || "#cdcdcd";
+    gridColor = obj.grid.lineColor || "#c0c0c0";
+    slotSize = obj.grid.size || 24;
 }
 
 function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0c0", ctxt) {
