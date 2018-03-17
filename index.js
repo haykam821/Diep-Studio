@@ -48,6 +48,9 @@ window.addEventListener("load", () => {
         importScene(savedData);
         document.getElementById("dataBox").value = JSON.stringify(exportScene(), null, 4);
     }
+    
+    // Start drawing!
+    window.requestAnimationFrame(draw);
 });
 
 canvas.addEventListener("mousemove", (event) => {
@@ -200,6 +203,3 @@ function draw() {
     // Again!
     window.requestAnimationFrame(draw);
 }
-
-// Start drawing!
-window.requestAnimationFrame(draw);
