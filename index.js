@@ -37,7 +37,17 @@ function updateCanvasSize() {
 }
 
 window.addEventListener("resize", updateCanvasSize);
-window.addEventListener("load", updateCanvasSize);
+window.addEventListener("load", () => {
+    updateCanvasSize();
+
+    let saved = localStorage.getItem("saved");
+    if (saved) {
+        let savedData = JSON.parse(saved);
+
+        importScene(savedData);
+        document.getElementById("dataBox").value = JSON.stringify(exportScene(), null, 4);
+    }
+});
 
 canvas.addEventListener("mousemove", (event) => {
     xPosDOM.innerHTML = event.clientX + camX;
@@ -94,11 +104,17 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
             gridColor = event.target.value;
             break;
         case "export":
-            document.getElementById("dataBox").value = JSON.stringify(
+            let output = JSON.stringify(
                 exportScene(),
                 null,
                 4,
             );
+            document.getElementById("dataBox").value = output;
+            localStorage.setItem("saved", output);
+
+            break;
+        case "import":
+            importScene(JSON.parse(document.getElementById("dataBox").value));
             break;
     }
     console.log(event.target)
@@ -114,6 +130,12 @@ function exportScene() {
             size: slotSize
         }
     }
+}
+function importScene(obj) {
+    objects = obj.objects;
+    gridBGColor = obj.grid.backgroundColor;
+    gridColor = obj.grid.lineColor;
+    slotSize = obj.grid.size;
 }
 
 function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0c0", ctxt) {
