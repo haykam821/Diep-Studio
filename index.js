@@ -13,16 +13,20 @@ function setValues() {
     gridBGColor = "#cdcdcd";
     gridColor = "#c0c0c0";
 
-    objects = [{
-        x: 0,
-        y: 0,
-        name: "0,0"
-    }];
+    objects = [];
 
-    camX = -500;
-    camY = -500;
+    camX = 0;
+    camY = 0;
 };
 setValues();
+
+objects.push({
+    x: 0,
+    y: 0,
+    name: "Origin"
+});
+
+const camMoveInterval = slotSize;
 
 function updateCanvasSize() {
     canvas.width = window.innerWidth;
@@ -38,6 +42,31 @@ window.addEventListener("load", updateCanvasSize);
 canvas.addEventListener("mousemove", (event) => {
     xPosDOM.innerHTML = event.clientX + camX;
     yPosDOM.innerHTML = event.clientY + camY;
+});
+
+window.addEventListener("keydown", (event) => {
+    if (document.activeElement.tagName === "TEXTAREA") {
+        return;
+    }
+
+    switch (event.code) {
+        case "KeyW":
+        case "ArrowUp":
+            camY -= camMoveInterval;
+            break;
+        case "KeyS":
+        case "ArrowDown":
+            camY += camMoveInterval;
+            break;
+        case "KeyA":
+        case "ArrowLeft":
+            camX -= camMoveInterval;
+            break;
+        case "KeyD":
+        case "ArrowRight":
+            camX += camMoveInterval;
+            break;
+    }
 });
 
 document.getElementById("sidebar").addEventListener("input", (event) => {
