@@ -68,13 +68,17 @@ function setCamValues() {
 	camX = (window.innerWidth + parseInt(sidebar.style.width)) / 2 * -1;
 }
 
+function deserialize(obj) {
+	return new renders[obj[0]](...obj.slice(1));
+}
+
 function setValues(data = defaults) {
 	setCamValues();
 
 	// Apply defaults
 	Object.entries(data).forEach(entry => {
 		if (entry[0] === "objects") {
-			config.objects = entry[1].map(obj => new renders[obj[0]](...obj.slice(1)));
+			config.objects = entry[1].map(deserialize);
 		} else {
 			config[entry[0]] = entry[1];
 		}
@@ -107,7 +111,9 @@ window.addEventListener("load", () => {
     window.requestAnimationFrame(draw);
 });
 
+let lastAction;
 function addRender(whatItIs) {
+	lastAction = deserialize(whatItIs.toJSON());
 	config.objects = config.objects.concat(whatItIs);
 }
 
@@ -136,6 +142,20 @@ const tools = {
 		description: "Place text",
 		mousedown: event => {
 			addRender(new renders.Text(event.x + camX, event.y + camY, "Hello there!"));
+		}
+	},
+	clone: {
+		name: "Clone",
+		description: "Places a copy of the last placed object.",
+		mousedown: event => {
+			if (lastAction instanceof Render) {
+				// Update last placed object to new coordinates
+				lastAction.x = event.x + camX;
+				lastAction.y = event.y + camY;
+
+				// And place it
+				addRender(lastAction);
+			}
 		}
 	},
 	test: {
