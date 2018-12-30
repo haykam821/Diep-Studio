@@ -1,95 +1,122 @@
 <html>
+	<head lang="en">
+		<title>Diep Studio</title>
 
-<head lang="en">
-    <title>Diep Studio</title>
-    <link rel="stylesheet" type="text/css" href="index.css" media="screen">
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
-	<meta charset="utf8">
-	<link rel="manifest" href="manifest.json">
+		<!-- SEO stuff -->
+		<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+		<meta charset="utf8">
 
-    <script src="index.js" defer></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/brands.js" integrity="sha384-sCI3dTBIJuqT6AwL++zH7qL8ZdKaHpxU43dDt9SyOzimtQ9eyRhkG3B7KMl6AO19"
-        crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
-        crossorigin="anonymous"></script>
-</head>
+		<!-- Main stuff -->
+		<script src="index.js" defer></script>
+		<link rel="stylesheet" type="text/css" href="index.css" media="screen">
+		<link rel="manifest" href="manifest.json">
 
-<body>
-    <canvas id="mainCanvas">Update your browser.</canvas>
-    <div id="coordinates">
-		<div class="posDisplay">
-			<span class="posLabel">X:</span>
-			<span class="posVal" id="xPos">0</span>
-		</div>
-		<div class="posDisplay">
-			<span class="posLabel">Y:</span>
-			<span class="posVal" id="yPos">0</span>
-		</div>
-    </div>
-    <div id="sidebar">
-        <h1 class="head">Diep Studio</h1>
+		<!-- Icon stuff -->
+		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/brands.js" crossorigin="anonymous"></script>
+		<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js" crossorigin="anonymous"></script>
+	</head>
 
-        <p style="text-align: center; margin: 5px">
-            Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!
-        </p>
+	<body>
+		<canvas id="mainCanvas">
+			Update your browser.
+		</canvas>
 
-        <div id="options">
-            <h2 class="head">
-                Data Management</h2>
-            <textarea id="dataBox" rows="8" style="width: 100%; resize: none; height: auto" placeholder="Paste your scene here"></textarea>
-            <div class="buttonPair">
-                <button id="import" class="dbtn-blue" title="Imports a Diep Studio or DSM scene.">Import</button>
-                <button id="importSaved" class="dbtn-blue" title="This will replace the current scene with the one you last saved.">Import Saved</button>
-            </div>
-            <div class="buttonPair">
-                <button id="export" class="dbtn-green" title="Saves and exports as JSON.">Save & Export</button>
-            </div>
-            <div class="buttonPair">
-                <button id="reset" class="dbtn-red" title="This will remove all progress on the current scene!">Clear</button>
-            </div>
-
-            <h2 class="head">Camera</h2>
-            <div class="buttonPair">
-                <button id="jumpCenter">Go to Center</button>
-                <button id="jumpSceneStart" style="display:none">Go to Scene Start</button>
+		<div id="coordinates">
+			<div class="posDisplay">
+				<span class="posLabel">X:</span>
+				<span class="posVal" id="xPos">0</span>
 			</div>
-			
-			<div>
-				<h2 class="head">Toolbox</h2>
-				<select id="toolSelect"></select>
+			<div class="posDisplay">
+				<span class="posLabel">Y:</span>
+				<span class="posVal" id="yPos">0</span>
+			</div>
+		</div>
+
+		<div id="sidebar">
+			<h1 class="head">Diep Studio</h1>
+
+			<p>
+				Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!
+			</p>
+
+			<div id="options">
+				<div>
+					<h2 class="head">
+						Data Management
+					</h2>
+
+					<textarea id="dataBox" rows="8" placeholder="Paste your scene here"></textarea>
+
+					<div>
+						<div class="buttonPair">
+							<button id="import" class="dbtn-blue" title="Imports a Diep Studio or DSM scene.">Import</button>
+							<button id="importSaved" class="dbtn-blue" title="This will replace the current scene with the one you last saved.">Import
+								Saved</button>
+						</div>
+						<div class="buttonPair">
+							<button id="export" class="dbtn-green" title="Saves and exports as JSON.">Save & Export</button>
+						</div>
+						<div class="buttonPair">
+							<button id="reset" class="dbtn-red" title="This will remove all progress on the current scene!">Clear</button>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<h2 class="head">
+						Camera
+					</h2>
+
+					<div class="buttonPair">
+						<button id="jumpCenter">Go to Center</button>
+					</div>
+				</div>
+
+				<div>
+					<h2 class="head">
+						Toolbox
+					</h2>
+
+					<select id="toolSelect"></select>
+				</div>
+
+				<div>
+					<h2 class="head">
+						Grid Settings
+					</h2>
+					
+					<div>
+						<div class="optionRow">
+							<span>Grid Size:</span>
+							<input id="config-gridSize" type="number" min=1 value=24>
+						</div>
+						<div class="optionRow">
+							<span>Line Size:</span>
+							<input id="config-gridLineWidth" type="number" min=1 value=1>
+						</div>
+						<div class="optionRow">
+							<span>Grid Background:</span>
+							<input id="config-backgroundColor" type="color" value="#cdcdcd">
+						</div>
+						<div class="optionRow">
+							<span>Grid Color:</span>
+							<input id="config-gridLineColor" type="color" value="#c0c0c0">
+						</div>
+					</div>
+				</div>
 			</div>
 
-            <h2 class="head">Grid Settings</h2>
-            <div class="optionRow">
-                <span>Grid Size:</span>
-                <input id="config-gridSize" type="number" min=1 value=24>
-            </div>
-            <div class="optionRow">
-                <span>Line Size:</span>
-                <input id="config-gridLineWidth" type="number" min=1 value=1>
-            </div>
-            <div class="optionRow">
-                <span>Grid Background:</span>
-                <input id="config-backgroundColor" type="color" value="#cdcdcd">
-            </div>
-            <div class="optionRow">
-                <span>Grid Color:</span>
-                <input id="config-gridLineColor" type="color" value="#c0c0c0">
-            </div>
-        </div>
-
-        <div id="icons">
-            <a class="redditIcon" href="https://www.reddit.com/r/DiepStudio/" target="_blank">
-                <i class="fab fa-reddit"></i>
-            </a>
-            <a class="githubIcon" href="https://github.com/haykam821/Diep-Studio" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
-            <a class="discordIcon" href="https://discord.gg/5yDRQdf" target="_blank">
-                <i class="fab fa-discord"></i>
-            </a>
-        </div>
-    </div>
-</body>
-
+			<div id="icons">
+				<a class="redditIcon" href="https://www.reddit.com/r/DiepStudio/" target="_blank">
+					<i class="fab fa-reddit"></i>
+				</a>
+				<a class="githubIcon" href="https://github.com/haykam821/Diep-Studio" target="_blank">
+					<i class="fab fa-github"></i>
+				</a>
+				<a class="discordIcon" href="https://discord.gg/5yDRQdf" target="_blank">
+					<i class="fab fa-discord"></i>
+				</a>
+			</div>
+		</div>
+	</body>
 </html>

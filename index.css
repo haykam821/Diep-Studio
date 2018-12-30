@@ -20,6 +20,11 @@ body {
     overflow-x: hidden;
 }
 
+#sidebar > p {
+	text-align: center;
+	margin: 5px;
+}
+
 #coordinates {
     position: absolute;
     bottom: 0px;
@@ -80,8 +85,9 @@ textarea, input, select {
 }
 
 textarea {
-    width: 150px;
-    height: 40px;
+    width: 100%;
+	height: auto;
+	resize: none;
 }
 
 input[type=color] {
