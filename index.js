@@ -52,6 +52,107 @@ class Render {
 	}
 }
 
+function levelToRadius(level = 45) {
+	return Math.round(25 * 1.01 ** level);
+}
+
+function degToRad(angle) {
+	return angle * Math.PI / 180;
+};
+
+function borderColor(hex) {
+	return hex.replace(/[0-9a-f]{2}/g, channel => {
+		return Math.round(parseInt(channel, 16) * 0.75).toString(16).padStart(2, '0');
+	});
+}
+
+function fillStrokeStyle(color, context = ctx) {
+	context.fillStyle = color;
+	context.strokeStyle = borderColor(color);
+
+	return color;
+}
+
+class Tank extends Render {
+	constructor(_, __, radius, angle, color, name, barrels) {
+		super(...arguments);
+
+		this.radius = radius;
+		this.angle = 0;
+		this.color = color;
+		this.name = name || "";
+		this.barrels = barrels || [];
+		this.bodyType = 0;
+	}
+
+	static get displayName() {
+		return "Tank";
+	}
+
+	render(context, x, y) {
+		context.save();
+
+		context.translate(x, y);
+		context.lineWidth = 4;
+		//context.scale(this.radius, this.radius);
+
+		fillStrokeStyle("#999999", context);
+
+		this.barrels.forEach(barrel => {
+			context.save();
+			context.beginPath();
+
+			context.rotate(degToRad(barrel.angle));
+
+			context.rect(0, (48 - barrel.width) - 48 + barrel.x, barrel.length * 2, barrel.width * 2);
+
+			context.fill();
+			context.stroke();
+
+			context.closePath();
+			context.restore();
+		});
+
+		context.beginPath();
+		fillStrokeStyle(this.color, context);
+
+		// Body border
+		context.arc(0, 0, this.radius, 0, 2 * Math.PI);
+
+		context.fill();
+		context.stroke();
+		
+		context.closePath();
+		context.restore();
+	}
+}
+
+function makeTankClass(name = "Tank", barrels, bodyType = 0) {
+	return class extends Tank {
+		constructor(_, __, radius, angle, color, name) {
+			super(...arguments);
+
+			this.barrels = barrels;
+			this.bodyType = bodyType;
+		}
+
+		static get displayName() {
+			return name;
+		}
+	}
+}
+
+const tanks = {
+	Tank,
+	TankBasic: makeTankClass("Basic Tank", [{
+		type: 0,
+		length: 35,
+		width: 18,
+		angle: 0,
+		x: 0,
+	}]),
+};
+
 const renders = {
 	Render,
 	Text: class extends Render {
@@ -63,7 +164,8 @@ const renders = {
 		render(context, x, y) {
 			drawText(this.text, x, y, context);
 		}
-	}
+	},
+	...tanks,
 };
 
 function setCamValues() {
@@ -107,7 +209,7 @@ window.addEventListener("load", () => {
 	setValues();
 	setCamValues();
 
-	config.objects = config.objects.concat(new renders.Text(50, 50, "hi"));
+	config.objects = config.objects.concat(new renders.TankBasic(50, 50, levelToRadius(45), 0, "#f04f54", "hi"));
 
     let saved = localStorage.getItem("saved");
     if (saved) {
