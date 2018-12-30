@@ -143,7 +143,6 @@ function makeTankClass(name = "Tank", barrels, bodyType = 0) {
 }
 
 const tanks = {
-	Tank,
 	TankBasic: makeTankClass("Basic Tank", [{
 		type: 0,
 		length: 35,
@@ -165,6 +164,7 @@ const renders = {
 			drawText(this.text, x, y, context);
 		}
 	},
+	Tank,
 	...tanks,
 };
 
@@ -257,6 +257,55 @@ function setZoom(direction = 1) {
 	}
 }
 
+function formPopup(x, y, form, msg = "Use Tool") {
+	return new Promise((resolve, reject) => {
+		const closePopupIcon = document.createElement("i");
+		closePopupIcon.classList.add("fas", "fa-times");
+
+		const closePopup = document.createElement("button");
+		closePopup.classList.add("closePopup");
+		closePopup.appendChild(closePopupIcon);
+
+		const formSubmit = document.createElement("button");
+		formSubmit.innerText = msg;
+		formSubmit.classList.add("dbtn-green");
+
+		const submitRow = document.createElement("div");
+		submitRow.classList.add("buttonPair");
+		submitRow.appendChild(formSubmit);
+
+		form.classList.add("popupForm");
+
+		const popupForm = document.createElement("div");
+		popupForm.append(form, submitRow);
+
+		const popup = document.createElement("div");
+		popup.classList.add("popup");
+		popup.appendChild(closePopup);
+		popup.appendChild(popupForm);
+
+		closePopup.addEventListener("click", () => {
+			popup.remove();
+		});
+
+		formSubmit.addEventListener("click", () => {
+			const results = {};
+
+			Array.from(form.children).forEach(child => {
+				results[child.name] = child.value;
+			});
+
+			resolve(results);
+			popup.remove();
+		});
+
+		document.body.appendChild(popup);
+
+		popup.style.top = y - popup.offsetHeight - 15;
+		popup.style.left = x - popup.offsetWidth / 2;
+	});
+}
+
 const tools = {
 	pan: {
 		name: "Pan",
@@ -276,6 +325,48 @@ const tools = {
 			addRender(new renders.Text(x, y, "Hello there!"));
 		},
 		cursor: "text",
+	},
+	tank: {
+		name: "Tank Placer",
+		description: "Place tanks",
+		mousedown: (event, x, y) => {
+			const level = document.createElement("input");
+			level.type = "number";
+			level.placeholder = "Level";
+			level.value = 45;
+			level.name = "level";
+
+			const angle = document.createElement("input");
+			angle.type = "number";
+			angle.placeholder = "Angle";
+			angle.value = 0;
+			angle.name = "angle";
+
+			// todo: combo color + diep colors select
+			const color = document.createElement("input");
+			color.type = "color";
+			color.name = "color";
+
+			const tankSelect = document.createElement("select");
+			Object.entries(tanks).forEach(entry => {
+				const option = document.createElement("option");
+
+				option.value = entry[0];
+				option.innerText = entry[1].displayName;
+
+				tankSelect.append(option);
+			});
+			tankSelect.name = "tank";
+
+			const form = document.createElement("div");
+			form.append(level, angle, color, tankSelect);
+
+			formPopup(event.x, event.y, form, "Place Tank").then(response => {
+				if (tanks[response.tank]) {
+					addRender(new tanks[response.tank](x, y, levelToRadius(parseInt(response.level)), parseInt(response.angle), response.color, response.name));
+				}
+			});
+		}
 	},
 	clone: {
 		name: "Clone",
@@ -320,13 +411,15 @@ let tool;
 
 function setTool(to = "pan") {
 	tool = to;
+	toolSelect.value = to;
+
 	if (tools[tool].cursor) {
 		canvas.style.cursor = tools[tool].cursor;
 	} else {
 		canvas.style.cursor = "auto";
 	}
 }
-setTool();
+setTool("tank");
 toolSelect.addEventListener("change", event => setTool(event.target.value));
 
 Object.entries(tools).forEach(entry => {
