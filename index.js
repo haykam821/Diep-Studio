@@ -108,8 +108,8 @@ window.addEventListener("load", () => {
 });
 
 canvas.addEventListener("mousemove", (event) => {
-    xPosDOM.innerHTML = event.clientX + camX;
-	yPosDOM.innerHTML = event.clientY + camY;
+    xPosDOM.innerText = Math.round(event.clientX + camX);
+	yPosDOM.innerText = Math.round(event.clientY + camY);
 });
 
 window.addEventListener("keydown", (event) => {
