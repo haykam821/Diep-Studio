@@ -287,7 +287,14 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
 					alert("Your Diep Studio code is broken.");
 				}
 			}
-            break;
+			break;
+		case "zoomOut":
+			// Click zoom out button = zoom out
+			setZoom(-1);
+			break;
+		case "zoomIn":
+			// Click zoom in button = zoom in
+			setZoom(1);
     }
 });
 
