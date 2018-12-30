@@ -38,13 +38,13 @@ body {
 
 #icons {
     text-align: center;
-    position: sticky;
+    position: relative;
     margin-left: auto;
     margin-right: auto;
     left: 0px;
     right: 0px;
     bottom: 10px;
-    padding-top: 10px;
+    padding-top: 30px;
 }
 
 #icons>a {
