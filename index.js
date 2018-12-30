@@ -107,6 +107,10 @@ window.addEventListener("load", () => {
     window.requestAnimationFrame(draw);
 });
 
+function addRender(whatItIs) {
+	config.objects = config.objects.concat(whatItIs);
+}
+
 canvas.addEventListener("mousemove", (event) => {
 	xPosDOM.innerText = Math.round(event.clientX + camX);
 	yPosDOM.innerText = Math.round(event.clientY + camY);
@@ -126,6 +130,13 @@ const tools = {
 				camY -= event.movementY;
 			}
 		},
+	},
+	text: {
+		name: "Text Placer",
+		description: "Place text",
+		mousedown: event => {
+			addRender(new renders.Text(event.x + camX, event.y + camY, "Hello there!"));
+		}
 	},
 	test: {
 		name: "Testing Tool",
