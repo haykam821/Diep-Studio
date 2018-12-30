@@ -345,6 +345,7 @@ function drawText(text, x, y, context = ctx) {
     context.lineJoin = "round";
     context.lineWidth = 3;
 	context.textAlign = "center";
+	context.textBaseline = "middle";
 	context.font = "30px Ubuntu";
 	
 	// Stroke
