@@ -243,3 +243,15 @@ button:active,
 	margin: 2px;
 	padding: 3px;
 }
+
+.posDisplay {
+	min-width: 60px;
+}
+
+.posLabel {
+	padding-right: 8px;
+}
+
+.posVal {
+	float: right;
+}
