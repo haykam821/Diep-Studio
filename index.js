@@ -26,7 +26,11 @@ const defaults = {
 	gridLineWidth: 1,
 };
 
-let camX, camY;
+let camX = 0;
+let camY = 0;
+
+let zoom = 1;
+const zoomRate = 0.1;
 
 class Render {
 	constructor(x = 0, y = 0) {
@@ -122,6 +126,16 @@ canvas.addEventListener("mousemove", (event) => {
 	yPosDOM.innerText = Math.round(event.clientY + camY);
 });
 
+function setZoom(direction = 1) {
+	if (direction === -1) {
+		return zoom = Math.max(1, zoom - zoomRate);
+	} else if (direction === 1) {
+		return zoom = Math.min(2, zoom + zoomRate);
+	} else {
+		return zoom;
+	}
+}
+
 const toolSelect = document.getElementById("toolSelect");
 let tool = "pan";
 toolSelect.addEventListener("change", event => tool = event.target.value);
@@ -146,7 +160,7 @@ const tools = {
 	},
 	clone: {
 		name: "Clone",
-		description: "Places a copy of the last placed object.",
+		description: "Places a copy of the last placed object",
 		mousedown: event => {
 			if (lastAction instanceof Render) {
 				// Update last placed object to new coordinates
@@ -155,6 +169,19 @@ const tools = {
 
 				// And place it
 				addRender(lastAction);
+			}
+		}
+	},
+	zoom: {
+		name: "Zoom",
+		description: "Zoom with the mouse",
+		mousedown: event => {
+			if (event.buttons === 1) {
+				// Left-click = zoom in
+				setZoom(1);
+			} else if (event.buttons === 2) {
+				// Right-click = zoom out
+				setZoom(-1);
 			}
 		}
 	},
@@ -187,6 +214,9 @@ function registerToolEvent(type) {
 registerToolEvent("mousedown");
 registerToolEvent("mousemove");
 
+// Disable right-click
+canvas.addEventListener("contextmenu", event => event.preventDefault());
+
 window.addEventListener("keydown", (event) => {
     if (["TEXTAREA", "INPUT"].indexOf(document.activeElement.tagName) === -1) {
         switch (event.code) {
@@ -205,7 +235,14 @@ window.addEventListener("keydown", (event) => {
             case "KeyD":
             case "ArrowRight":
 				camX += config.gridSize;
-                break;
+				break;
+			case "Minus":
+				// Minus = zoom out
+				setZoom(-1);
+				break;
+			case "Equal":
+				// Plus = zoom in
+				setZoom(1);
         }
     }
 });
@@ -280,6 +317,7 @@ function drawText(text, x, y, context = ctx) {
     context.lineJoin = "round";
     context.lineWidth = 3;
 	context.textAlign = "center";
+	context.font = "30px Ubuntu";
 	
 	// Stroke
     context.strokeStyle = "#555555";
@@ -293,6 +331,10 @@ function drawText(text, x, y, context = ctx) {
 };
 
 function draw() {
+	ctx.save();
+
+	ctx.scale(zoom, zoom);
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = config.backgroundColor;
@@ -300,6 +342,8 @@ function draw() {
 	drawGrid(-camX % canvas.width % config.gridSize, -camY % canvas.height % config.gridSize, canvas.width, canvas.height, config.gridSize, config.gridColor, "mainCanvas");
 
 	config.objects.forEach(item => item.render(ctx, item.x - camX, item.y - camY));
+
+	ctx.restore();
 
     // Again!
     window.requestAnimationFrame(draw);
