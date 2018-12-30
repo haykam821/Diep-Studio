@@ -99,6 +99,8 @@ function updateCanvasSize() {
 }
 
 window.addEventListener("resize", updateCanvasSize);
+
+const loading = document.getElementById("loading");
 window.addEventListener("load", () => {
 	updateCanvasSize();
 	
@@ -113,7 +115,12 @@ window.addEventListener("load", () => {
 
         //importScene(savedData);
        // document.getElementById("dataBox").value = JSON.stringify(exportScene(), null, 4);
-    }
+	}
+	
+	loading.style.opacity = 0;
+	setTimeout(() => {
+		loading.remove();
+	}, 1000);
     
     // Start drawing!
     window.requestAnimationFrame(draw);

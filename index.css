@@ -258,3 +258,33 @@ button:active,
 .posVal {
 	float: right;
 }
+
+/* Loading stuff */
+
+#loading {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	right: 0px;
+	z-index: 99;
+	background-color: #111;
+	color: white;
+	font-family: Ubuntu;
+	padding: 80px;
+	padding-top: 160px;
+	text-align: center;
+	opacity: 1;
+	transition: 1s;
+}
+
+#loadingTip {
+	font-size: 80px;
+	font-weight: bold;
+	display: block;
+}
+#enableJS {
+	margin-top: 16px;
+	font-size: 40px;
+	display: block;
+}
