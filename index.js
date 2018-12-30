@@ -127,8 +127,8 @@ function addRender(whatItIs) {
 
 function getCoords(event) {
 	return {
-		x: Math.round(event.clientX + camX),
-		y: Math.round(event.clientY + camY),
+		x: Math.round(event.clientX * (1 / zoom) + camX),
+		y: Math.round(event.clientY * (1 / zoom) + camY),
 	};
 }
 
