@@ -155,10 +155,6 @@ function setZoom(direction = 1) {
 	}
 }
 
-const toolSelect = document.getElementById("toolSelect");
-let tool = "pan";
-toolSelect.addEventListener("change", event => tool = event.target.value);
-
 const tools = {
 	pan: {
 		name: "Pan",
@@ -169,13 +165,15 @@ const tools = {
 				camY -= event.movementY;
 			}
 		},
+		cursor: "move",
 	},
 	text: {
 		name: "Text Placer",
 		description: "Place text",
 		mousedown: (event, x, y) => {
 			addRender(new renders.Text(x, y, "Hello there!"));
-		}
+		},
+		cursor: "text",
 	},
 	clone: {
 		name: "Clone",
@@ -189,7 +187,8 @@ const tools = {
 				// And place it
 				addRender(lastAction);
 			}
-		}
+		},
+		cursor: "copy",
 	},
 	zoom: {
 		name: "Zoom",
@@ -202,15 +201,31 @@ const tools = {
 				// Right-click = zoom out
 				setZoom(-1);
 			}
-		}
+		},
+		cursor: "zoom-in",
 	},
 	test: {
 		name: "Testing Tool",
 		description: "Debug the tool system",
 		mousedown: () => alert("It works!"),
 		hidden: true,
+		cursor: "help",
 	},
 };
+
+const toolSelect = document.getElementById("toolSelect");
+let tool;
+
+function setTool(to = "pan") {
+	tool = to;
+	if (tools[tool].cursor) {
+		canvas.style.cursor = tools[tool].cursor;
+	} else {
+		canvas.style.cursor = "auto";
+	}
+}
+setTool();
+toolSelect.addEventListener("change", event => setTool(event.target.value));
 
 Object.entries(tools).forEach(entry => {
 	if (!entry[1].hidden) {
