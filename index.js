@@ -6,20 +6,38 @@ const yPosDOM = document.getElementById("yPos");
 
 const sidebar = document.getElementById("sidebar");
 
-let slotSize, gridBGColor, gridColor, gridLineStrokeSize, objects, camX, camY;
+const config = new Proxy({}, {
+	set: (object, property, value) => {
+		const relatedElem = document.getElementById("config-" + property);
+		if (relatedElem) {
+			relatedElem.value = value;
+			relatedElem.placeholder = defaults[value] || "";
+		}
 
-function setValues() {
-    slotSize = 24;
-    gridBGColor = "#cdcdcd";
-    gridColor = "#c0c0c0";
-    gridLineStrokeSize = 1;
+		return object[property] = relatedElem && relatedElem.type === "number" ? parseInt(value) : value;
+	},
+});
 
-    objects = [];
-
-    setCamToCenter();
+const defaults = {
+	objects: [],
+	backgroundColor: "#cdcdcd",
+	gridSize: 24,
+	gridLineColor: "#c0c0c0",
+	gridLineWidth: 1,
 };
 
-const camMoveInterval = slotSize;
+let camX, camY;
+
+function setValues() {
+	// Set camera values to middle
+	camY = window.innerHeight / 2 * -1;
+	camX = (window.innerWidth + parseInt(sidebar.style.width)) / 2 * -1;
+
+	// Apply defaults
+	Object.entries(defaults).forEach(entry => {
+		config[entry[0]] = entry[1];
+	});
+};
 
 function updateCanvasSize() {
     canvas.width = window.innerWidth;
@@ -27,13 +45,6 @@ function updateCanvasSize() {
 
     sidebar.style.width = window.innerWidth / 5 > 232 ? window.innerWidth / 5 : 232;
     sidebar.style.height = window.innerHeight;
-}
-
-function setCamToCenter() {
-    camX = (window.innerWidth + parseInt(sidebar.style.width)) / 2 * -1;
-    camY = window.innerHeight / 2 * -1;
-
-    return [camX, camY];
 }
 
 window.addEventListener("resize", updateCanvasSize);
@@ -55,7 +66,7 @@ window.addEventListener("load", () => {
 
 canvas.addEventListener("mousemove", (event) => {
     xPosDOM.innerHTML = event.clientX + camX;
-    yPosDOM.innerHTML = event.clientY + camY;
+	yPosDOM.innerHTML = event.clientY + camY;
 });
 
 window.addEventListener("keydown", (event) => {
@@ -63,39 +74,29 @@ window.addEventListener("keydown", (event) => {
         switch (event.code) {
             case "KeyW":
             case "ArrowUp":
-                camY -= camMoveInterval;
+                camY -= config.gridSize;
                 break;
             case "KeyS":
             case "ArrowDown":
-                camY += camMoveInterval;
+				camY += config.gridSize;
                 break;
             case "KeyA":
             case "ArrowLeft":
-                camX -= camMoveInterval;
+				camX -= config.gridSize;
                 break;
             case "KeyD":
             case "ArrowRight":
-                camX += camMoveInterval;
+				camX += config.gridSize;
                 break;
         }
     }
 });
 
-document.getElementById("sidebar").addEventListener("input", (event) => {
-    switch (event.target.id) {
-        case "slotSize":
-            slotSize = parseInt(event.target.value);
-            break;
-        case "gridBackgroundColor":
-            gridBGColor = event.target.value;
-            break;
-        case "gridLineColor":
-            gridColor = event.target.value;
-            break;
-        case "gridLineWidth":
-            gridLineStrokeSize = event.target.value;
-            break;
-    }
+document.getElementById("sidebar").addEventListener("input", event => {
+	if (event.target.id.startsWith("config-")) {
+		const configId = event.target.id.replace("config-", "");
+		config[configId] = event.target.value;
+	}
 });
 document.getElementById("sidebar").addEventListener("click", (event) => {
     switch (event.target.id) {
@@ -113,11 +114,7 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
             gridColor = event.target.value;
             break;
         case "export":
-            let output = JSON.stringify(
-                exportScene(),
-                null,
-                4,
-            );
+            let output = JSON.stringify(config, null, 4);
             document.getElementById("dataBox").value = output;
             localStorage.setItem("saved", output);
 
@@ -128,43 +125,23 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
     }
 });
 
-function exportScene() {
-    return {
-        objects: objects,
-        grid: {
-            backgroundColor: gridBGColor,
-            lineColor: gridColor,
-            lineWidth: gridLineStrokeSize,
-            size: slotSize
-        }
-    }
-}
-
-function importScene(obj) {
-    objects = obj.objects || [];
-    gridBGColor = obj.grid.backgroundColor || "#cdcdcd";
-    gridColor = obj.grid.lineColor || "#c0c0c0";
-    gridLineStrokeSize = obj.grid.lineWidth || 1;
-    slotSize = obj.grid.size || 24;
-}
-
-function drawGrid(x = 0, y = 0, width, height, slotSize = 24, lineColor = "#c0c0c0", ctxt) {
+function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0c0", ctxt) {
     var ctxtmp = document.getElementById(ctxt);
     var ctxx = ctxtmp.getContext('2d');
 
     ctxx.save();
     ctxx.translate(x, y);
     ctxx.beginPath();
-    ctxx.strokeColor = lineColor;
-    ctxx.lineWidth = gridLineStrokeSize;
+	ctxx.strokeColor = config.gridLineColor;
+    ctxx.lineWidth = config.gridLineWidth;
 
-    for (var i = 0; i < width || i < height; i += slotSize) {
+    for (var i = 0; i < width || i < height; i += config.gridSize) {
         ctxx.moveTo(0, i);
         ctxx.lineTo(width, i);
         ctxx.moveTo(i, 0);
         ctxx.lineTo(i, height);
     };
-    ctxx.strokeStyle = lineColor;
+	ctxx.strokeStyle = config.gridLineColor;
     ctxx.stroke();
     ctxx.closePath();
     ctxx.restore();
@@ -189,16 +166,13 @@ function drawText(text, x, y, ctxt) {
 };
 
 function draw() {
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = gridBGColor;
+    ctx.fillStyle = config.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    drawGrid(0, 0, canvas.width, canvas.height, slotSize, gridColor, "mainCanvas");
+    drawGrid(0, 0, canvas.width, canvas.height, config.gridSize, config.gridColor, "mainCanvas");
 
-    for (let item of objects) {
-        drawText(item.name, item.x - camX, item.y - camY, "mainCanvas");
-    }
+    config.objects.forEach(item => drawText(item.name, item.x - camX, item.y - camY, "mainCanvas"));
 
     // Again!
     window.requestAnimationFrame(draw);
