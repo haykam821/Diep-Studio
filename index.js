@@ -70,6 +70,9 @@ function setCamValues() {
 	// Set camera values to middle
 	camY = window.innerHeight / 2 * -1;
 	camX = (window.innerWidth + parseInt(sidebar.style.width)) / 2 * -1;
+
+	// Reset zoom value
+	zoom = 1;
 }
 
 function deserialize(obj) {
@@ -77,8 +80,6 @@ function deserialize(obj) {
 }
 
 function setValues(data = defaults) {
-	setCamValues();
-
 	// Apply defaults
 	Object.entries(data).forEach(entry => {
 		if (entry[0] === "objects") {
@@ -99,8 +100,11 @@ function updateCanvasSize() {
 
 window.addEventListener("resize", updateCanvasSize);
 window.addEventListener("load", () => {
-    updateCanvasSize();
+	updateCanvasSize();
+	
 	setValues();
+	setCamValues();
+
 	config.objects = config.objects.concat(new renders.Text(50, 50, "hi"));
 
     let saved = localStorage.getItem("saved");
@@ -287,26 +291,23 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
     }
 });
 
-function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0c0", ctxt) {
-    var ctxtmp = document.getElementById(ctxt);
-    var ctxx = ctxtmp.getContext('2d');
-
-    ctxx.save();
-    ctxx.translate(x, y);
-    ctxx.beginPath();
-	ctxx.strokeColor = config.gridLineColor;
-    ctxx.lineWidth = config.gridLineWidth;
+function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0c0", context = ctx) {
+    context.save();
+    context.translate(x, y);
+    context.beginPath();
+	context.strokeColor = config.gridLineColor;
+    context.lineWidth = config.gridLineWidth;
 
     for (var i = 0; i < width || i < height; i += config.gridSize) {
-        ctxx.moveTo(0, i);
-        ctxx.lineTo(width, i);
-        ctxx.moveTo(i, 0);
-        ctxx.lineTo(i, height);
+        context.moveTo(0, i);
+        context.lineTo(width, i);
+        context.moveTo(i, 0);
+        context.lineTo(i, height);
     };
-	ctxx.strokeStyle = config.gridLineColor;
-    ctxx.stroke();
-    ctxx.closePath();
-    ctxx.restore();
+	context.strokeStyle = config.gridLineColor;
+    context.stroke();
+    context.closePath();
+    context.restore();
 };
 
 function drawText(text, x, y, context = ctx) {
@@ -339,7 +340,7 @@ function draw() {
 
     ctx.fillStyle = config.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-	drawGrid(-camX % canvas.width % config.gridSize, -camY % canvas.height % config.gridSize, canvas.width, canvas.height, config.gridSize, config.gridColor, "mainCanvas");
+	drawGrid(-camX % canvas.width % config.gridSize, -camY % canvas.height % config.gridSize, canvas.width, canvas.height, config.gridSize, config.gridColor);
 
 	config.objects.forEach(item => item.render(ctx, item.x - camX, item.y - camY));
 
