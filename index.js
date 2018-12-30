@@ -108,9 +108,46 @@ window.addEventListener("load", () => {
 });
 
 canvas.addEventListener("mousemove", (event) => {
-    xPosDOM.innerText = Math.round(event.clientX + camX);
+	xPosDOM.innerText = Math.round(event.clientX + camX);
 	yPosDOM.innerText = Math.round(event.clientY + camY);
 });
+
+const toolSelect = document.getElementById("toolSelect");
+let tool = "pan";
+toolSelect.addEventListener("change", event => tool = event.target.value);
+
+const tools = {
+	pan: {
+		name: "Pan",
+		description: "Move the camera around by dragging",
+	},
+	test: {
+		name: "Testing Tool",
+		description: "Debug the tool system",
+		mousedown: () => alert("It works!"),
+		hidden: true,
+	},
+};
+
+Object.entries(tools).forEach(entry => {
+	if (!entry[1].hidden) {
+		const opt = document.createElement("option");
+
+		opt.value = entry[0];
+		opt.innerText = `${entry[1].name} (${entry[1].description})`;
+		
+		toolSelect.appendChild(opt);
+	}
+});
+
+function registerToolEvent(type) {
+	canvas.addEventListener(type, event => {
+		if (tools[tool] && tools[tool][type]) {
+			return tools[tool][type](event);
+		}
+	});
+}
+registerToolEvent("mousedown");
 
 window.addEventListener("keydown", (event) => {
     if (["TEXTAREA", "INPUT"].indexOf(document.activeElement.tagName) === -1) {
