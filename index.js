@@ -297,7 +297,7 @@ function draw() {
 
     ctx.fillStyle = config.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    drawGrid(0, 0, canvas.width, canvas.height, config.gridSize, config.gridColor, "mainCanvas");
+	drawGrid(-camX % canvas.width % config.gridSize, -camY % canvas.height % config.gridSize, canvas.width, canvas.height, config.gridSize, config.gridColor, "mainCanvas");
 
 	config.objects.forEach(item => item.render(ctx, item.x - camX, item.y - camY));
 
