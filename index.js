@@ -120,6 +120,12 @@ const tools = {
 	pan: {
 		name: "Pan",
 		description: "Move the camera around by dragging",
+		mousemove: event => {
+			if (event.buttons === 1) {
+				camX -= event.movementX;
+				camY -= event.movementY;
+			}
+		},
 	},
 	test: {
 		name: "Testing Tool",
@@ -148,6 +154,7 @@ function registerToolEvent(type) {
 	});
 }
 registerToolEvent("mousedown");
+registerToolEvent("mousemove");
 
 window.addEventListener("keydown", (event) => {
     if (["TEXTAREA", "INPUT"].indexOf(document.activeElement.tagName) === -1) {
