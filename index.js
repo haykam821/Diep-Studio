@@ -28,14 +28,56 @@ const defaults = {
 
 let camX, camY;
 
-function setValues() {
+class Render {
+	constructor(x = 0, y = 0) {
+		this.x = x;
+		this.y = y;
+
+		this.data = arguments;
+	}
+
+	toJSON() {
+		return [
+			this.constructor.name,
+			...this.data,
+		];
+	}
+
+	render(context, x, y) {
+		context.fillRect(x, y, 5, 5);
+	}
+}
+
+const renders = {
+	Render,
+	Text: class extends Render {
+		constructor(_, __, text) {
+			super(...arguments);
+			this.text = text;
+		}
+
+		render(context, x, y) {
+			drawText(this.text, x, y, context);
+		}
+	}
+};
+
+function setCamValues() {
 	// Set camera values to middle
 	camY = window.innerHeight / 2 * -1;
 	camX = (window.innerWidth + parseInt(sidebar.style.width)) / 2 * -1;
+}
+
+function setValues(data = defaults) {
+	setCamValues();
 
 	// Apply defaults
-	Object.entries(defaults).forEach(entry => {
-		config[entry[0]] = entry[1];
+	Object.entries(data).forEach(entry => {
+		if (entry[0] === "objects") {
+			config.objects = entry[1].map(obj => new renders[obj[0]](...obj.slice(1)));
+		} else {
+			config[entry[0]] = entry[1];
+		}
 	});
 };
 
@@ -50,14 +92,15 @@ function updateCanvasSize() {
 window.addEventListener("resize", updateCanvasSize);
 window.addEventListener("load", () => {
     updateCanvasSize();
-    setValues();
+	setValues();
+	config.objects = config.objects.concat(new renders.Text(50, 50, "hi"));
 
     let saved = localStorage.getItem("saved");
     if (saved) {
         let savedData = JSON.parse(saved);
 
-        importScene(savedData);
-        document.getElementById("dataBox").value = JSON.stringify(exportScene(), null, 4);
+        //importScene(savedData);
+       // document.getElementById("dataBox").value = JSON.stringify(exportScene(), null, 4);
     }
     
     // Start drawing!
@@ -104,7 +147,7 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
             setValues();
             break;
         case "jumpCenter":
-            setCamToCenter();
+            setCamValues();
             break;
         case "jumpSceneStart":
             camX = sceneStartX;
@@ -119,8 +162,15 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
             localStorage.setItem("saved", output);
 
             break;
-        case "import":
-            importScene(JSON.parse(document.getElementById("dataBox").value));
+		case "import":
+			const boxVal = document.getElementById("dataBox").value;
+			if (boxVal) {
+				try {
+					setValues(JSON.parse(boxVal));
+				} catch (_) {
+					alert("Your Diep Studio code is broken.");
+				}
+			}
             break;
     }
 });
@@ -147,22 +197,24 @@ function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0
     ctxx.restore();
 };
 
-function drawText(text, x, y, ctxt) {
-    var ctxtmp = document.getElementById(ctxt);
-    var ctxx = ctxtmp.getContext('2d');
-    ctxx.lineJoin = "round";
+function drawText(text, x, y, context = ctx) {
+	context.save();
+	context.translate(x, y);
 
-    ctxx.save();
-    ctxx.lineWidth = 5;
-    ctxx.textAlign = "center";
-    ctxx.translate(x, y);
-    ctxx.strokeStyle = "#555555";
-    ctxx.strokeText(text, 0, 0, 2000000);
-    ctxx.fillStyle = "#ffffff";
-    ctxx.fillText(text, 0, 0, 2000000);
-    ctxx.restore();
-
-
+	// Variables
+    context.lineJoin = "round";
+    context.lineWidth = 3;
+	context.textAlign = "center";
+	
+	// Stroke
+    context.strokeStyle = "#555555";
+	context.strokeText(text, 0, 0, 2000000);
+	
+	// Fill
+    context.fillStyle = "#ffffff";
+	context.fillText(text, 0, 0, 2000000);
+	
+    context.restore();
 };
 
 function draw() {
@@ -172,7 +224,7 @@ function draw() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     drawGrid(0, 0, canvas.width, canvas.height, config.gridSize, config.gridColor, "mainCanvas");
 
-    config.objects.forEach(item => drawText(item.name, item.x - camX, item.y - camY, "mainCanvas"));
+	config.objects.forEach(item => item.render(ctx, item.x - camX, item.y - camY));
 
     // Again!
     window.requestAnimationFrame(draw);
