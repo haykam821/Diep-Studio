@@ -125,9 +125,17 @@ function addRender(whatItIs) {
 	config.objects = config.objects.concat(whatItIs);
 }
 
-canvas.addEventListener("mousemove", (event) => {
-	xPosDOM.innerText = Math.round(event.clientX + camX);
-	yPosDOM.innerText = Math.round(event.clientY + camY);
+function getCoords(event) {
+	return {
+		x: Math.round(event.clientX + camX),
+		y: Math.round(event.clientY + camY),
+	};
+}
+
+canvas.addEventListener("mousemove", event => {
+	const coords = getCoords(event);
+	xPosDOM.innerText = coords.x;
+	yPosDOM.innerText = coords.y;
 });
 
 function setZoom(direction = 1) {
@@ -158,18 +166,18 @@ const tools = {
 	text: {
 		name: "Text Placer",
 		description: "Place text",
-		mousedown: event => {
-			addRender(new renders.Text(event.x + camX, event.y + camY, "Hello there!"));
+		mousedown: (event, x, y) => {
+			addRender(new renders.Text(x, y, "Hello there!"));
 		}
 	},
 	clone: {
 		name: "Clone",
 		description: "Places a copy of the last placed object",
-		mousedown: event => {
+		mousedown: (event, x, y) => {
 			if (lastAction instanceof Render) {
 				// Update last placed object to new coordinates
-				lastAction.x = event.x + camX;
-				lastAction.y = event.y + camY;
+				lastAction.x = x;
+				lastAction.y = y;
 
 				// And place it
 				addRender(lastAction);
@@ -211,7 +219,12 @@ Object.entries(tools).forEach(entry => {
 function registerToolEvent(type) {
 	canvas.addEventListener(type, event => {
 		if (tools[tool] && tools[tool][type]) {
-			return tools[tool][type](event);
+			if (event.x && event.y) {
+				const coords = getCoords(event);
+				return tools[tool][type](event, coords.x, coords.y);
+			} else {
+				return tools[tool][type](event);
+			}
 		}
 	});
 }
