@@ -134,12 +134,12 @@ function addRender(whatItIs) {
 
 function getCoords(event) {
 	return {
-		x: Math.round(event.clientX * (1 / zoom) + camX),
-		y: Math.round(event.clientY * (1 / zoom) + camY),
+		x: Math.round((event.clientX - canvas.offsetLeft) * (1 / zoom) + camX),
+		y: Math.round((event.clientY - canvas.offsetTop) * (1 / zoom) + camY),
 	};
 }
 
-canvas.addEventListener("mousemove", event => {
+window.addEventListener("mousemove", event => {
 	const coords = getCoords(event);
 	xPosDOM.innerText = coords.x;
 	yPosDOM.innerText = coords.y;
