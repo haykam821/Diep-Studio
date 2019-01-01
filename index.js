@@ -169,6 +169,17 @@ const tanks = {
 		angle: 0,
 		x: 0,
 	}]),
+	TankTwin: makeTankClass("TankTwin", "Twin", [{
+		length: 35,
+		width: 17,
+		angle: 0,
+		x: 20,
+	}, {
+		length: 35,
+		width: 17,
+		angle: 0,
+		x: -20,
+	}]),
 };
 
 const renders = {
