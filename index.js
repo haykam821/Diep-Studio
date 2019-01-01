@@ -33,6 +33,8 @@ let camY = 0;
 let zoom = 1;
 const zoomRate = 0.1;
 
+let scale = 1;
+
 class Render {
 	constructor(x = 0, y = 0) {
 		this.x = x;
@@ -109,7 +111,7 @@ class Tank extends Render {
 		context.save();
 
 		context.translate(x, y);
-		context.lineWidth = 4;
+		context.lineWidth = 4 * scale;
 		//context.scale(this.radius, this.radius);
 
 		fillStrokeStyle("#999999", context);
@@ -120,7 +122,7 @@ class Tank extends Render {
 
 			context.rotate(degToRad(barrel.angle));
 
-			context.rect(0, (48 - barrel.width) - 48 + barrel.x, barrel.length * 2, barrel.width * 2);
+			context.rect(0, ((48 - barrel.width) - 48 + barrel.x) * scale, barrel.length * 2 * scale, barrel.width * 2 * scale);
 
 			context.fill();
 			context.stroke();
@@ -133,7 +135,7 @@ class Tank extends Render {
 		fillStrokeStyle(this.color, context);
 
 		// Body border
-		context.arc(0, 0, this.radius, 0, 2 * Math.PI);
+		context.arc(0, 0, this.radius * scale, 0, 2 * Math.PI);
 
 		context.fill();
 		context.stroke();
@@ -143,7 +145,7 @@ class Tank extends Render {
 
 		if (this.name) {
 			const nameText = new renders.Text(x, y, this.name);
-			nameText.render(context, x, y - (this.radius * 1.5 + 10));
+			nameText.render(context, x, y - (this.radius * 1.5 + 10) * scale);
 		}
 	}
 }
@@ -229,14 +231,15 @@ function setValues(data = defaults) {
 	});
 };
 
-function updateCanvasSize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function updateCanvasSize(customScale) {
+	scale = customScale || window.devicePixelRatio || 1;
+
+    canvas.width = window.innerWidth * scale;
+    canvas.height = window.innerHeight * scale;
 
     sidebar.style.width = window.innerWidth / 5 > 232 ? window.innerWidth / 5 : 232;
-    sidebar.style.height = window.innerHeight;
+	sidebar.style.height = window.innerHeight;
 }
-
 window.addEventListener("resize", updateCanvasSize);
 
 const loading = document.getElementById("loading");
@@ -635,19 +638,21 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
 });
 
 function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0c0", context = ctx) {
-    context.save();
-    context.translate(x, y);
-    context.beginPath();
-	context.strokeColor = config.gridLineColor;
-    context.lineWidth = config.gridLineWidth;
+	const trueGridSize = gridSize * scale; 
 
-    for (var i = 0; i < width || i < height; i += config.gridSize) {
+    context.save();
+    context.translate(x * scale, y * scale);
+    context.beginPath();
+	context.strokeColor = lineColor;
+    context.lineWidth = config.gridLineWidth * scale;
+
+	for (var i = 0; i < width || i < height; i += trueGridSize) {
         context.moveTo(0, i);
         context.lineTo(width, i);
         context.moveTo(i, 0);
         context.lineTo(i, height);
     };
-	context.strokeStyle = config.gridLineColor;
+	context.strokeStyle = lineColor;
     context.stroke();
     context.closePath();
     context.restore();
@@ -659,10 +664,10 @@ function drawText(text, x, y, context = ctx) {
 
 	// Variables
     context.lineJoin = "round";
-    context.lineWidth = 3;
+    context.lineWidth = 3 * scale;
 	context.textAlign = "center";
 	context.textBaseline = "middle";
-	context.font = "30px Ubuntu";
+	context.font = (30 * scale) + "px Ubuntu";
 	
 	// Stroke
     context.strokeStyle = "#555555";
@@ -684,9 +689,9 @@ function draw() {
 
     ctx.fillStyle = config.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-	drawGrid(-camX % canvas.width % config.gridSize, -camY % canvas.height % config.gridSize, canvas.width, canvas.height, config.gridSize, config.gridColor);
+	drawGrid(-camX % canvas.width % config.gridSize, -camY % canvas.height % config.gridSize, canvas.width, canvas.height, config.gridSize, config.gridLineColor);
 
-	config.objects.forEach(item => item.render(ctx, item.x - camX, item.y - camY));
+	config.objects.forEach(item => item.render(ctx, (item.x - camX) * scale, (item.y - camY) * scale));
 
 	ctx.restore();
 
