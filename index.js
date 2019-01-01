@@ -580,8 +580,8 @@ document.getElementById("sidebar").addEventListener("click", (event) => {
         case "gridLineColor":
             gridColor = event.target.value;
             break;
-        case "export":
-            let output = JSON.stringify(config, null, 4);
+		case "export":
+            let output = JSON.stringify(config);
             document.getElementById("dataBox").value = output;
             localStorage.setItem("saved", output);
 
