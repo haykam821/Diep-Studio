@@ -94,7 +94,9 @@ class Tank extends Render {
 		this.radius = radius;
 		this.angle = 0;
 		this.color = color;
+
 		this.name = name || "";
+
 		this.barrels = barrels || [];
 		this.bodyType = 0;
 	}
@@ -138,6 +140,11 @@ class Tank extends Render {
 		
 		context.closePath();
 		context.restore();
+
+		if (this.name) {
+			const nameText = new renders.Text(x, y, this.name);
+			nameText.render(context, x, y - (this.radius * 1.5 + 10));
+		}
 	}
 }
 
