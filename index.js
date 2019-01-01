@@ -257,6 +257,13 @@ function setZoom(direction = 1) {
 	}
 }
 
+const colors = {
+	teamBlue: ["Blue Team", "#00b0e1"],
+	teamRed: ["Red Team", "#f04f54"],
+	teamGreen: ["Green Team", "#00e06c"],
+	teamPurple: ["Purple Team", "#be7ff5"],
+}
+
 function formPopup(x, y, form, msg = "Use Tool") {
 	return new Promise((resolve, reject) => {
 		const closePopupIcon = document.createElement("i");
@@ -342,10 +349,29 @@ const tools = {
 			angle.value = 0;
 			angle.name = "angle";
 
-			// todo: combo color + diep colors select
-			const color = document.createElement("input");
-			color.type = "color";
-			color.name = "color";
+			const diepSelect = document.createElement("select");
+			diepSelect.append(new Option("Custom", "custom"));
+			Object.entries(colors).forEach(color => {
+				diepSelect.append(new Option(color[1][0], color[0]));
+			});
+
+			this.colorPicker = document.createElement("input");
+			this.colorPicker.type = "color";
+			this.colorPicker.name = "color";
+
+			// Event listeners
+			diepSelect.addEventListener("change", () => {
+				if (colors[diepSelect.value]) {
+					this.colorPicker.value = colors[diepSelect.value][1];
+				}
+			});
+			this.colorPicker.addEventListener("change", () => {
+				diepSelect.value = "custom";
+			});
+
+			const container = document.createElement("div");
+			container.classList.add("optionRow");
+			container.append(diepSelect, this.colorPicker);
 
 			const tankSelect = document.createElement("select");
 			Object.entries(tanks).forEach(entry => {
@@ -359,7 +385,7 @@ const tools = {
 			tankSelect.name = "tank";
 
 			const form = document.createElement("div");
-			form.append(level, angle, color, tankSelect);
+			form.append(level, angle, container, tankSelect);
 
 			formPopup(event.x, event.y, form, "Place Tank").then(response => {
 				if (tanks[response.tank]) {
