@@ -257,11 +257,14 @@ function setZoom(direction = 1) {
 	}
 }
 
+const colorGroups = {
+	team: "Teams",
+}
 const colors = {
-	teamBlue: ["Blue Team", "#00b0e1"],
-	teamRed: ["Red Team", "#f04f54"],
-	teamGreen: ["Green Team", "#00e06c"],
-	teamPurple: ["Purple Team", "#be7ff5"],
+	teamBlue: ["Blue Team", "#00b0e1", "team"],
+	teamRed: ["Red Team", "#f04f54", "team"],
+	teamGreen: ["Green Team", "#00e06c", "team"],
+	teamPurple: ["Purple Team", "#be7ff5", "team"],
 }
 
 function formPopup(x, y, form, msg = "Use Tool") {
@@ -298,8 +301,10 @@ function formPopup(x, y, form, msg = "Use Tool") {
 		formSubmit.addEventListener("click", () => {
 			const results = {};
 
-			Array.from(form.children).forEach(child => {
-				results[child.name] = child.value;
+			Array.from(form.querySelectorAll(":scope *")).forEach(child => {
+				if (child.name && child.value) {
+					results[child.name] = child.value;
+				}
 			});
 
 			resolve(results);
@@ -350,10 +355,26 @@ const tools = {
 			angle.name = "angle";
 
 			const diepSelect = document.createElement("select");
-			diepSelect.append(new Option("Custom", "custom"));
 			Object.entries(colors).forEach(color => {
-				diepSelect.append(new Option(color[1][0], color[0]));
+				const group = Array.from(diepSelect.children).find(val => val.id === color[1][2]);
+				const option = new Option(color[1][0], color[0]);
+				const groupID = color[1][2];
+
+				if (!groupID) {
+					diepSelect.append(option);
+				} else if (!group) {
+					const newGroup = document.createElement("optgroup");
+
+					newGroup.label = colorGroups[groupID];
+					newGroup.id = groupID;
+					
+					newGroup.append(option);
+					diepSelect.append(newGroup);
+				} else {
+					group.append(option);
+				}
 			});
+			diepSelect.append(new Option("Custom", "custom"));
 
 			this.colorPicker = document.createElement("input");
 			this.colorPicker.type = "color";
