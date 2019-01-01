@@ -24,6 +24,7 @@ const defaults = {
 	gridSize: 24,
 	gridLineColor: "#c0c0c0",
 	gridLineWidth: 1,
+	borderStyle: "newDiep",
 };
 
 let camX = 0;
@@ -60,10 +61,23 @@ function degToRad(angle) {
 	return angle * Math.PI / 180;
 };
 
-function borderColor(hex) {
+function borderDarken(hex, factor = 0.75) {
 	return hex.replace(/[0-9a-f]{2}/g, channel => {
-		return Math.round(parseInt(channel, 16) * 0.75).toString(16).padStart(2, '0');
+		return Math.round(parseInt(channel, 16) * factor).toString(16).padStart(2, '0');
 	});
+}
+
+function borderColor(hex) {
+	switch (config.borderStyle) {
+		case "oldDiep":
+			return "#525252";
+		case "newDiep":
+			return borderDarken(hex);
+		case "arras":
+			return borderDarken(hex, 0.65);
+		default:
+			return "#000000";
+	}
 }
 
 function fillStrokeStyle(color, context = ctx) {
