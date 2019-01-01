@@ -259,13 +259,28 @@ function setZoom(direction = 1) {
 
 const colorGroups = {
 	team: "Teams",
-}
-const colors = {
-	teamBlue: ["Blue Team", "#00b0e1", "team"],
-	teamRed: ["Red Team", "#f04f54", "team"],
-	teamGreen: ["Green Team", "#00e06c", "team"],
-	teamPurple: ["Purple Team", "#be7ff5", "team"],
-}
+};
+const colors = [{
+	id: "teamBlue", 
+	name: "Blue Team",
+	color: "#00b0e1", 
+	group: "team",
+}, {
+	id: "teamRed",
+	name: "Red Team",
+	color: "#f04f54",
+	group: "team",
+}, {
+	id: "teamGreen",
+	name: "Green Team",
+	color: "#00e06c",
+	group: "team",
+}, {
+	id: "teamPurple",
+	name: "Purple Team",
+	color: "#be7ff5",
+	group: "team",
+}];
 
 function formPopup(x, y, form, msg = "Use Tool") {
 	return new Promise((resolve, reject) => {
@@ -355,18 +370,17 @@ const tools = {
 			angle.name = "angle";
 
 			const diepSelect = document.createElement("select");
-			Object.entries(colors).forEach(color => {
-				const group = Array.from(diepSelect.children).find(val => val.id === color[1][2]);
-				const option = new Option(color[1][0], color[0]);
-				const groupID = color[1][2];
+			colors.forEach(color => {
+				const group = Array.from(diepSelect.children).find(val => val.id === color.group);
+				const option = new Option(color.name, color.id);
 
-				if (!groupID) {
+				if (!color.group) {
 					diepSelect.append(option);
 				} else if (!group) {
 					const newGroup = document.createElement("optgroup");
 
-					newGroup.label = colorGroups[groupID];
-					newGroup.id = groupID;
+					newGroup.label = colorGroups[color.group];
+					newGroup.id = color.group;
 					
 					newGroup.append(option);
 					diepSelect.append(newGroup);
@@ -379,11 +393,14 @@ const tools = {
 			this.colorPicker = document.createElement("input");
 			this.colorPicker.type = "color";
 			this.colorPicker.name = "color";
+			this.colorPicker.value = "#00b0e1";
 
 			// Event listeners
 			diepSelect.addEventListener("change", () => {
-				if (colors[diepSelect.value]) {
-					this.colorPicker.value = colors[diepSelect.value][1];
+				const color = colors.find(color => color.id === diepSelect.value);
+				console.log(colors, color)
+				if (diepSelect.value && color) {
+					this.colorPicker.value = color.color;
 				}
 			});
 			this.colorPicker.addEventListener("change", () => {
