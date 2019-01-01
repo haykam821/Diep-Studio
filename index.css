@@ -310,3 +310,7 @@ button:active,
 .popupForm > * {
 	width: 100%;
 }
+
+#dataBox {
+	font-family: "Ubuntu Mono", monospace;
+}
