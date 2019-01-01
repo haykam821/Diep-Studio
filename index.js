@@ -141,8 +141,8 @@ class Tank extends Render {
 	}
 }
 
-function makeTankClass(name = "Tank", barrels, bodyType = 0) {
-	return class extends Tank {
+function makeTankClass(internalName = "TankBasic", name = "Tank", barrels, bodyType = 0) {
+	const tankClass = class extends Tank {
 		constructor(_, __, radius, angle, color, name) {
 			super(...arguments);
 
@@ -154,10 +154,15 @@ function makeTankClass(name = "Tank", barrels, bodyType = 0) {
 			return name;
 		}
 	}
+	Object.defineProperty(tankClass, "name", {
+		value: internalName,
+	});
+
+	return tankClass;
 }
 
 const tanks = {
-	TankBasic: makeTankClass("Basic Tank", [{
+	TankBasic: makeTankClass("TankBasic", "Basic Tank", [{
 		type: 0,
 		length: 35,
 		width: 18,
