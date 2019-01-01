@@ -387,6 +387,11 @@ const tools = {
 		name: "Tank Placer",
 		description: "Place tanks",
 		mousedown: (event, x, y) => {
+			const name = document.createElement("input");
+			name.type = "text";
+			name.placeholder = "Name";
+			name.name = "name";
+
 			const level = document.createElement("input");
 			level.type = "number";
 			level.placeholder = "Level";
@@ -453,7 +458,7 @@ const tools = {
 			tankSelect.name = "tank";
 
 			const form = document.createElement("div");
-			form.append(level, angle, container, tankSelect);
+			form.append(name, level, angle, container, tankSelect);
 
 			formPopup(event.x, event.y, form, "Place Tank").then(response => {
 				if (tanks[response.tank]) {
