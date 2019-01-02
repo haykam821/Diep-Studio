@@ -741,7 +741,7 @@ function drawText(text, x, y, context = ctx, bold = false) {
     context.lineWidth = 3 * scale;
 	context.textAlign = "center";
 	context.textBaseline = "middle";
-	context.font = (30 * scale) + "px" + (bold ? " bold" : "") + " Ubuntu";
+	context.font = `${bold ? "bold" : ""} ${30 * scale}px Ubuntu`;
 	
 	// Stroke
     context.strokeStyle = "#555555";
