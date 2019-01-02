@@ -155,7 +155,7 @@ class Tank extends Render {
 
 function makeTankClass(internalName = "TankBasic", name = "Tank", barrels, bodyType = 0) {
 	const tankClass = class extends Tank {
-		constructor(_, __, radius, angle, color, name) {
+		constructor() {
 			super(...arguments);
 
 			this.barrels = barrels;
@@ -286,8 +286,17 @@ function getCoords(event) {
 	};
 }
 
-// todo: implement :(
-function getAngleFromOrigin(originX, originY, targetX, targetY) {}
+/**
+ * Gets the angle of a target point from the origin.
+ * @param {*} originX The X position of the origin.
+ * @param {*} originY The Y position of the origin.
+ * @param {*} targetX The X position of the target.
+ * @param {*} targetY The Y position of the target.
+ * @returns {number} The rotation, in degrees.
+ */
+function getAngleFromOrigin(originX, originY, targetX, targetY) {
+	return radToDeg(Math.atan2(targetY - originY, targetX - originX));
+}
 
 window.addEventListener("mousemove", event => {
 	const coords = getCoords(event);
@@ -387,7 +396,7 @@ function stageRotation(thing) {
 		staging = thing;
 
 		canvas.addEventListener("mousemove", event => {
-			staging.angle = getAngleFromOrigin(staging.x, staging.y, event.x, event.y);
+			staging.angle = getAngleFromOrigin(staging.x - camX, staging.y - camY, event.x, event.y);
 		});
 
 		canvas.addEventListener("mousedown", () => {
