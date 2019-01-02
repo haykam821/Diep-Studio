@@ -124,8 +124,12 @@ class Tank extends Render {
 			context.beginPath();
 
 			context.rotate(degToRad(this.angle + barrel.angle));
+			context.translate(0, barrel.x * scale);
 
-			context.rect(0, ((48 - barrel.width) - 48 + barrel.x) * scale, barrel.length * 2 * scale, barrel.width * 2 * scale);
+			const barrelLength = (barrel.length / 39) * this.radius * 2 * scale;
+			const barrelWidth = (barrel.width / 39) * this.radius * 2 * scale;
+
+			context.rect(0, barrelWidth / -2, barrelLength, barrelWidth);
 
 			context.fill();
 			context.stroke();
@@ -253,8 +257,6 @@ window.addEventListener("load", () => {
 	
 	setValues();
 	setCamValues();
-
-	config.objects = config.objects.concat(new renders.TankBasic(50, 50, levelToRadius(45), 0, "#f04f54", "hi"));
 
     let saved = localStorage.getItem("saved");
     if (saved) {
