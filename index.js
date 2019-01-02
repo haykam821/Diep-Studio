@@ -316,6 +316,7 @@ function setZoom(direction = 1) {
 
 const colorGroups = {
 	team: "Teams",
+	other: "Other",
 };
 const colors = [{
 	id: "teamBlue", 
@@ -337,6 +338,21 @@ const colors = [{
 	name: "Purple Team",
 	color: "#be7ff5",
 	group: "team",
+}, {
+	id: "teamBrown",
+	name: "Brown Team",
+	color: "#D48067",
+	group: "other",
+}, {
+	id: "barrel",
+	name: "Barrel",
+	color: "#999999",
+	group: "other",
+}, {
+	id: "outline",
+	name: "Outline",
+	color: "#525252",
+	group: "other",
 }];
 
 function formPopup(x, y, form, msg = "Use Tool") {
