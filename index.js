@@ -240,12 +240,12 @@ function updateCanvasSize(customScale) {
 	scale = customScale || window.devicePixelRatio || 1;
 
     canvas.width = window.innerWidth * scale;
-    canvas.height = window.innerHeight * scale;
+	canvas.height = window.innerHeight * scale;
 
     sidebar.style.width = window.innerWidth / 5 > 232 ? window.innerWidth / 5 : 232;
 	sidebar.style.height = window.innerHeight;
 }
-window.addEventListener("resize", updateCanvasSize);
+window.addEventListener("resize", () => updateCanvasSize());
 
 const loading = document.getElementById("loading");
 window.addEventListener("load", () => {
