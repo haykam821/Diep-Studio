@@ -53,37 +53,6 @@ kbd {
     user-select: none;
 }
 
-.head {
-	text-align: center;
-	margin-bottom: 5px;
-}
-
-#icons {
-    text-align: center;
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0px;
-    right: 0px;
-    bottom: 10px;
-    padding-top: 30px;
-}
-
-#icons>a {
-    font-size: 25px;
-    color: white;
-	text-decoration: none;
-	transition: 0.2s;
-}
-
-#icons > a:hover {
-	color: #ddd;
-}
-
-#options {
-    margin: 12px;
-}
-
 textarea, input, select {
     background-color: #f8f8f8;
     color: black;
@@ -243,20 +212,6 @@ button:active,
     background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 40%, #B86C6C 50%);
 }
 
-.optionRow, .buttonPair {
-	display: flex;
-}
-
-.optionRow>* {
-    display: inline-flex;
-}
-
-.optionRow>*:nth-child(2n) {
-    display: inline-flex;
-    flex-grow: 100;
-    margin-left: 8px;
-}
-
 .buttonPair>* {
 	flex-grow: 100;
 	margin: 2px;
@@ -325,8 +280,4 @@ button:active,
 
 .popupForm > * {
 	width: 100%;
-}
-
-#dataBox {
-	font-family: "Ubuntu Mono", monospace;
 }
