@@ -480,7 +480,17 @@ const tools = {
 		name: "Text Placer",
 		description: "Place text",
 		mousedown: (event, x, y) => {
-			addRender(new renders.Text(x, y, "Hello there!"));
+			const text = document.createElement("input");
+			text.type = "text";
+			text.placeholder = "Text";
+			text.name = "text";
+
+			const form = document.createElement("div")
+			form.append(text);
+
+			formPopup(event.x, event.y, form, "Place Text").then(opts => {
+				addRender(new renders.Text(x, y, opts.text));
+			});
 		},
 		cursor: "text",
 	},
