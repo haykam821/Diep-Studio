@@ -20,9 +20,20 @@ body {
     overflow-x: hidden;
 }
 
-#sidebar > p {
+#sidebar p {
 	text-align: center;
 	margin: 5px;
+}
+
+kbd {
+	background-color: white;
+	color: #333;
+	font-family: Ubuntu;
+	font-size: 13px;
+	padding: 1px 2px;
+	margin: 1px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
 }
 
 #coordinates {

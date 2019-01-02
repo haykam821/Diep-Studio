@@ -564,6 +564,11 @@ let tool;
 let canUseTool = true;
 
 function setTool(to = "pan") {
+	if (typeof to === "number") {
+		const selectChild = toolSelect.children[to];
+		to = (selectChild && selectChild.value) || "pan";
+	}
+
 	tool = to;
 	toolSelect.value = to;
 
@@ -631,6 +636,14 @@ window.addEventListener("keydown", (event) => {
 			case "Equal":
 				// Plus = zoom in
 				setZoom(1);
+				break;
+			case "Digit0":
+				setTool(10);
+				break;
+			default:
+				if (event.code.startsWith("Digit")) {
+					setTool(parseInt(event.key) - 1);
+				}
         }
     }
 });
