@@ -129,7 +129,7 @@ class Tank extends Render {
 			const barrelLength = (barrel.length / 39) * this.radius * 2 * scale;
 			const barrelWidth = (barrel.width / 39) * this.radius * 2 * scale;
 
-			context.rect(0, barrelWidth / -2, barrelLength, barrelWidth);
+			context.rect(0, -barrelWidth / 2, barrelLength, barrelWidth);
 
 			context.fill();
 			context.stroke();
@@ -195,6 +195,19 @@ const tanks = {
 		width: 17,
 		angle: 0,
 		x: -20,
+		}]),
+	TankFlank: makeTankClass("TankFlank", "Flank Guard", [{
+		type: 0,
+		length: 35,
+		width: 18,
+		angle: 0,
+		x: 0,
+	}, {
+		type: 0,
+		length: 30,
+		width: 18,
+		angle: 180,
+		x: 0,
 	}]),
 };
 
