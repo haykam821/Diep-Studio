@@ -668,6 +668,14 @@ window.addEventListener("keydown", (event) => {
 				// Plus = zoom in
 				setZoom(1);
 				break;
+			case "Escape":
+				// Escape from tool
+				if (staging && resolver) {
+					staging = null;
+					resolver = null;
+					canUseTool = true;
+				}
+				break;
 			case "Digit0":
 				setTool(10);
 				break;
