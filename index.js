@@ -395,23 +395,27 @@ function formPopup(x, y, form, msg = "Use Tool") {
 }
 
 let staging = null;
+let resolver = null;
+canvas.addEventListener("mousemove", event => {
+	if (staging instanceof Render) {
+		staging.angle = getAngleFromOrigin(staging.x - camX, staging.y - camY, event.x, event.y);
+	}
+});
+
+canvas.addEventListener("mousedown", () => {
+	if (!staging) return;
+	resolver(staging.angle);
+
+	// This is hacky :(
+	requestAnimationFrame(() => canUseTool = true);
+	staging = null;
+});
+
 function stageRotation(thing) {
 	return new Promise(resolve => {
+		resolver = resolve;
 		canUseTool = false;
 		staging = thing;
-
-		const updateRotate = canvas.addEventListener("mousemove", event => {
-			if (staging instanceof Render) {
-				staging.angle = getAngleFromOrigin(staging.x - camX, staging.y - camY, event.x, event.y);
-			}
-		});
-
-		const endRotate = canvas.addEventListener("mousedown", () => {
-
-			resolve(staging && staging.angle);
-			canUseTool = true;
-			staging = null;
-		});
 	});
 }
 
