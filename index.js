@@ -404,7 +404,7 @@ function formPopup(x, y, form, msg = "Use Tool") {
 			popup.remove();
 		});
 
-		formSubmit.addEventListener("click", () => {
+		function submit() {
 			const results = {};
 
 			Array.from(form.querySelectorAll(":scope *")).forEach(child => {
@@ -416,9 +416,23 @@ function formPopup(x, y, form, msg = "Use Tool") {
 			canUseTool = true;
 			resolve(results);
 			popup.remove();
+		}
+		formSubmit.addEventListener("click", submit);
+
+		popup.addEventListener("keydown", event => {
+			if (event.code === "Escape") {
+				canUseTool = true;
+				popup.remove();
+			} else if (event.code === "Enter" && (event.metaKey || event.ctrlKey)) {
+				submit();
+			}
 		});
 
 		document.body.appendChild(popup);
+
+		// Give focus to popup
+		popup.tabIndex = "-1";
+		popup.focus();
 
 		popup.style.top = y - popup.offsetHeight - 15;
 		popup.style.left = x - popup.offsetWidth / 2;
