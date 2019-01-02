@@ -341,6 +341,8 @@ const colors = [{
 
 function formPopup(x, y, form, msg = "Use Tool") {
 	return new Promise((resolve, reject) => {
+		canUseTool = false;
+
 		const closePopupIcon = document.createElement("i");
 		closePopupIcon.classList.add("fas", "fa-times");
 
@@ -367,6 +369,7 @@ function formPopup(x, y, form, msg = "Use Tool") {
 		popup.appendChild(popupForm);
 
 		closePopup.addEventListener("click", () => {
+			canUseTool = true;
 			popup.remove();
 		});
 
@@ -379,6 +382,7 @@ function formPopup(x, y, form, msg = "Use Tool") {
 				}
 			});
 
+			canUseTool = true;
 			resolve(results);
 			popup.remove();
 		});
@@ -393,14 +397,20 @@ function formPopup(x, y, form, msg = "Use Tool") {
 let staging = null;
 function stageRotation(thing) {
 	return new Promise(resolve => {
+		canUseTool = false;
 		staging = thing;
 
-		canvas.addEventListener("mousemove", event => {
-			staging.angle = getAngleFromOrigin(staging.x - camX, staging.y - camY, event.x, event.y);
+		const updateRotate = canvas.addEventListener("mousemove", event => {
+			if (staging instanceof Render) {
+				staging.angle = getAngleFromOrigin(staging.x - camX, staging.y - camY, event.x, event.y);
+			}
 		});
 
-		canvas.addEventListener("mousedown", () => {
-			resolve(staging.angle);
+		const endRotate = canvas.addEventListener("mousedown", () => {
+
+			resolve(staging && staging.angle);
+			canUseTool = true;
+			staging = null;
 		});
 	});
 }
@@ -547,6 +557,7 @@ const tools = {
 
 const toolSelect = document.getElementById("toolSelect");
 let tool;
+let canUseTool = true;
 
 function setTool(to = "pan") {
 	tool = to;
@@ -574,7 +585,7 @@ Object.entries(tools).forEach(entry => {
 
 function registerToolEvent(type) {
 	canvas.addEventListener(type, event => {
-		if (tools[tool] && tools[tool][type]) {
+		if (canUseTool && tools[tool] && tools[tool][type]) {
 			if (event.x && event.y) {
 				const coords = getCoords(event);
 				return tools[tool][type](event, coords.x, coords.y);
