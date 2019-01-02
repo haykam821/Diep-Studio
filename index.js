@@ -267,9 +267,9 @@ window.addEventListener("resize", () => updateCanvasSize());
 const loading = document.getElementById("loading");
 window.addEventListener("load", () => {
 	updateCanvasSize();
-	
 	setValues();
 	setCamValues();
+	setTool();
 
     let saved = localStorage.getItem("saved");
     if (saved) {
@@ -633,17 +633,10 @@ function setTool(to = "pan") {
 		canvas.style.cursor = "auto";
 	}
 }
-setTool("tank");
-toolSelect.addEventListener("change", event => setTool(event.target.value));
 
 Object.entries(tools).forEach(entry => {
 	if (!entry[1].hidden) {
-		const opt = document.createElement("option");
-
-		opt.value = entry[0];
-		opt.innerText = `${entry[1].name} (${entry[1].description})`;
-		
-		toolSelect.appendChild(opt);
+		toolSelect.appendChild(new Option(`${entry[1].name} (${entry[1].description})`, entry[0]));
 	}
 });
 
@@ -666,22 +659,22 @@ registerToolEvent("mousemove");
 canvas.addEventListener("contextmenu", event => event.preventDefault());
 
 window.addEventListener("keydown", (event) => {
-    if (["TEXTAREA", "INPUT"].indexOf(document.activeElement.tagName) === -1) {
-        switch (event.code) {
-            case "KeyW":
-            case "ArrowUp":
-                camY -= config.gridSize;
-                break;
-            case "KeyS":
-            case "ArrowDown":
+	if (["TEXTAREA", "INPUT"].indexOf(document.activeElement.tagName) === -1) {
+		switch (event.code) {
+			case "KeyW":
+			case "ArrowUp":
+				camY -= config.gridSize;
+				break;
+			case "KeyS":
+			case "ArrowDown":
 				camY += config.gridSize;
-                break;
-            case "KeyA":
-            case "ArrowLeft":
+				break;
+			case "KeyA":
+			case "ArrowLeft":
 				camX -= config.gridSize;
-                break;
-            case "KeyD":
-            case "ArrowRight":
+				break;
+			case "KeyD":
+			case "ArrowRight":
 				camX += config.gridSize;
 				break;
 			case "Minus":
@@ -705,57 +698,11 @@ window.addEventListener("keydown", (event) => {
 				break;
 			default:
 				if (event.code.startsWith("Digit")) {
+					console.log("hi")
 					setTool(parseInt(event.key) - 1);
 				}
-        }
-    }
-});
-
-document.getElementById("sidebar").addEventListener("input", event => {
-	if (event.target.id.startsWith("config-")) {
-		const configId = event.target.id.replace("config-", "");
-		config[configId] = event.target.value;
+		}
 	}
-});
-document.getElementById("sidebar").addEventListener("click", (event) => {
-    switch (event.target.id) {
-        case "reset":
-            setValues();
-            break;
-        case "jumpCenter":
-            setCamValues();
-            break;
-        case "jumpSceneStart":
-            camX = sceneStartX;
-            camY = sceneStartY;
-            break;
-        case "gridLineColor":
-            gridColor = event.target.value;
-            break;
-		case "export":
-            let output = JSON.stringify(config);
-            document.getElementById("dataBox").value = output;
-            localStorage.setItem("saved", output);
-
-            break;
-		case "import":
-			const boxVal = document.getElementById("dataBox").value;
-			if (boxVal) {
-				try {
-					setValues(JSON.parse(boxVal));
-				} catch (_) {
-					alert("Your Diep Studio code is broken.");
-				}
-			}
-			break;
-		case "zoomOut":
-			// Click zoom out button = zoom out
-			setZoom(-1);
-			break;
-		case "zoomIn":
-			// Click zoom in button = zoom in
-			setZoom(1);
-    }
 });
 
 function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0c0", context = ctx) {

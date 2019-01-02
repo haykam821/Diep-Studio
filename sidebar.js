@@ -102,9 +102,14 @@ ReactDOM.render(elem("div", {
 		}),
 		elem("p", null, "Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!"),
 		elem("div", {
-			id: "options",
 			style: {
 				margin: 12,
+			},
+			onInput: event => {
+				if (event.target.id.startsWith("config-")) {
+					const configId = event.target.id.replace("config-", "");
+					config[configId] = event.target.value;
+				}
 			},
 			children: [
 				elem(OptionsSection, {
@@ -127,6 +132,16 @@ ReactDOM.render(elem("div", {
 									className: "dbtn-blue",
 									title: "Imports a Diep Studio or DSM scene.",
 									children: "Import",
+									onClick: () => {
+										const boxVal = document.getElementById("dataBox").value;
+										if (boxVal) {
+											try {
+												setValues(JSON.parse(boxVal));
+											} catch (_) {
+												alert("Your Diep Studio code is broken.");
+											}
+										}
+									},
 								}),
 								elem("button", {
 									id: "importSaved",
@@ -139,20 +154,24 @@ ReactDOM.render(elem("div", {
 						elem(ButtonPair, {
 							children: [
 								elem("button", {
-									id: "export",
 									className: "dbtn-green",
 									title: "Saves and exports as JSON.",
 									children: "Save & Export",
+									onClick: () => {
+										let output = JSON.stringify(config);
+										document.getElementById("dataBox").value = output;
+										localStorage.setItem("saved", output);
+									},
 								}),
 							]
 						}),
 						elem(ButtonPair, {
 							children: [
 								elem("button", {
-									id: "reset",
 									className: "dbtn-red",
 									title: "This will remove all progress on the current scene!",
 									children: "Clear",
+									onClick: () => setValues(),
 								}),
 							]
 						}),
@@ -164,21 +183,24 @@ ReactDOM.render(elem("div", {
 						elem(ButtonPair, {
 							children: [
 								elem("button", {
-									id: "jumpCenter",
 									class: "dbtn-red",
-								}, "Go to Center"),
+									children: "Go to Center",
+									onClick: () => setCamValues(),
+								}),
 							]
 						}),
 						elem(ButtonPair, {
 							children: [
 								elem("button", {
-									id: "zoomOut",
 									class: "dbtn-blue",
-								}, "Zoom Out"),
+									children: "Zoom Out",
+									onClick: () => setZoom(-1),
+								}),
 								elem("button", {
-									id: "zoomIn",
 									class: "dbtn-blue",
-								}, "Zoom In"),
+									children: "Zoom In",
+									onClick: () => setZoom(1),
+								}),
 							]
 						}),
 					],
@@ -189,7 +211,8 @@ ReactDOM.render(elem("div", {
 						elem("p", null, "You can use the digit keys to easily switch between the first 10 tools."),
 						elem("select", {
 							id: "toolSelect",
-						})
+							onChange: event => setTool(event.target.value),
+						}),
 					],
 				}),
 				elem(OptionsSection, {
