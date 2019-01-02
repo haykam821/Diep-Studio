@@ -62,6 +62,9 @@ function levelToRadius(level = 45) {
 function degToRad(angle) {
 	return angle * Math.PI / 180;
 };
+function radToDeg(angle) {
+	return angle * 180 / Math.PI;
+};
 
 function borderDarken(hex, factor = 0.75) {
 	return hex.replace(/[0-9a-f]{2}/g, channel => {
@@ -120,7 +123,7 @@ class Tank extends Render {
 			context.save();
 			context.beginPath();
 
-			context.rotate(degToRad(barrel.angle));
+			context.rotate(degToRad(this.angle + barrel.angle));
 
 			context.rect(0, ((48 - barrel.width) - 48 + barrel.x) * scale, barrel.length * 2 * scale, barrel.width * 2 * scale);
 
@@ -144,7 +147,7 @@ class Tank extends Render {
 		context.restore();
 
 		if (this.name) {
-			const nameText = new renders.Text(x, y, this.name);
+			const nameText = new renders.Text(x, y, this.name, true);
 			nameText.render(context, x, y - (this.radius * 1.5 + 10) * scale);
 		}
 	}
@@ -194,13 +197,15 @@ const tanks = {
 const renders = {
 	Render,
 	Text: class extends Render {
-		constructor(_, __, text) {
+		constructor(_, __, text, bold) {
 			super(...arguments);
+
 			this.text = text;
+			this.bold = bold;
 		}
 
 		render(context, x, y) {
-			drawText(this.text, x, y, context);
+			drawText(this.text, x, y, context, this.bold);
 		}
 	},
 	Tank,
@@ -280,6 +285,9 @@ function getCoords(event) {
 		y: Math.round((event.clientY - canvas.offsetTop) * (1 / zoom) + camY),
 	};
 }
+
+// todo: implement :(
+function getAngleFromOrigin(originX, originY, targetX, targetY) {}
 
 window.addEventListener("mousemove", event => {
 	const coords = getCoords(event);
@@ -373,6 +381,21 @@ function formPopup(x, y, form, msg = "Use Tool") {
 	});
 }
 
+let staging = null;
+function stageRotation(thing) {
+	return new Promise(resolve => {
+		staging = thing;
+
+		canvas.addEventListener("mousemove", event => {
+			staging.angle = getAngleFromOrigin(staging.x, staging.y, event.x, event.y);
+		});
+
+		canvas.addEventListener("mousedown", () => {
+			resolve(staging.angle);
+		});
+	});
+}
+
 const tools = {
 	pan: {
 		name: "Pan",
@@ -407,12 +430,6 @@ const tools = {
 			level.placeholder = "Level";
 			level.value = 45;
 			level.name = "level";
-
-			const angle = document.createElement("input");
-			angle.type = "number";
-			angle.placeholder = "Angle";
-			angle.value = 0;
-			angle.name = "angle";
 
 			const diepSelect = document.createElement("select");
 			colors.forEach(color => {
@@ -468,11 +485,15 @@ const tools = {
 			tankSelect.name = "tank";
 
 			const form = document.createElement("div");
-			form.append(name, level, angle, container, tankSelect);
+			form.append(name, level, container, tankSelect);
 
 			formPopup(event.x, event.y, form, "Place Tank").then(response => {
 				if (tanks[response.tank]) {
-					addRender(new tanks[response.tank](x, y, levelToRadius(parseInt(response.level)), parseInt(response.angle), response.color, response.name));
+					const tank = new tanks[response.tank](x, y, levelToRadius(parseInt(response.level)), 0, response.color, response.name);
+					stageRotation(tank).then(rotation => {
+						tank.angle = rotation;
+						addRender(tank);
+					});
 				}
 			});
 		}
@@ -658,7 +679,7 @@ function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0
     context.restore();
 };
 
-function drawText(text, x, y, context = ctx) {
+function drawText(text, x, y, context = ctx, bold = false) {
 	context.save();
 	context.translate(x, y);
 
@@ -667,7 +688,7 @@ function drawText(text, x, y, context = ctx) {
     context.lineWidth = 3 * scale;
 	context.textAlign = "center";
 	context.textBaseline = "middle";
-	context.font = (30 * scale) + "px Ubuntu";
+	context.font = (30 * scale) + "px" + (bold ? " bold" : "") + " Ubuntu";
 	
 	// Stroke
     context.strokeStyle = "#555555";
@@ -691,6 +712,11 @@ function draw() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 	drawGrid(-camX % canvas.width % config.gridSize, -camY % canvas.height % config.gridSize, canvas.width, canvas.height, config.gridSize, config.gridLineColor);
 
+	if (staging instanceof Render) {
+		ctx.globalAlpha = 0.5;
+		staging.render(ctx, (staging.x - camX) * scale, (staging.y - camY) * scale);
+		ctx.globalAlpha = 1;
+	}
 	config.objects.forEach(item => item.render(ctx, (item.x - camX) * scale, (item.y - camY) * scale));
 
 	ctx.restore();
