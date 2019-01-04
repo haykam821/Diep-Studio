@@ -335,35 +335,9 @@ function formPopup(x, y, form, msg = "Use Tool") {
 	return new Promise((resolve, reject) => {
 		canUseTool = false;
 
-		const closePopupIcon = document.createElement("i");
-		closePopupIcon.classList.add("fas", "fa-times");
-
-		const closePopup = document.createElement("button");
-		closePopup.classList.add("closePopup");
-		closePopup.appendChild(closePopupIcon);
-
-		const formSubmit = document.createElement("button");
-		formSubmit.innerText = msg;
-		formSubmit.classList.add("dbtn-green");
-
-		const submitRow = document.createElement("div");
-		submitRow.classList.add("buttonPair");
-		submitRow.appendChild(formSubmit);
-
-		form.classList.add("popupForm");
-
-		const popupForm = document.createElement("div");
-		popupForm.append(form, submitRow);
-
-		const popup = document.createElement("div");
-		popup.classList.add("popup");
-		popup.appendChild(closePopup);
-		popup.appendChild(popupForm);
-
-		closePopup.addEventListener("click", () => {
-			canUseTool = true;
-			popup.remove();
-		});
+		const popupContainer = document.createElement("div");
+		popupContainer.classList.add("popupContainer");
+		document.body.appendChild(popupContainer);
 
 		function submit() {
 			const results = {};
@@ -377,27 +351,68 @@ function formPopup(x, y, form, msg = "Use Tool") {
 
 			canUseTool = true;
 			resolve(results);
-			popup.remove();
+			popupContainer.remove();
 		}
-		formSubmit.addEventListener("click", submit);
 
-		popup.addEventListener("keydown", event => {
-			if (event.code === "Escape") {
-				canUseTool = true;
-				popup.remove();
-			} else if (event.code === "Enter" && (event.metaKey || event.ctrlKey)) {
-				submit();
+		const popup = elem("div", {
+			children: [
+				elem("button", {
+					class: "closePopup",
+					children: [
+						elem("i", {
+							class: "fas fa-times",
+						}),
+					],
+					style: {
+						background: "none",
+						border: "none",
+						padding: 3,
+						width: "100%",
+						textAlign: "right",
+					},
+					onClick: () => {
+						canUseTool = true;
+						popupContainer.remove();
+					},
+				}),
+				elem("div", {
+					children: [
+						React.isValidElement(form) ? form : elem("div", {
+							dangerouslySetInnerHTML: {
+								__html: form.innerHTML,
+							},
+							class: "popupForm",
+						}),
+						elem(ButtonPair, {
+							children: [
+								elem("button", {
+									children: msg,
+									class: "dbtn-green",
+									onClick: submit,
+								}),
+							],
+						}),
+					],
+				})
+			],
+			onKeyDown: event => {
+				if (event.key === "Escape") {
+					canUseTool = true;
+					popupContainer.remove();
+				} else if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+					submit();
+				}
 			}
 		});
 
-		document.body.appendChild(popup);
+		ReactDOM.render(popup, popupContainer);
 
 		// Give focus to popup
-		popup.tabIndex = "-1";
-		popup.focus();
+		popupContainer.tabIndex = "-1";
+		popupContainer.focus();
 
-		popup.style.top = y - popup.offsetHeight - 15;
-		popup.style.left = x - popup.offsetWidth / 2;
+		popupContainer.style.top = y - popupContainer.offsetHeight - 15;
+		popupContainer.style.left = x - popupContainer.offsetWidth / 2;
 	});
 }
 
