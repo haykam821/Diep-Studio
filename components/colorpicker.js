@@ -73,6 +73,9 @@ const ColorPicker = configInput(class extends React.Component {
 				children: "Custom",
 			})),
 			value: valColor ? valColor.id : "custom",
+			style: {
+				marginLeft: 0,
+			},
 		});
 
 		const colorPicker = elem("input", {
@@ -84,7 +87,10 @@ const ColorPicker = configInput(class extends React.Component {
 					value: event.target.value,
 					source: "pickerUpdate",
 				});
-			}
+			},
+			style: {
+				marginRight: 0,
+			},
 		});
 
 		return React.createElement(ButtonPair, {
