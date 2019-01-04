@@ -78,6 +78,7 @@ const ColorPicker = configInput(class extends React.Component {
 		const colorPicker = elem("input", {
 			type: "color",
 			value: this.state.value,
+			name: this.props.name,
 			onChange: event => {
 				this.setState({
 					value: event.target.value,

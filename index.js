@@ -339,19 +339,30 @@ function formPopup(x, y, form, msg = "Use Tool") {
 		popupContainer.classList.add("popupContainer");
 		document.body.appendChild(popupContainer);
 
+		const popupForm = React.isValidElement(form) ? form : elem("div", {
+			dangerouslySetInnerHTML: {
+				__html: form.innerHTML,
+			},
+		});
+		popupForm.props.class = "popupForm";
+		popupForm.ref = React.createRef(popupForm);
+
 		function submit() {
-			const results = {};
+			if (popupForm.ref && popupForm.ref.current) {
+				const div = popupForm.ref.current;
 
-			Array.from(form.querySelectorAll(":scope *")).forEach(child => {
-				const val = transitionVal(child);
-				if (child.name && val) {
-					results[child.name] = val;
-				}
-			});
+				const results = {};
+				Array.from(div.querySelectorAll(":scope *")).forEach(child => {
+					const val = transitionVal(child);
+					if (child.name && val) {
+						results[child.name] = val;
+					}
+				});
 
-			canUseTool = true;
-			resolve(results);
-			popupContainer.remove();
+				canUseTool = true;
+				resolve(results);
+				popupContainer.remove();
+			}
 		}
 
 		const popup = elem("div", {
@@ -377,12 +388,7 @@ function formPopup(x, y, form, msg = "Use Tool") {
 				}),
 				elem("div", {
 					children: [
-						React.isValidElement(form) ? form : elem("div", {
-							dangerouslySetInnerHTML: {
-								__html: form.innerHTML,
-							},
-							class: "popupForm",
-						}),
+						popupForm,
 						elem(ButtonPair, {
 							children: [
 								elem("button", {
@@ -457,15 +463,13 @@ const tools = {
 		name: "Text Placer",
 		description: "Place text",
 		mousedown: (event, x, y) => {
-			const text = document.createElement("input");
-			text.type = "text";
-			text.placeholder = "Text";
-			text.name = "text";
-
-			const form = document.createElement("div")
-			form.append(text);
-
-			formPopup(event.x, event.y, form, "Place Text").then(opts => {
+			formPopup(event.x, event.y, elem("div", {
+				children: elem("input", {
+					type: "text",
+					placeholder: "Text",
+					name: "text",
+				}),
+			}), "Place Text").then(opts => {
 				addRender(new renders.Text(x, y, opts.text));
 			});
 		},
@@ -475,36 +479,34 @@ const tools = {
 		name: "Tank Placer",
 		description: "Place tanks",
 		mousedown: (event, x, y) => {
-			const name = document.createElement("input");
-			name.type = "text";
-			name.placeholder = "Name";
-			name.name = "name";
-
-			const level = document.createElement("input");
-			level.type = "number";
-			level.placeholder = "Level";
-			level.value = 45;
-			level.name = "level";
-
-			const container = React.createElement(ColorPicker, {
-				name: "color",
-			});
-
-			const tankSelect = document.createElement("select");
-			Object.entries(tanks).forEach(entry => {
-				const option = document.createElement("option");
-
-				option.value = entry[0];
-				option.innerText = entry[1].displayName;
-
-				tankSelect.append(option);
-			});
-			tankSelect.name = "tank";
-
-			const form = document.createElement("div");
-			form.append(name, level, container, tankSelect);
-
-			formPopup(event.x, event.y, form, "Place Tank").then(response => {
+			formPopup(event.x, event.y, elem("div", {
+				children: [
+					elem("input", {
+						type: "text",
+						placeholder: "Name",
+						name: "name",
+					}),
+					elem("input", {
+						type: "number",
+						placeholder: "level",
+						value: 45,
+						name: "level",
+					}),
+					elem(ColorPicker, {
+						name: "color",
+					}),
+					elem(Select, {
+						options: Object.entries(tanks).map(entry => {
+							return [
+								entry[1].displayName,
+								entry[0],
+							];
+						}),
+						name: "tank",
+					}),
+				],
+			}), "Place Tank").then(response => {
+				console.log(response)
 				if (tanks[response.tank]) {
 					const tank = new tanks[response.tank](x, y, levelToRadius(parseInt(response.level)), 0, response.color, response.name);
 					stageRotation(tank).then(rotation => {
@@ -637,7 +639,6 @@ window.addEventListener("keydown", (event) => {
 				break;
 			default:
 				if (event.code.startsWith("Digit")) {
-					console.log("hi")
 					setTool(parseInt(event.key) - 1);
 				}
 		}
