@@ -8,13 +8,14 @@ const sidebar = document.getElementById("sidebar");
 
 const config = new Proxy({}, {
 	set: (object, property, value) => {
-		const relatedElem = document.getElementById("config-" + property);
-		if (relatedElem) {
-			relatedElem.value = value;
-			relatedElem.placeholder = defaults[value] || "";
+		const relatedProp = configProps[property];
+		if (relatedProp) {
+			relatedProp.setState({
+				value,
+			});
 		}
 
-		return object[property] = relatedElem && relatedElem.type === "number" ? parseInt(value) : value;
+		return object[property] = value;
 	},
 });
 
@@ -329,47 +330,6 @@ function setZoom(direction = 1) {
 	}
 }
 
-const colorGroups = {
-	team: "Teams",
-	other: "Other",
-};
-const colors = [{
-	id: "teamBlue", 
-	name: "Blue Team",
-	color: "#00b0e1", 
-	group: "team",
-}, {
-	id: "teamRed",
-	name: "Red Team",
-	color: "#f04f54",
-	group: "team",
-}, {
-	id: "teamGreen",
-	name: "Green Team",
-	color: "#00e06c",
-	group: "team",
-}, {
-	id: "teamPurple",
-	name: "Purple Team",
-	color: "#be7ff5",
-	group: "team",
-}, {
-	id: "teamBrown",
-	name: "Brown Team",
-	color: "#D48067",
-	group: "other",
-}, {
-	id: "barrel",
-	name: "Barrel",
-	color: "#999999",
-	group: "other",
-}, {
-	id: "outline",
-	name: "Outline",
-	color: "#525252",
-	group: "other",
-}];
-
 function formPopup(x, y, form, msg = "Use Tool") {
 	return new Promise((resolve, reject) => {
 		canUseTool = false;
@@ -408,8 +368,9 @@ function formPopup(x, y, form, msg = "Use Tool") {
 			const results = {};
 
 			Array.from(form.querySelectorAll(":scope *")).forEach(child => {
-				if (child.name && child.value) {
-					results[child.name] = child.value;
+				const val = transitionVal(child);
+				if (child.name && val) {
+					results[child.name] = val;
 				}
 			});
 
@@ -509,47 +470,9 @@ const tools = {
 			level.value = 45;
 			level.name = "level";
 
-			const diepSelect = document.createElement("select");
-			colors.forEach(color => {
-				const group = Array.from(diepSelect.children).find(val => val.id === color.group);
-				const option = new Option(color.name, color.id);
-
-				if (!color.group) {
-					diepSelect.append(option);
-				} else if (!group) {
-					const newGroup = document.createElement("optgroup");
-
-					newGroup.label = colorGroups[color.group];
-					newGroup.id = color.group;
-					
-					newGroup.append(option);
-					diepSelect.append(newGroup);
-				} else {
-					group.append(option);
-				}
+			const container = React.createElement(ColorPicker, {
+				name: "color",
 			});
-			diepSelect.append(new Option("Custom", "custom"));
-
-			this.colorPicker = document.createElement("input");
-			this.colorPicker.type = "color";
-			this.colorPicker.name = "color";
-			this.colorPicker.value = "#00b0e1";
-
-			// Event listeners
-			diepSelect.addEventListener("change", () => {
-				const color = colors.find(color => color.id === diepSelect.value);
-				console.log(colors, color)
-				if (diepSelect.value && color) {
-					this.colorPicker.value = color.color;
-				}
-			});
-			this.colorPicker.addEventListener("change", () => {
-				diepSelect.value = "custom";
-			});
-
-			const container = document.createElement("div");
-			container.classList.add("optionRow");
-			container.append(diepSelect, this.colorPicker);
 
 			const tankSelect = document.createElement("select");
 			Object.entries(tanks).forEach(entry => {
