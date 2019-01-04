@@ -1,3 +1,10 @@
+function truncate(text, limit = 20, truncator = "...") {
+	if (text.length - truncator.length <= limit) {
+		return text;
+	} else {
+		return text.slice(0, limit) + truncator;
+	}
+}
 class OptionRow extends React.Component {
 	render() {
 		const control = React.cloneElement(this.props.control, {
@@ -15,9 +22,10 @@ class OptionRow extends React.Component {
 			children: [
 				elem("span", {
 					style: {
-						display: "inline-flex",
+						whiteSpace: "nowrap",
 					},
-				}, this.props.label + ":"),
+					children: truncate(this.props.label + ":", 11),
+				}),
 				control,
 			]
 		});
