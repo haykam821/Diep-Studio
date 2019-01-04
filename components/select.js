@@ -1,4 +1,4 @@
-class Select extends React.Component {
+const Select = configInput(class extends React.Component {
 	render() {
 		return elem("select", {
 			...this.props,
@@ -8,6 +8,13 @@ class Select extends React.Component {
 					value: option[1],
 				});
 			}),
+			onChange: event => {
+				this.setState({
+					value: event.target.value,
+					source: "selectUpdate",
+				});
+			},
+			value: this.state.value,
 		});
 	}
-}
+});

@@ -163,7 +163,7 @@ function render() {
 							elem(OptionRow, {
 								label: "Border Style",
 								control: elem(Select, {
-									id: "config-borderStyle",
+									config: "borderStyle",
 									options: [
 										["Diep.io", "newDiep"],
 										["Old Diep.io (single color)", "oldDiep"],
