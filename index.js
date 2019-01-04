@@ -12,6 +12,7 @@ const config = new Proxy({}, {
 		if (relatedProp) {
 			relatedProp.setState({
 				value,
+				source: "configUpdate",
 			});
 		}
 

@@ -43,16 +43,7 @@ function colorByProp(val, prop = "id") {
 	return colors.find(color => color[prop] === val);
 }
 
-class ColorPicker extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			value: this.props.value || "#00b0e1",
-		};
-
-		configProps[this.props.config] = this;
-	}
-
+const ColorPicker = configInput(class extends React.Component {
 	render() {
 		const valColor = colorByProp(this.state.value, "color");
 		const diepSelect = elem("select", {
@@ -61,6 +52,7 @@ class ColorPicker extends React.Component {
 				if (color) {
 					this.setState({
 						value: color.color,
+						source: "selectUpdate",
 					});
 				}
 			},
@@ -89,6 +81,7 @@ class ColorPicker extends React.Component {
 			onChange: event => {
 				this.setState({
 					value: event.target.value,
+					source: "pickerUpdate",
 				});
 			}
 		});
@@ -100,4 +93,7 @@ class ColorPicker extends React.Component {
 			],
 		});
 	}
-}
+});
+ColorPicker.defaultProps = {
+	value: "#00b0e1",
+};
