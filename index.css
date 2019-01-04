@@ -13,18 +13,6 @@ body {
 	height: 100%;
 }
 
-#sidebar {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-family: 'Ubuntu';
-    user-select: none;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 #sidebar p {
 	text-align: center;
 	margin: 5px;

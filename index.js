@@ -234,7 +234,7 @@ const renders = {
 function setCamValues() {
 	// Set camera values to middle
 	camY = window.innerHeight / 2 * -1;
-	camX = (window.innerWidth + parseInt(sidebar.style.width)) / 2 * -1;
+	camX = (window.innerWidth + sidebar.offsetWidth) / 2 * -1;
 
 	// Reset zoom value
 	zoom = 1;
@@ -260,9 +260,6 @@ function updateCanvasSize(customScale) {
 
     canvas.width = window.innerWidth * scale;
 	canvas.height = window.innerHeight * scale;
-
-    sidebar.style.width = window.innerWidth / 5 > 232 ? window.innerWidth / 5 : 232;
-	sidebar.style.height = window.innerHeight;
 }
 window.addEventListener("resize", () => updateCanvasSize());
 

@@ -1,5 +1,19 @@
 function render() {
 	ReactDOM.render(elem("div", {
+		style: {
+			width: "20%",
+			minWidth: 232,
+			height: "100%",
+			position: "absolute",
+			top: 0,
+			left: 0,
+			backgroundColor: "rgba(0, 0, 0, 0.5)",
+			color: "white",
+			fontFamily: "Ubuntu",
+			userSelect: "none",
+			overflowY: "auto",
+			overflowX: "hidden",
+		},
 		children: [
 			elem("h1", {
 				style: {
