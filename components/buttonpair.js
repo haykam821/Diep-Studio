@@ -3,6 +3,7 @@ class ButtonPair extends React.Component {
 		return elem("div", {
 			style: {
 				display: "flex",
+				...this.props.style,
 			},
 			class: "buttonPair",
 			children: this.props.children,

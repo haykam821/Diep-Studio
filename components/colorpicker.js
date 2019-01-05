@@ -78,7 +78,7 @@ const ColorPicker = configInput(class extends React.Component {
 			},
 		});
 
-		const colorPicker = elem("input", {
+		const colorPicker = elem(Input, {
 			type: "color",
 			value: this.state.value,
 			name: this.props.name,
@@ -93,11 +93,12 @@ const ColorPicker = configInput(class extends React.Component {
 			},
 		});
 
-		return React.createElement(ButtonPair, {
+		return elem(ButtonPair, {
 			children: [
 				diepSelect,
 				colorPicker,
 			],
+			...this.props.style,
 		});
 	}
 });

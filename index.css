@@ -41,7 +41,7 @@ kbd {
     user-select: none;
 }
 
-textarea, input, select {
+textarea, select {
     background-color: #f8f8f8;
     color: black;
     resize: both;
@@ -62,10 +62,6 @@ textarea {
     width: 100%;
 	height: auto;
 	resize: none;
-}
-
-input[type=color] {
-	padding: 0px;
 }
 
 select {

@@ -143,16 +143,16 @@ function render() {
 						children: [
 							elem(OptionRow, {
 								label: "Grid Size",
-								control: elem("input", {
-									id: "config-gridSize",
+								control: elem(Input, {
+									config: "gridSize",
 									type: "number",
 									min: 2,
 								}),
 							}),
 							elem(OptionRow, {
 								label: "Line Size",
-								control: elem("input", {
-									id: "config-gridLineWidth",
+								control: elem(Input, {
+									config: "gridLineWidth",
 									type: "number",
 									min: 1,
 								}),
