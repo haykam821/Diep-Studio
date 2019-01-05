@@ -10,7 +10,14 @@ class OptionsSection extends React.Component {
 					children: this.props.header,
 				}),
 				elem("div", {
-					children: this.props.children,
+					children: [
+						this.props.description && elem(Paragraph, {
+							text: this.props.description,
+						}),
+						elem("div", {
+							children: this.props.children,
+						}),
+					]
 				}),
 			],
 		});

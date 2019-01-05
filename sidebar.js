@@ -132,10 +132,8 @@ function render() {
 					}),
 					elem(OptionsSection, {
 						header: "Toolbox",
+						description: "You can use the digit keys to easily switch between the first 10 tools.",
 						children: [
-							elem(Paragraph, {
-								text: "You can use the digit keys to easily switch between the first 10 tools.",
-							}),
 							elem("select", {
 								id: "toolSelect",
 								onChange: event => setTool(event.target.value),
