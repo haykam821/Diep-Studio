@@ -37,7 +37,7 @@ function render() {
 				},
 				children: [
 					elem(SidebarSection, {
-						header: "Data Management",
+						header: "Manage",
 						children: [
 							elem("textarea", {
 								style: {
