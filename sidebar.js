@@ -36,7 +36,7 @@ function render() {
 					}
 				},
 				children: [
-					elem(OptionsSection, {
+					elem(SidebarSection, {
 						header: "Data Management",
 						children: [
 							elem("textarea", {
@@ -102,7 +102,7 @@ function render() {
 							}),
 						],
 					}),
-					elem(OptionsSection, {
+					elem(SidebarSection, {
 						header: "Camera",
 						children: [
 							elem(ButtonPair, {
@@ -130,7 +130,7 @@ function render() {
 							}),
 						],
 					}),
-					elem(OptionsSection, {
+					elem(SidebarSection, {
 						header: "Toolbox",
 						description: "You can use the digit keys to easily switch between the first 10 tools.",
 						children: [
@@ -140,7 +140,7 @@ function render() {
 							}),
 						],
 					}),
-					elem(OptionsSection, {
+					elem(SidebarSection, {
 						header: "Grid Settings",
 						children: [
 							elem(OptionRow, {
@@ -173,7 +173,7 @@ function render() {
 							}),
 						],
 					}),
-					elem(OptionsSection, {
+					elem(SidebarSection, {
 						header: "Border Settings",
 						children: [
 							elem(OptionRow, {

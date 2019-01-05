@@ -1,4 +1,4 @@
-class OptionsSection extends React.Component {
+class SidebarSection extends React.Component {
 	render() {
 		return elem("div", {
 			children: [
