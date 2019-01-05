@@ -2,6 +2,7 @@ const colorGroups = {
 	team: "Teams",
 	other: "Other",
 	bg: "Background",
+	stat: "Stats",
 };
 const colors = [{
 	id: "teamBlue",
@@ -48,6 +49,46 @@ const colors = [{
 	name: "Grid Line",
 	color: "#c0c0c0",
 	group: "bg",
+}, {
+	id: "statHealthRegen",
+	name: "Health Regen",
+	color: "#e8b18a",
+	group: "stat",
+}, {
+	id: "statMaxHealth",
+	name: "Max Health",
+	color: "#e666ea",
+	group: "stat",
+}, {
+	id: "statBodyDamage",
+	name: "Body Damage",
+	color: "#9566ea",
+	group: "stat",
+}, {
+	id: "statBulletSpeed",
+	name: "Bullet Speed",
+	color: "#6690ea",
+	group: "stat",
+}, {
+	id: "statBulletPenetration",
+	name: "Bullet Penetration",
+	color: "#e7d063",
+	group: "stat",
+}, {
+	id: "statBulletDamage",
+	name: "Bullet Damage",
+	color: "#ea6666",
+	group: "stat",
+}, {
+	id: "statReload",
+	name: "Reload",
+	color: "#92ea66",
+	group: "stat",
+}, {
+	id: "statMovementSpeed",
+	name: "Movement Speed",
+	color: "#66eae6",
+	group: "stat",
 }];
 
 function colorByProp(val, prop = "id") {
