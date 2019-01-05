@@ -52,11 +52,11 @@ function render() {
 							}),
 							elem(ButtonPair, {
 								children: [
-									elem("button", {
+									elem(Button, {
 										id: "import",
-										className: "dbtn-blue",
+										color: "statBulletSpeed",
 										title: "Imports a Diep Studio or DSM scene.",
-										children: "Import",
+										label: "Import",
 										onClick: () => {
 											const boxVal = document.getElementById("dataBox").value;
 											if (boxVal) {
@@ -68,20 +68,20 @@ function render() {
 											}
 										},
 									}),
-									elem("button", {
+									elem(Button, {
 										id: "importSaved",
-										className: "dbtn-blue",
-										title: "his will replace the current scene with the one you last saved.",
-										children: "Import Saved",
+										color: "statBulletSpeed",
+										title: "This will replace the current scene with the one you last saved.",
+										label: "Import Saved",
 									}),
 								]
 							}),
 							elem(ButtonPair, {
 								children: [
-									elem("button", {
-										className: "dbtn-green",
+									elem(Button, {
+										color: "statReload",
 										title: "Saves and exports as JSON.",
-										children: "Save & Export",
+										label: "Save & Export",
 										onClick: () => {
 											let output = JSON.stringify(config);
 											document.getElementById("dataBox").value = output;
@@ -92,10 +92,10 @@ function render() {
 							}),
 							elem(ButtonPair, {
 								children: [
-									elem("button", {
-										className: "dbtn-red",
+									elem(Button, {
+										color: "statBulletDamage",
 										title: "This will remove all progress on the current scene!",
-										children: "Clear",
+										label: "Clear",
 										onClick: () => setValues(),
 									}),
 								]
@@ -107,23 +107,23 @@ function render() {
 						children: [
 							elem(ButtonPair, {
 								children: [
-									elem("button", {
-										class: "dbtn-red",
-										children: "Go to Center",
+									elem(Button, {
+										color: "statBulletDamage",
+										label: "Go to Center",
 										onClick: () => setCamValues(),
 									}),
 								]
 							}),
 							elem(ButtonPair, {
 								children: [
-									elem("button", {
-										class: "dbtn-blue",
-										children: "Zoom Out",
+									elem(Button, {
+										color: "statBulletSpeed",
+										label: "Zoom Out",
 										onClick: () => setZoom(-1),
 									}),
-									elem("button", {
-										class: "dbtn-blue",
-										children: "Zoom In",
+									elem(Button, {
+										color: "statBulletSpeed",
+										label: "Zoom In",
 										onClick: () => setZoom(1),
 									}),
 								]

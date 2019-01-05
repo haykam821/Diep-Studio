@@ -46,14 +46,14 @@ class Debug extends React.Component {
 				}),
 				elem(ButtonPair, {
 					children: [
-						elem("button", {
-							class: "dbtn-red",
-							children: "Reload",
+						elem(Button, {
+							color: "statBulletDamage",
+							label: "Reload",
 							onClick: () => location.reload(),
 						}),
-						elem("button", {
-							class: "dbtn-blue",
-							children: "Render",
+						elem(Button, {
+							color: "teamBlue",
+							label: "Render",
 							onClick: () => render(),
 						}),
 					],

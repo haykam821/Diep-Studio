@@ -388,9 +388,9 @@ function formPopup(x, y, form, msg = "Use Tool") {
 						popupForm,
 						elem(ButtonPair, {
 							children: [
-								elem("button", {
-									children: msg,
-									class: "dbtn-green",
+								elem(Button, {
+									label: msg,
+									color: "statReload",
 									onClick: submit,
 								}),
 							],
