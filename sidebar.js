@@ -22,7 +22,9 @@ function render() {
 				},
 				children: "Diep Studio"
 			}),
-			elem("p", null, "Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!"),
+			elem(Paragraph, {
+				text: "Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!",
+			}),
 			elem("div", {
 				style: {
 					margin: 12,
@@ -131,7 +133,9 @@ function render() {
 					elem(OptionsSection, {
 						header: "Toolbox",
 						children: [
-							elem("p", null, "You can use the digit keys to easily switch between the first 10 tools."),
+							elem(Paragraph, {
+								text: "You can use the digit keys to easily switch between the first 10 tools.",
+							}),
 							elem("select", {
 								id: "toolSelect",
 								onChange: event => setTool(event.target.value),

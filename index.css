@@ -13,11 +13,6 @@ body {
 	height: 100%;
 }
 
-#sidebar p {
-	text-align: center;
-	margin: 5px;
-}
-
 kbd {
 	background-color: white;
 	color: #333;
