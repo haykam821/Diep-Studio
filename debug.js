@@ -2,11 +2,27 @@ const debug = location.protocol === "file:";
 const debugElem = document.getElementById("debug");
 
 class RenderTest extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			error: false,
+		};
+	}
+
+	static getDerivedStateFromError() {
+		return {
+			error: true,
+		};
+	}
+
 	render() {
 		return elem("p", {
-			children: `This number randomizes upon each render: ${Math.round(Math.random() * 500)}`,
+			children: this.state.error ? "Oh no! An error occurred!" : [
+				"This number randomizes upon each render: ",
+				elem("span", null, Math.round(Math.random() * 500)),
+			],
 			style: {
-				color: "white",
+				color: this.state.error ? "#ff9699" : "white",
 				textAlign: "center",
 				fontSize: 12,
 				margin: 3,
