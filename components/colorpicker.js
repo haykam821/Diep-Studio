@@ -1,6 +1,7 @@
 const colorGroups = {
 	team: "Teams",
 	other: "Other",
+	bg: "Background",
 };
 const colors = [{
 	id: "teamBlue",
@@ -37,6 +38,16 @@ const colors = [{
 	name: "Outline",
 	color: "#525252",
 	group: "other",
+}, {
+	id: "background",
+	name: "Background",
+	color: "#cdcdcd",
+	group: "bg",
+}, {
+	id: "gridLine",
+	name: "Grid Line",
+	color: "#c0c0c0",
+	group: "bg",
 }];
 
 function colorByProp(val, prop = "id") {
