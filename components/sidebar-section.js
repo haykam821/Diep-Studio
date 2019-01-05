@@ -9,25 +9,14 @@ class SidebarSection extends React.Component {
 	render() {
 		return elem("div", {
 			children: [
-				elem("div", {
+				elem("button", {
 					children: [
-						elem("button", {
-							children: elem("i", {
-								class: "fas fa-angle-" + (this.state.expanded ? "down" : "up"),
-							}),
+						elem("i", {
+							class: "fas fa-angle-" + (this.state.expanded ? "down" : "up"),
 							style: {
-								background: "none",
-								border: "none",
-								width: "initial",
-								height: "initial",
 								padding: 5,
 								fontSize: 18,
-							},
-							onClick: () => {
-								this.setState({
-									expanded: !this.state.expanded,
-								});
-							},
+							}
 						}),
 						elem("h2", {
 							style: {
@@ -39,6 +28,15 @@ class SidebarSection extends React.Component {
 					],
 					style: {
 						textAlign: "center",
+						background: "none",
+						border: "none",
+						width: "initial",
+						height: "initial",
+					},
+					onClick: () => {
+						this.setState({
+							expanded: !this.state.expanded,
+						});
 					},
 				}),
 				this.state.expanded && elem("div", {
