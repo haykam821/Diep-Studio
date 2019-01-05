@@ -1,17 +1,4 @@
-class Paragraph extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			error: false,
-		};
-	}
-
-	static getDerivedStateFromError() {
-		return {
-			error: true,
-		};
-	}
-
+const Paragraph = errorBoundary(class extends React.Component {
 	render() {
 		return elem("p", {
 			children: this.state.error ? "Oh no! An error occurred!" : this.props.text,
@@ -24,4 +11,4 @@ class Paragraph extends React.Component {
 			},
 		});
 	}
-}
+});

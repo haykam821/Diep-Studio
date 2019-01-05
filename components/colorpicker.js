@@ -54,7 +54,24 @@ function colorByProp(val, prop = "id") {
 	return colors.find(color => color[prop] === val);
 }
 
-const ColorPicker = configInput(class extends React.Component {
+const ColorPicker = errorBoundary(configInput(class extends React.Component {
+	renderColorPicker() {
+		return elem(Input, {
+			type: "color",
+			value: this.state.value,
+			name: this.props.name,
+			onChange: event => {
+				this.setState({
+					value: event.target.value,
+					source: "pickerUpdate",
+				});
+			},
+			style: {
+				marginRight: 0,
+			},
+		});
+	}
+
 	render() {
 		const valColor = colorByProp(this.state.value, "color");
 		const diepSelect = elem("select", {
@@ -89,30 +106,20 @@ const ColorPicker = configInput(class extends React.Component {
 			},
 		});
 
-		const colorPicker = elem(Input, {
-			type: "color",
-			value: this.state.value,
-			name: this.props.name,
-			onChange: event => {
-				this.setState({
-					value: event.target.value,
-					source: "pickerUpdate",
-				});
-			},
-			style: {
-				marginRight: 0,
-			},
-		});
-
 		return elem(ButtonPair, {
 			children: [
 				diepSelect,
-				colorPicker,
+				this.renderColorPicker(),
 			],
 			...this.props.style,
 		});
 	}
-});
+
+	renderError() {
+		// We assume the error was caused by the select
+		return this.renderColorPicker();
+	}
+}));
 ColorPicker.defaultProps = {
 	value: "#00b0e1",
 };
