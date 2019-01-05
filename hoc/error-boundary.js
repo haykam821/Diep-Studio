@@ -16,6 +16,14 @@ function errorBoundary(component) {
 			};
 		}
 
+		componentDidCatch(error) {
+			if (this.renderError) {
+				console.warn("An error that could be caught by the boundary occurred:", error);
+			} else {
+				console.error("An uncaught error occurred:", error);
+			}
+		}
+
 		render() {
 			if (this.state.error && this.renderError) {
 				return this.renderError();
