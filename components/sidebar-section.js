@@ -22,6 +22,8 @@ class SidebarSection extends React.Component {
 								height: "initial",
 								padding: 5,
 								fontSize: 18,
+								color: "white",
+								outline: "none",
 							},
 							onClick: () => {
 								this.setState({
