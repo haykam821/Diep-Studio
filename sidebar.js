@@ -220,5 +220,9 @@ function render() {
 			}),
 		],
 	}), document.getElementById("sidebar"));
+
+	if (debug) {
+		debugRender();
+	}
 }
 render();
