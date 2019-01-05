@@ -467,7 +467,9 @@ const tools = {
 					name: "text",
 				}),
 			}), "Place Text").then(opts => {
-				addRender(new renders.Text(x, y, opts.text));
+				if (opts && opts.text) {
+					addRender(new renders.Text(x, y, opts.text));
+				}
 			});
 		},
 		cursor: "text",
