@@ -72,38 +72,6 @@ select:focus {
     background-color: white;
 }
 
-button {
-    background-color: #8B8B8B;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, rgba(173, 173, 173, 1) 50%);
-    border: 2px solid #333333;
-    border-radius: 2px;
-    color: white;
-    width: 100px;
-    line-height: 15px;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, -1px -1px black, -1px 1px black, 1px 1px black, 1px -1px black;
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 1px;
-    outline: none;
-}
-
-button:hover,
-.toggle label:hover {
-    background-color: #989898;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, rgba(198, 198, 198, 1) 50%);
-}
-
-button:active,
-.toggle label:active {
-    background-color: #8A8A8A;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, rgba(111, 111, 111, 1) 50%);
-}
-
-/* End buttons */
-
 /* Checkboxes - use for default */
 
 .toggle {
@@ -160,36 +128,6 @@ button:active,
 }
 
 /* End checkboxes */
-
-.dbtn-green:hover {
-    background-color: #95CB79;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, #B6FA94 50%);
-}
-
-.dbtn-green:active {
-    background-color: #95CB79;
-    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 40%, #70995C 50%);
-}
-
-.dbtn-blue:hover {
-    background-color: #7993CB;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, #92B2F8 50%);
-}
-
-.dbtn-blue:active {
-    background-color: #7993CB;
-    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 40%, #6E86BA 50%);
-}
-
-.dbtn-red:hover {
-    background-color: #CB7979;
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, #F89292 50%);
-}
-
-.dbtn-red:active {
-    background-color: #CB7979;
-    background-image: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 40%, #B86C6C 50%);
-}
 
 .buttonPair>* {
 	flex-grow: 100;
