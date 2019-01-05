@@ -461,7 +461,7 @@ const tools = {
 		description: "Place text",
 		mousedown: (event, x, y) => {
 			formPopup(event.x, event.y, elem("div", {
-				children: elem("input", {
+				children: elem(Input, {
 					type: "text",
 					placeholder: "Text",
 					name: "text",
@@ -478,12 +478,12 @@ const tools = {
 		mousedown: (event, x, y) => {
 			formPopup(event.x, event.y, elem("div", {
 				children: [
-					elem("input", {
+					elem(Input, {
 						type: "text",
 						placeholder: "Name",
 						name: "name",
 					}),
-					elem("input", {
+					elem(Input, {
 						type: "number",
 						placeholder: "level",
 						value: 45,
