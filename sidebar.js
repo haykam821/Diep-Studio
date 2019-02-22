@@ -39,14 +39,7 @@ function render() {
 					elem(SidebarSection, {
 						header: "Manage",
 						children: [
-							elem("textarea", {
-								style: {
-									fontFamily: [
-										"Ubuntu Mono",
-										"monospace",
-									],
-								},
-								rows: 8,
+							elem(ImportBox, {
 								placeholder: "Paste your scene here",
 								id: "dataBox",
 							}),
