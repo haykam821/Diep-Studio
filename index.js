@@ -16,7 +16,8 @@ const config = new Proxy({}, {
 			});
 		}
 
-		return object[property] = value;
+		object[property] = value;
+		return true;
 	},
 });
 
