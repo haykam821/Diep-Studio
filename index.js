@@ -160,7 +160,7 @@ class Tank extends Render {
 	}
 }
 
-function makeTankClass(internalName = "TankBasic", name = "Tank", barrels, bodyType = 0) {
+function makeTankClass(internalName = "TankBasic", name = "Tank", barrels = [], bodyType = 0) {
 	const tankClass = class extends Tank {
 		constructor() {
 			super(...arguments);
@@ -199,6 +199,8 @@ const tanks = {
 		angle: 0,
 		x: -20,
 		}]),
+	TankSniper: makeTankClass("TankSniper", "Sniper"),
+	TankMachine: makeTankClass("TankMachine", "Machine Gun"),
 	TankFlank: makeTankClass("TankFlank", "Flank Guard", [{
 		type: 0,
 		length: 35,
@@ -212,6 +214,18 @@ const tanks = {
 		angle: 180,
 		x: 0,
 	}]),
+	TankTriple: makeTankClass("TankTriple", "Triple Shot"),
+	TankQuad: makeTankClass("TankQuad", "Quad Tank"),
+	TankTwinFlank: makeTankClass("TankTwinFlank", "Twin Flank"),
+	TankAssassin: makeTankClass("TankAssassin", "Assassin"),
+	TankOverseer: makeTankClass("TankOverseer", "Overseer"),
+	TankHunter: makeTankClass("TankHunter", "Hunter"),
+	TankTrapper: makeTankClass("TankTrapper", "Trapper"),
+	TankDestroyer: makeTankClass("TankDestroyer", "Destroyer"),
+	TankGunner: makeTankClass("TankGunner", "Gunner"),
+	TankTriangle: makeTankClass("TankTriangle", "Tri Angle"),
+	TankAuto3: makeTankClass("TankAuto3", "Auto 3"),
+	TankSmasher: makeTankClass("TankSmasher", "Smasher"),
 };
 
 const renders = {
