@@ -21,6 +21,12 @@ class ImportBox extends React.Component {
 				}
 			},
 			rows: 8,
+			
+			autocomplete: "off",
+			autocorrect: "off",
+			autocapitalize: "off" ,
+			spellcheck: false,
+			
 			...this.props,
 			value: this.props.value || this.state.value,
 			style: {
