@@ -56,7 +56,7 @@ function render() {
 												try {
 													setValues(JSON.parse(boxVal));
 												} catch (_) {
-													alert("Your Diep Studio code is broken.");
+													notify("Import", "Your Diep Studio code is broken.");
 												}
 											}
 										},
