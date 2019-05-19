@@ -1,3 +1,6 @@
+require("file-loader?name=[name].[ext]!html-minify-loader!./index.html");
+require("file-loader?name=[name].[ext]!./index.css");
+
 const canvas = document.getElementById("mainCanvas");
 const ctx = canvas.getContext("2d");
 
