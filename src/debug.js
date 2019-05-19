@@ -1,4 +1,11 @@
+const Paragraph = require("./components/paragraph.js");
+const ButtonPair = require("./components/buttonpair.js");
+const Button = require("./components/button.js");
+const Input = require("./components/input.js");
+
 const debug = location.protocol === "file:";
+module.exports.debug = debug;
+
 const debugElem = document.getElementById("debug");
 
 class Debug extends React.Component {
@@ -66,3 +73,4 @@ class Debug extends React.Component {
 function debugRender() {
 	ReactDOM.render(elem(Debug), debugElem);
 }
+module.exports.debugRender = debugRender;

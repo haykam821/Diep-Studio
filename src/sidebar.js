@@ -1,3 +1,17 @@
+const Paragraph = require("./components/paragraph.js");
+const SidebarSection = require("./components/sidebar-section.js");
+const ImportBox = require("./components/import-box.js");
+const ButtonPair = require("./components/buttonpair.js");
+const Button = require("./components/button.js");
+const OptionRow = require("./components/optionrow.js");
+const Input = require("./components/input.js");
+const ColorPicker = require("./components/colorpicker.js");
+const Select = require("./components/select.js");
+const Icon = require("./components/icon.js");
+
+const { notify } = require("./notifications.js");
+const { debugRender } = require("./debug.js");
+
 function render() {
 	ReactDOM.render(elem("div", {
 		style: {
@@ -220,4 +234,4 @@ function render() {
 		debugRender();
 	}
 }
-render();
+module.exports = render;

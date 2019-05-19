@@ -33,3 +33,4 @@ function errorBoundary(component) {
 		}
 	}
 }
+module.exports = errorBoundary;

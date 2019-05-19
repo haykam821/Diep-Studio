@@ -1,3 +1,5 @@
+const errorBoundary = require("./../hoc/error-boundary.js");
+
 const Icon = errorBoundary(class extends React.Component {
 	render() {
 		return elem("a", {
@@ -17,3 +19,4 @@ const Icon = errorBoundary(class extends React.Component {
 		});
 	}
 });
+module.exports = Icon;

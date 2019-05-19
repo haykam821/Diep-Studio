@@ -1,6 +1,14 @@
 require("file-loader?name=[name].[ext]!html-minify-loader!./index.html");
 require("file-loader?name=[name].[ext]!./index.css");
 
+require("./magic.js");
+require("./sidebar.js")();
+require("./notifications.js").renderNotifs();
+
+const Paragraph = require("./components/paragraph.js");
+const ButtonPair = require("./components/buttonpair.js");
+const Input = require("./components/input.js");
+
 const canvas = document.getElementById("mainCanvas");
 const ctx = canvas.getContext("2d");
 

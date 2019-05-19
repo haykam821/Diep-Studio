@@ -1,3 +1,5 @@
+const configInput = require("./../hoc/configinput.js");
+
 const Input = configInput(class extends React.Component {
 	render() {
 		return elem("input", {
@@ -17,3 +19,4 @@ const Input = configInput(class extends React.Component {
 		});
 	}
 });
+module.exports = Input;

@@ -39,3 +39,4 @@ class ImportBox extends React.Component {
 		});
 	}
 }
+module.exports = ImportBox;

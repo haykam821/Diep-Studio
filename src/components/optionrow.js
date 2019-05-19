@@ -31,3 +31,4 @@ class OptionRow extends React.Component {
 		});
 	}
 }
+module.exports = OptionRow;

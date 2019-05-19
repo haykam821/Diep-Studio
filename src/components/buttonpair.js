@@ -10,3 +10,4 @@ class ButtonPair extends React.Component {
 		});
 	}
 }
+module.exports = ButtonPair;

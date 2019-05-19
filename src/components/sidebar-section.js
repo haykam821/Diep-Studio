@@ -1,3 +1,5 @@
+const Paragraph = require("./paragraph.js");
+
 class SidebarSection extends React.Component {
 	constructor(props) {
 		super(props);
@@ -57,3 +59,4 @@ class SidebarSection extends React.Component {
 		});
 	}
 }
+module.exports = SidebarSection;

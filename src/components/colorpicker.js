@@ -1,3 +1,9 @@
+const configInput = require("./../hoc/configinput.js");
+const errorBoundary = require("./../hoc/error-boundary.js");
+
+const ButtonPair = require("./buttonpair.js");
+const Input = require("./input.js");
+
 const colorGroups = {
 	team: "Teams",
 	other: "Other",
@@ -164,3 +170,5 @@ const ColorPicker = errorBoundary(configInput(class extends React.Component {
 ColorPicker.defaultProps = {
 	value: "#00b0e1",
 };
+module.exports = ColorPicker;
+module.exports.colorByProp = colorByProp;

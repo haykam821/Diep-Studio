@@ -29,3 +29,4 @@ class Notification extends React.Component {
 Notification.defaultProps = {
 	header: "Notification",
 }
+module.exports = Notification;

@@ -20,3 +20,4 @@ function configInput(component) {
 		}
 	}	
 }
+module.exports = configInput;

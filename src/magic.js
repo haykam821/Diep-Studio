@@ -1,4 +1,4 @@
-const elem = React.createElement;
+window.elem = React.createElement;
 
 function transitionVal(thing) {
 	if (thing.state && thing.state.value) {
@@ -7,8 +7,9 @@ function transitionVal(thing) {
 		return thing.value;
 	}
 }
+window.transitionVal = transitionVal;
 
-const formStyles = {
+window.formStyles = {
 	backgroundColor: 0xf8f8f8,
 	color: 0x000000,
 	resize: "none",
@@ -26,7 +27,7 @@ const formStyles = {
 	margin: 0.5,
 };
 
-const cornerStyles = {
+window.cornerStyles = {
 	position: "absolute",
 	backgroundColor: "rgba(0, 0, 0, 0.5)",
 	color: 0xFFFFFF,
@@ -35,4 +36,4 @@ const cornerStyles = {
 	userSelect: "none",
 };
 
-const configProps = {};
+window.configProps = {};

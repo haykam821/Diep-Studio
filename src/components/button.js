@@ -1,3 +1,5 @@
+const { colorByProp } = require("./colorpicker.js");
+
 class Button extends React.Component {
 	constructor(props) {
 		super(props);
@@ -59,3 +61,4 @@ class Button extends React.Component {
 		});
 	}
 }
+module.exports = Button;

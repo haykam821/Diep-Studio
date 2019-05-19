@@ -1,9 +1,11 @@
+const Notification = require("./components/notification.js");
+
 const notifs = [];
 
 function renderNotifs() {
 	ReactDOM.render(notifs, document.getElementById("notifications"));
 }
-renderNotifs();
+module.exports.renderNotifs = renderNotifs;
 
 function notify(header, text, opts = {}) {
 	notifs.push(elem(Notification, {
@@ -13,3 +15,4 @@ function notify(header, text, opts = {}) {
 	}));
 	renderNotifs();
 }
+module.exports.notify = notify;

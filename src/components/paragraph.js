@@ -1,3 +1,5 @@
+const errorBoundary = require("./../hoc/error-boundary.js");
+
 const Paragraph = errorBoundary(class extends React.Component {
 	render() {
 		return elem("p", {
@@ -12,3 +14,4 @@ const Paragraph = errorBoundary(class extends React.Component {
 		});
 	}
 });
+module.exports = Paragraph;
