@@ -1,3 +1,6 @@
+const React = require("react");
+const elem = React.createElement;
+
 const Paragraph = require("./paragraph.js");
 
 class SidebarSection extends React.Component {

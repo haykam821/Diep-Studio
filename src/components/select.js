@@ -1,3 +1,6 @@
+const React = require("react");
+const elem = React.createElement;
+
 const configInput = require("./../hoc/configinput.js");
 const Input = require("./input.js");
 

@@ -1,4 +1,9 @@
+const React = require("react");
+const elem = React.createElement;
+
 const configInput = require("./../hoc/configinput.js");
+
+const formStyles = require("./../utils/form-styles.js");
 
 const Input = configInput(class extends React.Component {
 	render() {

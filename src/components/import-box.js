@@ -1,3 +1,6 @@
+const React = require("react");
+const elem = React.createElement;
+
 class ImportBox extends React.Component {
 	constructor(properties) {
 		super(properties);

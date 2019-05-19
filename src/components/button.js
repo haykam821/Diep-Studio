@@ -1,3 +1,8 @@
+const React = require("react");
+const elem = React.createElement;
+
+const chroma = require("chroma-js");
+
 const { colorByProp } = require("./colorpicker.js");
 
 class Button extends React.Component {

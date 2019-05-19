@@ -1,13 +1,20 @@
 require("file-loader?name=[name].[ext]!html-minify-loader!./index.html");
 require("file-loader?name=[name].[ext]!./index.css");
 
-require("./magic.js");
+const React = require("react");
+const elem = React.createElement;
+
+const ReactDOM = require("react-dom");
+
 require("./sidebar.js")();
 require("./notifications.js").renderNotifs();
 
 const Paragraph = require("./components/paragraph.js");
 const ButtonPair = require("./components/buttonpair.js");
 const Input = require("./components/input.js");
+const Button = require("./components/button.js");
+const ColorPicker = require("./components/colorpicker.js");
+const Select = require("./components/select.js");
 
 const canvas = document.querySelector("#mainCanvas");
 const context_ = canvas.getContext("2d");
@@ -17,20 +24,8 @@ const yPosDOM = document.querySelector("#yPos");
 
 const sidebar = document.querySelector("#sidebar");
 
-const config = new Proxy({}, {
-	set: (object, property, value) => {
-		const relatedProperty = configProps[property];
-		if (relatedProperty) {
-			relatedProperty.setState({
-				value,
-				source: "configUpdate",
-			});
-		}
-
-		object[property] = value;
-		return true;
-	},
-});
+const { config } = require("./utils/config.js");
+const transitionVal = require("./utils/transition-value.js");
 
 const defaults = {
 	objects: [],
@@ -265,6 +260,7 @@ function setCamValues() {
 	// Reset zoom value
 	zoom = 1;
 }
+module.exports.setCamValues = setCamValues;
 
 function deserialize(object) {
 	return new renders[object[0]](...object.slice(1));
@@ -280,6 +276,7 @@ function setValues(data = defaults) {
 		}
 	});
 }
+module.exports.setValues = setValues;
 
 function updateCanvasSize(customScale) {
 	scale = customScale || window.devicePixelRatio || 1;
@@ -353,6 +350,7 @@ function setZoom(direction = 1) {
 		return zoom;
 	}
 }
+module.exports.setZoom = setZoom;
 
 function formPopup(x, y, form, message = "Use Tool") {
 	return new Promise((resolve, reject) => {
@@ -599,6 +597,7 @@ function setTool(to = "pan") {
 		canvas.style.cursor = "auto";
 	}
 }
+module.exports.setTool = setTool;
 
 Object.entries(tools).forEach(entry => {
 	if (!entry[1].hidden) {

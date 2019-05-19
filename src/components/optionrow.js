@@ -1,3 +1,6 @@
+const React = require("react");
+const elem = React.createElement;
+
 function truncate(text, limit = 20, truncator = "...") {
 	if (text.length - truncator.length <= limit) {
 		return text;

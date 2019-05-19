@@ -1,3 +1,8 @@
+const React = require("react");
+const elem = React.createElement;
+
+const ReactDOM = require("react-dom");
+
 const Paragraph = require("./components/paragraph.js");
 const SidebarSection = require("./components/sidebar-section.js");
 const ImportBox = require("./components/import-box.js");
@@ -10,7 +15,10 @@ const Select = require("./components/select.js");
 const Icon = require("./components/icon.js");
 
 const { notify } = require("./notifications.js");
-const { debugRender } = require("./debug.js");
+const { debug, debugRender } = require("./debug.js");
+const { setValues, setCamValues, setZoom, setTool } = require("./index.js");
+
+const { config } = require("./utils/config.js");
 
 function render() {
 	ReactDOM.render(elem("div", {

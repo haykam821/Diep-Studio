@@ -1,3 +1,6 @@
+const React = require("react");
+const elem = React.createElement;
+
 class Notification extends React.Component {
 	render() {
 		return elem("div", {

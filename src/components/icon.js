@@ -1,3 +1,6 @@
+const React = require("react");
+const elem = React.createElement;
+
 const errorBoundary = require("./../hoc/error-boundary.js");
 
 const Icon = errorBoundary(class extends React.Component {

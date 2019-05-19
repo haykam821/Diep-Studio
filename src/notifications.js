@@ -1,3 +1,8 @@
+const React = require("react");
+const elem = React.createElement;
+
+const ReactDOM = require("react-dom");
+
 const Notification = require("./components/notification.js");
 
 const notifs = [];

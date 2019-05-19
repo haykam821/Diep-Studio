@@ -1,3 +1,5 @@
+const { configProps, config } = require("./../utils/config.js");
+
 function configInput(component) {
 	return class extends component {
 		constructor(properties) {
