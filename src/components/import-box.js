@@ -1,6 +1,6 @@
 class ImportBox extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(properties) {
+		super(properties);
 		this.state = {
 			valid: true,
 		};
@@ -21,12 +21,12 @@ class ImportBox extends React.Component {
 				}
 			},
 			rows: 8,
-			
+
 			autocomplete: "off",
 			autocorrect: "off",
-			autocapitalize: "off" ,
+			autocapitalize: "off",
 			spellcheck: false,
-			
+
 			...this.props,
 			value: this.props.value || this.state.value,
 			style: {

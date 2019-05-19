@@ -1,13 +1,13 @@
 const Paragraph = require("./paragraph.js");
 
 class SidebarSection extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(properties) {
+		super(properties);
 		this.state = {
 			expanded: this.props.expanded || true,
 		};
 	}
-	
+
 	render() {
 		return elem("div", {
 			children: [
@@ -53,7 +53,7 @@ class SidebarSection extends React.Component {
 						elem("div", {
 							children: this.props.children,
 						}),
-					]
+					],
 				}),
 			],
 		});

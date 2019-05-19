@@ -9,19 +9,19 @@ const Paragraph = require("./components/paragraph.js");
 const ButtonPair = require("./components/buttonpair.js");
 const Input = require("./components/input.js");
 
-const canvas = document.getElementById("mainCanvas");
-const ctx = canvas.getContext("2d");
+const canvas = document.querySelector("#mainCanvas");
+const context_ = canvas.getContext("2d");
 
-const xPosDOM = document.getElementById("xPos");
-const yPosDOM = document.getElementById("yPos");
+const xPosDOM = document.querySelector("#xPos");
+const yPosDOM = document.querySelector("#yPos");
 
-const sidebar = document.getElementById("sidebar");
+const sidebar = document.querySelector("#sidebar");
 
 const config = new Proxy({}, {
 	set: (object, property, value) => {
-		const relatedProp = configProps[property];
-		if (relatedProp) {
-			relatedProp.setState({
+		const relatedProperty = configProps[property];
+		if (relatedProperty) {
+			relatedProperty.setState({
 				value,
 				source: "configUpdate",
 			});
@@ -75,14 +75,14 @@ function levelToRadius(level = 45) {
 
 function degToRad(angle) {
 	return angle * Math.PI / 180;
-};
+}
 function radToDeg(angle) {
 	return angle * 180 / Math.PI;
-};
+}
 
 function borderDarken(hex, factor = 0.75) {
 	return hex.replace(/[0-9a-f]{2}/g, channel => {
-		return Math.round(parseInt(channel, 16) * factor).toString(16).padStart(2, '0');
+		return Math.round(parseInt(channel, 16) * factor).toString(16).padStart(2, "0");
 	});
 }
 
@@ -99,7 +99,7 @@ function borderColor(hex) {
 	}
 }
 
-function fillStrokeStyle(color, context = ctx) {
+function fillStrokeStyle(color, context = context_) {
 	context.fillStyle = color;
 	context.strokeStyle = borderColor(color);
 
@@ -129,7 +129,7 @@ class Tank extends Render {
 
 		context.translate(x, y);
 		context.lineWidth = 4 * scale;
-		//context.scale(this.radius, this.radius);
+		// Context.scale(this.radius, this.radius);
 
 		fillStrokeStyle("#999999", context);
 
@@ -160,7 +160,7 @@ class Tank extends Render {
 
 		context.fill();
 		context.stroke();
-		
+
 		context.closePath();
 		context.restore();
 
@@ -183,7 +183,7 @@ function makeTankClass(internalName = "TankBasic", name = "Tank", barrels = [], 
 		static get displayName() {
 			return name;
 		}
-	}
+	};
 	Object.defineProperty(tankClass, "name", {
 		value: internalName,
 	});
@@ -209,7 +209,7 @@ const tanks = {
 		width: 17,
 		angle: 0,
 		x: -20,
-		}]),
+	}]),
 	TankSniper: makeTankClass("TankSniper", "Sniper"),
 	TankMachine: makeTankClass("TankMachine", "Machine Gun"),
 	TankFlank: makeTankClass("TankFlank", "Flank Guard", [{
@@ -266,8 +266,8 @@ function setCamValues() {
 	zoom = 1;
 }
 
-function deserialize(obj) {
-	return new renders[obj[0]](...obj.slice(1));
+function deserialize(object) {
+	return new renders[object[0]](...object.slice(1));
 }
 
 function setValues(data = defaults) {
@@ -279,38 +279,38 @@ function setValues(data = defaults) {
 			config[entry[0]] = entry[1];
 		}
 	});
-};
+}
 
 function updateCanvasSize(customScale) {
 	scale = customScale || window.devicePixelRatio || 1;
 
-    canvas.width = window.innerWidth * scale;
+	canvas.width = window.innerWidth * scale;
 	canvas.height = window.innerHeight * scale;
 }
 window.addEventListener("resize", () => updateCanvasSize());
 
-const loading = document.getElementById("loading");
+const loading = document.querySelector("#loading");
 window.addEventListener("load", () => {
 	updateCanvasSize();
 	setValues();
 	setCamValues();
 	setTool();
 
-    let saved = localStorage.getItem("saved");
-    if (saved) {
-        let savedData = JSON.parse(saved);
+	const saved = localStorage.getItem("saved");
+	if (saved) {
+		const savedData = JSON.parse(saved);
 
-        //importScene(savedData);
-       // document.getElementById("dataBox").value = JSON.stringify(exportScene(), null, 4);
+		// ImportScene(savedData);
+		// Document.getElementById("dataBox").value = JSON.stringify(exportScene(), null, 4);
 	}
-	
+
 	loading.style.opacity = 0;
 	setTimeout(() => {
 		loading.remove();
 	}, 1000);
-    
-    // Start drawing!
-    window.requestAnimationFrame(draw);
+
+	// Start drawing!
+	window.requestAnimationFrame(draw);
 });
 
 let lastAction;
@@ -340,8 +340,8 @@ function getAngleFromOrigin(originX, originY, targetX, targetY) {
 
 window.addEventListener("mousemove", event => {
 	const coords = getCoords(event);
-	xPosDOM.innerText = coords.x;
-	yPosDOM.innerText = coords.y;
+	xPosDOM.textContent = coords.x;
+	yPosDOM.textContent = coords.y;
 });
 
 function setZoom(direction = 1) {
@@ -354,13 +354,13 @@ function setZoom(direction = 1) {
 	}
 }
 
-function formPopup(x, y, form, msg = "Use Tool") {
+function formPopup(x, y, form, message = "Use Tool") {
 	return new Promise((resolve, reject) => {
 		canUseTool = false;
 
 		const popupContainer = document.createElement("div");
 		popupContainer.classList.add("popupContainer");
-		document.body.appendChild(popupContainer);
+		document.body.append(popupContainer);
 
 		const popupForm = React.isValidElement(form) ? form : elem("div", {
 			dangerouslySetInnerHTML: {
@@ -375,10 +375,10 @@ function formPopup(x, y, form, msg = "Use Tool") {
 				const div = popupForm.ref.current;
 
 				const results = {};
-				Array.from(div.querySelectorAll(":scope *")).forEach(child => {
-					const val = transitionVal(child);
-					if (child.name && val) {
-						results[child.name] = val;
+				[...div.querySelectorAll(":scope *")].forEach(child => {
+					const value = transitionVal(child);
+					if (child.name && value) {
+						results[child.name] = value;
 					}
 				});
 
@@ -415,14 +415,14 @@ function formPopup(x, y, form, msg = "Use Tool") {
 						elem(ButtonPair, {
 							children: [
 								elem(Button, {
-									label: msg,
+									label: message,
 									color: "statReload",
 									onClick: submit,
 								}),
 							],
 						}),
 					],
-				})
+				}),
 			],
 			onKeyDown: event => {
 				if (event.key === "Escape") {
@@ -431,7 +431,7 @@ function formPopup(x, y, form, msg = "Use Tool") {
 				} else if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
 					submit();
 				}
-			}
+			},
 		});
 
 		ReactDOM.render(popup, popupContainer);
@@ -492,9 +492,9 @@ const tools = {
 					placeholder: "Text",
 					name: "text",
 				}),
-			}), "Place Text").then(opts => {
-				if (opts && opts.text) {
-					addRender(new renders.Text(x, y, opts.text));
+			}), "Place Text").then(options => {
+				if (options && options.text) {
+					addRender(new renders.Text(x, y, options.text));
 				}
 			});
 		},
@@ -531,7 +531,7 @@ const tools = {
 					}),
 				],
 			}), "Place Tank").then(response => {
-				console.log(response)
+				console.log(response);
 				if (tanks[response.tank]) {
 					const tank = new tanks[response.tank](x, y, levelToRadius(parseInt(response.level)), 0, response.color, response.name);
 					stageRotation(tank).then(rotation => {
@@ -540,7 +540,7 @@ const tools = {
 					});
 				}
 			});
-		}
+		},
 	},
 	clone: {
 		name: "Clone",
@@ -580,7 +580,7 @@ const tools = {
 	},
 };
 
-const toolSelect = document.getElementById("toolSelect");
+const toolSelect = document.querySelector("#toolSelect");
 let tool;
 let canUseTool = true;
 
@@ -602,7 +602,7 @@ function setTool(to = "pan") {
 
 Object.entries(tools).forEach(entry => {
 	if (!entry[1].hidden) {
-		toolSelect.appendChild(new Option(`${entry[1].name} (${entry[1].description})`, entry[0]));
+		toolSelect.append(new Option(`${entry[1].name} (${entry[1].description})`, entry[0]));
 	}
 });
 
@@ -624,8 +624,8 @@ registerToolEvent("mousemove");
 // Disable right-click
 canvas.addEventListener("contextmenu", event => event.preventDefault());
 
-window.addEventListener("keydown", (event) => {
-	if (["TEXTAREA", "INPUT"].indexOf(document.activeElement.tagName) === -1) {
+window.addEventListener("keydown", event => {
+	if (!["TEXTAREA", "INPUT"].includes(document.activeElement.tagName)) {
 		switch (event.code) {
 			case "KeyW":
 			case "ArrowUp":
@@ -670,69 +670,69 @@ window.addEventListener("keydown", (event) => {
 	}
 });
 
-function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0c0", context = ctx) {
-	const trueGridSize = gridSize * scale; 
+function drawGrid(x = 0, y = 0, width, height, gridSize = 24, lineColor = "#c0c0c0", context = context_) {
+	const trueGridSize = gridSize * scale;
 
-    context.save();
-    context.translate(x * scale, y * scale);
-    context.beginPath();
+	context.save();
+	context.translate(x * scale, y * scale);
+	context.beginPath();
 	context.strokeColor = lineColor;
-    context.lineWidth = config.gridLineWidth * scale;
+	context.lineWidth = config.gridLineWidth * scale;
 
-	for (var i = 0; i < width || i < height; i += trueGridSize) {
-        context.moveTo(0, i);
-        context.lineTo(width, i);
-        context.moveTo(i, 0);
-        context.lineTo(i, height);
-    };
+	for (let i = 0; i < width || i < height; i += trueGridSize) {
+		context.moveTo(0, i);
+		context.lineTo(width, i);
+		context.moveTo(i, 0);
+		context.lineTo(i, height);
+	}
 	context.strokeStyle = lineColor;
-    context.stroke();
-    context.closePath();
-    context.restore();
-};
+	context.stroke();
+	context.closePath();
+	context.restore();
+}
 
-function drawText(text, x, y, context = ctx, bold = false) {
+function drawText(text, x, y, context = context_, bold = false) {
 	context.save();
 	context.translate(x, y);
 
 	// Variables
-    context.lineJoin = "round";
-    context.lineWidth = 3 * scale;
+	context.lineJoin = "round";
+	context.lineWidth = 3 * scale;
 	context.textAlign = "center";
 	context.textBaseline = "middle";
 	context.font = `${bold ? "bold" : ""} ${30 * scale}px Ubuntu`;
-	
+
 	// Stroke
-    context.strokeStyle = "#555555";
+	context.strokeStyle = "#555555";
 	context.strokeText(text, 0, 0, 2000000);
-	
+
 	// Fill
-    context.fillStyle = "#ffffff";
+	context.fillStyle = "#ffffff";
 	context.fillText(text, 0, 0, 2000000);
-	
-    context.restore();
-};
+
+	context.restore();
+}
 
 function draw() {
-	ctx.save();
+	context_.save();
 
-	ctx.scale(zoom, zoom);
+	context_.scale(zoom, zoom);
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+	context_.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = config.backgroundColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+	context_.fillStyle = config.backgroundColor;
+	context_.fillRect(0, 0, canvas.width, canvas.height);
 	drawGrid(-camX % canvas.width % config.gridSize, -camY % canvas.height % config.gridSize, canvas.width, canvas.height, config.gridSize, config.gridLineColor);
 
 	if (staging instanceof Render) {
-		ctx.globalAlpha = 0.5;
-		staging.render(ctx, (staging.x - camX) * scale, (staging.y - camY) * scale);
-		ctx.globalAlpha = 1;
+		context_.globalAlpha = 0.5;
+		staging.render(context_, (staging.x - camX) * scale, (staging.y - camY) * scale);
+		context_.globalAlpha = 1;
 	}
-	config.objects.forEach(item => item.render(ctx, (item.x - camX) * scale, (item.y - camY) * scale));
+	config.objects.forEach(item => item.render(context_, (item.x - camX) * scale, (item.y - camY) * scale));
 
-	ctx.restore();
+	context_.restore();
 
-    // Again!
-    window.requestAnimationFrame(draw);
+	// Again!
+	window.requestAnimationFrame(draw);
 }

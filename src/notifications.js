@@ -3,15 +3,15 @@ const Notification = require("./components/notification.js");
 const notifs = [];
 
 function renderNotifs() {
-	ReactDOM.render(notifs, document.getElementById("notifications"));
+	ReactDOM.render(notifs, document.querySelector("#notifications"));
 }
 module.exports.renderNotifs = renderNotifs;
 
-function notify(header, text, opts = {}) {
+function notify(header, text, options = {}) {
 	notifs.push(elem(Notification, {
 		header,
 		text,
-		...opts,
+		...options,
 	}));
 	renderNotifs();
 }

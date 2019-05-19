@@ -34,7 +34,7 @@ function render() {
 					textAlign: "center",
 					marginBottom: 5,
 				},
-				children: "Diep Studio"
+				children: "Diep Studio",
 			}),
 			elem(Paragraph, {
 				text: "Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!",
@@ -65,10 +65,10 @@ function render() {
 										title: "Imports a Diep Studio or DSM scene.",
 										label: "Import",
 										onClick: () => {
-											const boxVal = document.getElementById("dataBox").value;
-											if (boxVal) {
+											const boxValue = document.querySelector("#dataBox").value;
+											if (boxValue) {
 												try {
-													setValues(JSON.parse(boxVal));
+													setValues(JSON.parse(boxValue));
 												} catch (_) {
 													notify("Import", "Your Diep Studio code is broken.");
 												}
@@ -81,7 +81,7 @@ function render() {
 										title: "This will replace the current scene with the one you last saved.",
 										label: "Import Saved",
 									}),
-								]
+								],
 							}),
 							elem(ButtonPair, {
 								children: [
@@ -90,12 +90,12 @@ function render() {
 										title: "Saves and exports as JSON.",
 										label: "Save & Export",
 										onClick: () => {
-											let output = JSON.stringify(config);
-											document.getElementById("dataBox").value = output;
+											const output = JSON.stringify(config);
+											document.querySelector("#dataBox").value = output;
 											localStorage.setItem("saved", output);
 										},
 									}),
-								]
+								],
 							}),
 							elem(ButtonPair, {
 								children: [
@@ -105,7 +105,7 @@ function render() {
 										label: "Clear",
 										onClick: () => setValues(),
 									}),
-								]
+								],
 							}),
 						],
 					}),
@@ -119,7 +119,7 @@ function render() {
 										label: "Go to Center",
 										onClick: () => setCamValues(),
 									}),
-								]
+								],
 							}),
 							elem(ButtonPair, {
 								children: [
@@ -133,7 +133,7 @@ function render() {
 										label: "Zoom In",
 										onClick: () => setZoom(1),
 									}),
-								]
+								],
 							}),
 						],
 					}),
@@ -228,7 +228,7 @@ function render() {
 				},
 			}),
 		],
-	}), document.getElementById("sidebar"));
+	}), document.querySelector("#sidebar"));
 
 	if (debug) {
 		debugRender();

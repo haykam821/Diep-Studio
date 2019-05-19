@@ -27,7 +27,7 @@ class OptionRow extends React.Component {
 					children: truncate(this.props.label + ":", 11),
 				}),
 				control,
-			]
+			],
 		});
 	}
 }

@@ -1,8 +1,8 @@
 const { colorByProp } = require("./colorpicker.js");
 
 class Button extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor(properties) {
+		super(properties);
 		this.state = {
 			hover: false,
 			active: false,
@@ -57,7 +57,7 @@ class Button extends React.Component {
 				this.setState({
 					hover: true,
 				});
-			}
+			},
 		});
 	}
 }

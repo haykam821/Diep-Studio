@@ -15,7 +15,7 @@ const Icon = errorBoundary(class extends React.Component {
 				textDecoration: "none",
 				transition: "0.2s",
 				padding: 3,
-			}
+			},
 		});
 	}
 });

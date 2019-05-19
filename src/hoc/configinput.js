@@ -1,7 +1,7 @@
 function configInput(component) {
 	return class extends component {
-		constructor(props) {
-			super(props);
+		constructor(properties) {
+			super(properties);
 			this.state = {
 				value: this.props.value,
 				source: null,
@@ -18,6 +18,6 @@ function configInput(component) {
 			}
 			return super.setState(newState);
 		}
-	}	
+	};
 }
 module.exports = configInput;

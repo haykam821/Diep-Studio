@@ -1,16 +1,16 @@
 window.elem = React.createElement;
 
-function transitionVal(thing) {
+function transitionValue(thing) {
 	if (thing.state && thing.state.value) {
 		return thing.state.value;
 	} else {
 		return thing.value;
 	}
 }
-window.transitionVal = transitionVal;
+window.transitionVal = transitionValue;
 
 window.formStyles = {
-	backgroundColor: 0xf8f8f8,
+	backgroundColor: 0xF8F8F8,
 	color: 0x000000,
 	resize: "none",
 	lineHeight: "14px",

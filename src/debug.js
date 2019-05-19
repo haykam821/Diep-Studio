@@ -6,7 +6,7 @@ const Input = require("./components/input.js");
 const debug = location.protocol === "file:";
 module.exports.debug = debug;
 
-const debugElem = document.getElementById("debug");
+const debugElement = document.querySelector("#debug");
 
 class Debug extends React.Component {
 	render() {
@@ -71,6 +71,6 @@ class Debug extends React.Component {
 }
 
 function debugRender() {
-	ReactDOM.render(elem(Debug), debugElem);
+	ReactDOM.render(elem(Debug), debugElement);
 }
 module.exports.debugRender = debugRender;

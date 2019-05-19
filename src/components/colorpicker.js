@@ -97,8 +97,8 @@ const colors = [{
 	group: "stat",
 }];
 
-function colorByProp(val, prop = "id") {
-	return colors.find(color => color[prop] === val);
+function colorByProperty(value, property = "id") {
+	return colors.find(color => color[property] === value);
 }
 
 const ColorPicker = errorBoundary(configInput(class extends React.Component {
@@ -120,10 +120,10 @@ const ColorPicker = errorBoundary(configInput(class extends React.Component {
 	}
 
 	render() {
-		const valColor = colorByProp(this.state.value, "color");
+		const valueColor = colorByProperty(this.state.value, "color");
 		const diepSelect = elem("select", {
 			onChange: event => {
-				const color = colorByProp(event.target.value);
+				const color = colorByProperty(event.target.value);
 				if (color) {
 					this.setState({
 						value: color.color,
@@ -147,7 +147,7 @@ const ColorPicker = errorBoundary(configInput(class extends React.Component {
 				value: "custom",
 				children: "Custom",
 			})),
-			value: valColor ? valColor.id : "custom",
+			value: valueColor ? valueColor.id : "custom",
 			style: {
 				marginLeft: 0,
 			},
@@ -171,4 +171,4 @@ ColorPicker.defaultProps = {
 	value: "#00b0e1",
 };
 module.exports = ColorPicker;
-module.exports.colorByProp = colorByProp;
+module.exports.colorByProp = colorByProperty;

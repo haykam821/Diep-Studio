@@ -1,7 +1,7 @@
 function errorBoundary(component) {
 	return class extends component {
-		constructor(props) {
-			super(props);
+		constructor(properties) {
+			super(properties);
 
 			if (!this.state) {
 				this.state = {};
@@ -31,6 +31,6 @@ function errorBoundary(component) {
 				return super.render();
 			}
 		}
-	}
+	};
 }
 module.exports = errorBoundary;
