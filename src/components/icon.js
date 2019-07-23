@@ -9,16 +9,16 @@ const Icon = errorBoundary(class extends React.Component {
 			children: elem("i", {
 				class: "fab " + (this.state.error ? "exclamation-triangle" : this.props.icon),
 			}),
-			title: this.props.title,
 			href: this.props.link,
-			target: "_blank",
 			style: {
-				fontSize: 25,
 				color: "white",
+				fontSize: 25,
+				padding: 3,
 				textDecoration: "none",
 				transition: "0.2s",
-				padding: 3,
 			},
+			target: "_blank",
+			title: this.props.title,
 		});
 	}
 });

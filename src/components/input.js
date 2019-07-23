@@ -10,17 +10,17 @@ const Input = configInput(class extends React.Component {
 		return elem("input", {
 			onChange: event => {
 				this.setState({
-					value: event.target.value,
 					source: "inputUpdate",
+					value: event.target.value,
 				});
 			},
 			...this.props,
-			value: this.props.value || this.state.value,
 			style: {
 				...formStyles,
 				padding: this.props.type === "color" ? 0 : 2,
 				...this.props.style,
 			},
+			value: this.props.value || this.state.value,
 		});
 	}
 });

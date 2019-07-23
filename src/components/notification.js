@@ -19,8 +19,8 @@ class Notification extends React.Component {
 				}, this.props.text),
 			],
 			style: {
-				borderRadius: 8,
 				backgroundColor: "white",
+				borderRadius: 8,
 				margin: 8,
 				padding: 8,
 				textAlign: "center",

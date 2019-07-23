@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 function errorBoundary(component) {
 	return class extends component {
 		constructor(properties) {

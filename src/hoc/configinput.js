@@ -5,8 +5,8 @@ function configInput(component) {
 		constructor(properties) {
 			super(properties);
 			this.state = {
-				value: this.props.value,
 				source: null,
+				value: this.props.value,
 			};
 
 			if (this.props.config) {

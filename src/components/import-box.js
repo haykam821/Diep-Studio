@@ -11,6 +11,9 @@ class ImportBox extends React.Component {
 
 	render() {
 		return elem("textarea", {
+			autocapitalize: "off",
+			autocomplete: "off",
+			autocorrect: "off",
 			onChange: event => {
 				try {
 					const parsed = JSON.parse(event.target.value);
@@ -24,14 +27,8 @@ class ImportBox extends React.Component {
 				}
 			},
 			rows: 8,
-
-			autocomplete: "off",
-			autocorrect: "off",
-			autocapitalize: "off",
 			spellcheck: false,
-
 			...this.props,
-			value: this.props.value || this.state.value,
 			style: {
 				color: this.state.valid ? "black" : "red",
 				fontFamily: [
@@ -39,6 +36,7 @@ class ImportBox extends React.Component {
 					"monospace",
 				],
 			},
+			value: this.props.value || this.state.value,
 		});
 	}
 }

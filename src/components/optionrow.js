@@ -19,18 +19,18 @@ class OptionRow extends React.Component {
 		});
 
 		return elem("div", {
-			style: {
-				display: "flex",
-			},
 			children: [
 				elem("span", {
+					children: truncate(this.props.label + ":", 11),
 					style: {
 						whiteSpace: "nowrap",
 					},
-					children: truncate(this.props.label + ":", 11),
 				}),
 				control,
 			],
+			style: {
+				display: "flex",
+			},
 		});
 	}
 }

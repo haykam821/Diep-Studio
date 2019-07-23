@@ -16,61 +16,39 @@ const Icon = require("./components/icon.js");
 
 const { notify } = require("./notifications.js");
 const { debug, debugRender } = require("./debug.js");
-const { setValues, setCamValues, setZoom, setTool } = require("./index.js");
+const { setValues, setCamValues, setZoom, setTool } = require(".");
 
 const { config } = require("./utils/config.js");
 
+/**
+ * Renders the sidebar.
+ */
 function render() {
 	ReactDOM.render(elem("div", {
-		style: {
-			width: "20%",
-			minWidth: 232,
-			height: "100%",
-			position: "absolute",
-			top: 0,
-			left: 0,
-			backgroundColor: "rgba(0, 0, 0, 0.5)",
-			color: "white",
-			fontFamily: "Ubuntu",
-			userSelect: "none",
-			overflowY: "auto",
-			overflowX: "hidden",
-		},
 		children: [
 			elem("h1", {
-				style: {
-					textAlign: "center",
-					marginBottom: 5,
-				},
 				children: "Diep Studio",
+				style: {
+					marginBottom: 5,
+					textAlign: "center",
+				},
 			}),
 			elem(Paragraph, {
 				text: "Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!",
 			}),
 			elem("div", {
-				style: {
-					margin: 12,
-				},
-				onInput: event => {
-					if (event.target.id.startsWith("config-")) {
-						const configId = event.target.id.replace("config-", "");
-						config[configId] = event.target.value;
-					}
-				},
 				children: [
 					elem(SidebarSection, {
-						header: "Manage",
 						children: [
 							elem(ImportBox, {
-								placeholder: "Paste your scene here",
 								id: "dataBox",
+								placeholder: "Paste your scene here",
 							}),
 							elem(ButtonPair, {
 								children: [
 									elem(Button, {
-										id: "import",
 										color: "statBulletSpeed",
-										title: "Imports a Diep Studio or DSM scene.",
+										id: "import",
 										label: "Import",
 										onClick: () => {
 											const boxValue = document.querySelector("#dataBox").value;
@@ -82,12 +60,13 @@ function render() {
 												}
 											}
 										},
+										title: "Imports a Diep Studio or DSM scene.",
 									}),
 									elem(Button, {
-										id: "importSaved",
 										color: "statBulletSpeed",
-										title: "This will replace the current scene with the one you last saved.",
+										id: "importSaved",
 										label: "Import Saved",
+										title: "This will replace the current scene with the one you last saved.",
 									}),
 								],
 							}),
@@ -95,13 +74,13 @@ function render() {
 								children: [
 									elem(Button, {
 										color: "statReload",
-										title: "Saves and exports as JSON.",
 										label: "Save & Export",
 										onClick: () => {
 											const output = JSON.stringify(config);
 											document.querySelector("#dataBox").value = output;
 											localStorage.setItem("saved", output);
 										},
+										title: "Saves and exports as JSON.",
 									}),
 								],
 							}),
@@ -109,16 +88,16 @@ function render() {
 								children: [
 									elem(Button, {
 										color: "statBulletDamage",
-										title: "This will remove all progress on the current scene!",
 										label: "Clear",
 										onClick: () => setValues(),
+										title: "This will remove all progress on the current scene!",
 									}),
 								],
 							}),
 						],
+						header: "Manage",
 					}),
 					elem(SidebarSection, {
-						header: "Camera",
 						children: [
 							elem(ButtonPair, {
 								children: [
@@ -144,55 +123,54 @@ function render() {
 								],
 							}),
 						],
+						header: "Camera",
 					}),
 					elem(SidebarSection, {
-						header: "Toolbox",
-						description: "You can use the digit keys to easily switch between the first 10 tools.",
 						children: [
 							elem("select", {
 								id: "toolSelect",
 								onChange: event => setTool(event.target.value),
 							}),
 						],
+						description: "You can use the digit keys to easily switch between the first 10 tools.",
+						header: "Toolbox",
 					}),
 					elem(SidebarSection, {
-						header: "Grid Settings",
 						children: [
 							elem(OptionRow, {
-								label: "Grid Size",
 								control: elem(Input, {
 									config: "gridSize",
-									type: "number",
 									min: 2,
+									type: "number",
 								}),
+								label: "Grid Size",
 							}),
 							elem(OptionRow, {
-								label: "Line Size",
 								control: elem(Input, {
 									config: "gridLineWidth",
-									type: "number",
 									min: 1,
+									type: "number",
 								}),
+								label: "Line Size",
 							}),
 							elem(OptionRow, {
-								label: "Grid Background",
 								control: elem(ColorPicker, {
 									config: "backgroundColor",
 								}),
+								label: "Grid Background",
 							}),
 							elem(OptionRow, {
-								label: "Grid Color",
 								control: elem(ColorPicker, {
 									config: "gridLineColor",
 								}),
+								label: "Grid Color",
 							}),
 						],
+						header: "Grid Settings",
 					}),
 					elem(SidebarSection, {
-						header: "Border Settings",
 						children: [
 							elem(OptionRow, {
-								label: "Border Style",
 								control: elem(Select, {
 									config: "borderStyle",
 									options: [
@@ -201,41 +179,66 @@ function render() {
 										["Arras.io (this may be wrong)", "arras"],
 									],
 								}),
+								label: "Border Style",
 							}),
 						],
+						header: "Border Settings",
 					}),
 				],
+				onInput: event => {
+					if (event.target.id.startsWith("config-")) {
+						const configId = event.target.id.replace("config-", "");
+						config[configId] = event.target.value;
+					}
+				},
+				style: {
+					margin: 12,
+				},
 			}),
 			elem("div", {
 				children: [
 					elem(Icon, {
-						title: "Reddit",
 						icon: "fa-reddit",
 						link: "https://www.reddit.com/r/DiepStudio/",
+						title: "Reddit",
 					}),
 					elem(Icon, {
-						title: "GitHub",
 						icon: "fa-github",
 						link: "https://github.com/haykam821/Diep-Studio",
+						title: "GitHub",
 					}),
 					elem(Icon, {
-						title: "Discord",
 						icon: "fa-discord",
 						link: "https://discord.gg/5yDRQdf",
+						title: "Discord",
 					}),
 				],
 				style: {
-					textAlign: "center",
-					position: "relative",
+					bottom: 10,
+					left: 0,
 					marginLeft: "auto",
 					marginRight: "auto",
-					left: 0,
-					right: 0,
-					bottom: 10,
 					paddingTop: 30,
+					position: "relative",
+					right: 0,
+					textAlign: "center",
 				},
 			}),
 		],
+		style: {
+			backgroundColor: "rgba(0, 0, 0, 0.5)",
+			color: "white",
+			fontFamily: "Ubuntu",
+			height: "100%",
+			left: 0,
+			minWidth: 232,
+			overflowX: "hidden",
+			overflowY: "auto",
+			position: "absolute",
+			top: 0,
+			userSelect: "none",
+			width: "20%",
+		},
 	}), document.querySelector("#sidebar"));
 
 	if (debug) {

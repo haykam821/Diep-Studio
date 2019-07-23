@@ -6,8 +6,8 @@ const config = new Proxy({}, {
 		const relatedProperty = configProps[property];
 		if (relatedProperty) {
 			relatedProperty.setState({
-				value,
 				source: "configUpdate",
+				value,
 			});
 		}
 

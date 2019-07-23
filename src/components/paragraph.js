@@ -9,9 +9,9 @@ const Paragraph = errorBoundary(class extends React.Component {
 			children: this.state.error ? "Oh no! An error occurred!" : this.props.text,
 			style: {
 				color: this.state.error ? "#ff9699" : "white",
-				textAlign: "center",
 				fontSize: this.props.size || 16,
 				margin: 5,
+				textAlign: "center",
 				...this.props.style,
 			},
 		});

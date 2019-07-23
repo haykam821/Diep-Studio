@@ -2,7 +2,6 @@ const React = require("react");
 const elem = React.createElement;
 
 const configInput = require("./../hoc/configinput.js");
-const Input = require("./input.js");
 
 const Select = configInput(class extends React.Component {
 	render() {
@@ -16,8 +15,8 @@ const Select = configInput(class extends React.Component {
 			}),
 			onChange: event => {
 				this.setState({
-					value: event.target.value,
 					source: "selectUpdate",
+					value: event.target.value,
 				});
 			},
 			value: this.state.value,

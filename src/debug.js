@@ -10,7 +10,7 @@ const Input = require("./components/input.js");
 
 const render = require("./sidebar.js");
 
-const cornerStyles = require("./utils/corner-styles.js")
+const cornerStyles = require("./utils/corner-styles.js");
 
 const debug = location.protocol === "file:";
 module.exports.debug = debug;
@@ -20,38 +20,32 @@ const debugElement = document.querySelector("#debug");
 class Debug extends React.Component {
 	render() {
 		return elem("div", {
-			style: {
-				...cornerStyles,
-				top: 0,
-				right: 0,
-				borderBottomLeftRadius: 8,
-				width: 150,
-			},
 			children: [
 				elem("p", {
-					style: {
-						margin: 5,
-						fontWeight: "bold",
-						textAlign: "center",
-						color: "white",
-					},
 					children: "Debug Mode",
+					style: {
+						color: "white",
+						fontWeight: "bold",
+						margin: 5,
+						textAlign: "center",
+					},
 				}),
 				elem(Paragraph, {
+					size: 12,
 					text: [
 						"This number randomizes upon each render: ",
 						elem("span", null, Math.round(Math.random() * 500)),
 					],
-					size: 12,
 				}),
 				elem(Input, {
-					placeholder: "Evaluate JavaScript",
 					onKeyDown: event => {
 						if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+							/* eslint-disable-next-line no-eval */
 							eval(event.target.value);
 							event.target.value = "";
 						}
 					},
+					placeholder: "Evaluate JavaScript",
 					style: {
 						fontFamily: [
 							"Ubuntu Mono",
@@ -75,6 +69,13 @@ class Debug extends React.Component {
 					],
 				}),
 			],
+			style: {
+				...cornerStyles,
+				borderBottomLeftRadius: 8,
+				right: 0,
+				top: 0,
+				width: 150,
+			},
 		});
 	}
 }

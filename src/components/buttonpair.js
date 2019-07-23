@@ -4,12 +4,12 @@ const elem = React.createElement;
 class ButtonPair extends React.Component {
 	render() {
 		return elem("div", {
+			children: this.props.children,
+			class: "buttonPair",
 			style: {
 				display: "flex",
 				...this.props.style,
 			},
-			class: "buttonPair",
-			children: this.props.children,
 		});
 	}
 }

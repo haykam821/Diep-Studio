@@ -20,28 +20,28 @@ class SidebarSection extends React.Component {
 							children: elem("i", {
 								class: "fas fa-angle-" + (this.state.expanded ? "down" : "up"),
 							}),
-							style: {
-								background: "none",
-								border: "none",
-								width: "initial",
-								height: "initial",
-								padding: 5,
-								fontSize: 18,
-								color: "white",
-								outline: "none",
-							},
 							onClick: () => {
 								this.setState({
 									expanded: !this.state.expanded,
 								});
 							},
+							style: {
+								background: "none",
+								border: "none",
+								color: "white",
+								fontSize: 18,
+								height: "initial",
+								outline: "none",
+								padding: 5,
+								width: "initial",
+							},
 						}),
 						elem("h2", {
+							children: this.props.header,
 							style: {
 								display: "inline-block",
 								marginBottom: 5,
 							},
-							children: this.props.header,
 						}),
 					],
 					style: {

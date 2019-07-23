@@ -9,7 +9,6 @@ const ReactDOM = require("react-dom");
 require("./sidebar.js")();
 require("./notifications.js").renderNotifs();
 
-const Paragraph = require("./components/paragraph.js");
 const ButtonPair = require("./components/buttonpair.js");
 const Input = require("./components/input.js");
 const Button = require("./components/button.js");
@@ -28,12 +27,12 @@ const { config } = require("./utils/config.js");
 const transitionVal = require("./utils/transition-value.js");
 
 const defaults = {
-	objects: [],
 	backgroundColor: "#cdcdcd",
-	gridSize: 24,
+	borderStyle: "newDiep",
 	gridLineColor: "#c0c0c0",
 	gridLineWidth: 1,
-	borderStyle: "newDiep",
+	gridSize: 24,
+	objects: [],
 };
 
 let camX = 0;
@@ -124,7 +123,6 @@ class Tank extends Render {
 
 		context.translate(x, y);
 		context.lineWidth = 4 * scale;
-		// Context.scale(this.radius, this.radius);
 
 		fillStrokeStyle("#999999", context);
 
@@ -187,55 +185,56 @@ function makeTankClass(internalName = "TankBasic", name = "Tank", barrels = [], 
 }
 
 const tanks = {
+	TankAssassin: makeTankClass("TankAssassin", "Assassin"),
+	TankAuto3: makeTankClass("TankAuto3", "Auto 3"),
 	TankBasic: makeTankClass("TankBasic", "Basic Tank", [{
-		type: 0,
-		length: 35,
-		width: 18,
 		angle: 0,
+		length: 35,
+		type: 0,
+		width: 18,
 		x: 0,
 	}]),
+	TankDestroyer: makeTankClass("TankDestroyer", "Destroyer"),
+	TankFlank: makeTankClass("TankFlank", "Flank Guard", [{
+		angle: 0,
+		length: 35,
+		type: 0,
+		width: 18,
+		x: 0,
+	}, {
+		angle: 180,
+		length: 30,
+		type: 0,
+		width: 18,
+		x: 0,
+	}]),
+	TankGunner: makeTankClass("TankGunner", "Gunner"),
+	TankHunter: makeTankClass("TankHunter", "Hunter"),
+	TankMachine: makeTankClass("TankMachine", "Machine Gun"),
+	TankOverseer: makeTankClass("TankOverseer", "Overseer"),
+	TankQuad: makeTankClass("TankQuad", "Quad Tank"),
+	TankSmasher: makeTankClass("TankSmasher", "Smasher"),
+	TankSniper: makeTankClass("TankSniper", "Sniper"),
+	TankTrapper: makeTankClass("TankTrapper", "Trapper"),
+	TankTriangle: makeTankClass("TankTriangle", "Tri Angle"),
+	TankTriple: makeTankClass("TankTriple", "Triple Shot"),
 	TankTwin: makeTankClass("TankTwin", "Twin", [{
+		angle: 0,
 		length: 35,
 		width: 17,
-		angle: 0,
 		x: 20,
 	}, {
+		angle: 0,
 		length: 35,
 		width: 17,
-		angle: 0,
 		x: -20,
 	}]),
-	TankSniper: makeTankClass("TankSniper", "Sniper"),
-	TankMachine: makeTankClass("TankMachine", "Machine Gun"),
-	TankFlank: makeTankClass("TankFlank", "Flank Guard", [{
-		type: 0,
-		length: 35,
-		width: 18,
-		angle: 0,
-		x: 0,
-	}, {
-		type: 0,
-		length: 30,
-		width: 18,
-		angle: 180,
-		x: 0,
-	}]),
-	TankTriple: makeTankClass("TankTriple", "Triple Shot"),
-	TankQuad: makeTankClass("TankQuad", "Quad Tank"),
 	TankTwinFlank: makeTankClass("TankTwinFlank", "Twin Flank"),
-	TankAssassin: makeTankClass("TankAssassin", "Assassin"),
-	TankOverseer: makeTankClass("TankOverseer", "Overseer"),
-	TankHunter: makeTankClass("TankHunter", "Hunter"),
-	TankTrapper: makeTankClass("TankTrapper", "Trapper"),
-	TankDestroyer: makeTankClass("TankDestroyer", "Destroyer"),
-	TankGunner: makeTankClass("TankGunner", "Gunner"),
-	TankTriangle: makeTankClass("TankTriangle", "Tri Angle"),
-	TankAuto3: makeTankClass("TankAuto3", "Auto 3"),
-	TankSmasher: makeTankClass("TankSmasher", "Smasher"),
 };
 
 const renders = {
 	Render,
+	Tank,
 	Text: class extends Render {
 		constructor(_, __, text, bold) {
 			super(...arguments);
@@ -248,7 +247,6 @@ const renders = {
 			drawText(this.text, x, y, context, this.bold);
 		}
 	},
-	Tank,
 	...tanks,
 };
 
@@ -293,13 +291,7 @@ window.addEventListener("load", () => {
 	setCamValues();
 	setTool();
 
-	const saved = localStorage.getItem("saved");
-	if (saved) {
-		const savedData = JSON.parse(saved);
-
-		// ImportScene(savedData);
-		// Document.getElementById("dataBox").value = JSON.stringify(exportScene(), null, 4);
-	}
+	// TODO: reimplement automatic import
 
 	loading.style.opacity = 0;
 	setTimeout(() => {
@@ -353,7 +345,7 @@ function setZoom(direction = 1) {
 module.exports.setZoom = setZoom;
 
 function formPopup(x, y, form, message = "Use Tool") {
-	return new Promise((resolve, reject) => {
+	return new Promise(resolve => {
 		canUseTool = false;
 
 		const popupContainer = document.createElement("div");
@@ -389,22 +381,22 @@ function formPopup(x, y, form, message = "Use Tool") {
 		const popup = elem("div", {
 			children: [
 				elem("button", {
-					class: "closePopup",
 					children: [
 						elem("i", {
 							class: "fas fa-times",
 						}),
 					],
+					class: "closePopup",
+					onClick: () => {
+						canUseTool = true;
+						popupContainer.remove();
+					},
 					style: {
 						background: "none",
 						border: "none",
 						padding: 3,
-						width: "100%",
 						textAlign: "right",
-					},
-					onClick: () => {
-						canUseTool = true;
-						popupContainer.remove();
+						width: "100%",
 					},
 				}),
 				elem("div", {
@@ -413,8 +405,8 @@ function formPopup(x, y, form, message = "Use Tool") {
 						elem(ButtonPair, {
 							children: [
 								elem(Button, {
-									label: message,
 									color: "statReload",
+									label: message,
 									onClick: submit,
 								}),
 							],
@@ -469,79 +461,8 @@ function stageRotation(thing) {
 }
 
 const tools = {
-	pan: {
-		name: "Pan",
-		description: "Move the camera around by dragging",
-		mousemove: event => {
-			if (event.buttons === 1) {
-				camX -= event.movementX;
-				camY -= event.movementY;
-			}
-		},
-		cursor: "move",
-	},
-	text: {
-		name: "Text Placer",
-		description: "Place text",
-		mousedown: (event, x, y) => {
-			formPopup(event.x, event.y, elem("div", {
-				children: elem(Input, {
-					type: "text",
-					placeholder: "Text",
-					name: "text",
-				}),
-			}), "Place Text").then(options => {
-				if (options && options.text) {
-					addRender(new renders.Text(x, y, options.text));
-				}
-			});
-		},
-		cursor: "text",
-	},
-	tank: {
-		name: "Tank Placer",
-		description: "Place tanks",
-		mousedown: (event, x, y) => {
-			formPopup(event.x, event.y, elem("div", {
-				children: [
-					elem(Input, {
-						type: "text",
-						placeholder: "Name",
-						name: "name",
-					}),
-					elem(Input, {
-						type: "number",
-						placeholder: "level",
-						value: 45,
-						name: "level",
-					}),
-					elem(ColorPicker, {
-						name: "color",
-					}),
-					elem(Select, {
-						options: Object.entries(tanks).map(entry => {
-							return [
-								entry[1].displayName,
-								entry[0],
-							];
-						}),
-						name: "tank",
-					}),
-				],
-			}), "Place Tank").then(response => {
-				console.log(response);
-				if (tanks[response.tank]) {
-					const tank = new tanks[response.tank](x, y, levelToRadius(parseInt(response.level)), 0, response.color, response.name);
-					stageRotation(tank).then(rotation => {
-						tank.angle = rotation;
-						addRender(tank);
-					});
-				}
-			});
-		},
-	},
 	clone: {
-		name: "Clone",
+		cursor: "copy",
 		description: "Places a copy of the last placed object",
 		mousedown: (event, x, y) => {
 			if (lastAction instanceof Render) {
@@ -553,10 +474,86 @@ const tools = {
 				addRender(lastAction);
 			}
 		},
-		cursor: "copy",
+		name: "Clone",
+	},
+	pan: {
+		cursor: "move",
+		description: "Move the camera around by dragging",
+		mousemove: event => {
+			if (event.buttons === 1) {
+				camX -= event.movementX;
+				camY -= event.movementY;
+			}
+		},
+		name: "Pan",
+	},
+	tank: {
+		description: "Place tanks",
+		mousedown: (event, x, y) => {
+			formPopup(event.x, event.y, elem("div", {
+				children: [
+					elem(Input, {
+						name: "name",
+						placeholder: "Name",
+						type: "text",
+					}),
+					elem(Input, {
+						name: "level",
+						placeholder: "level",
+						type: "number",
+						value: 45,
+					}),
+					elem(ColorPicker, {
+						name: "color",
+					}),
+					elem(Select, {
+						name: "tank",
+						options: Object.entries(tanks).map(entry => {
+							return [
+								entry[1].displayName,
+								entry[0],
+							];
+						}),
+					}),
+				],
+			}), "Place Tank").then(response => {
+				if (tanks[response.tank]) {
+					const tank = new tanks[response.tank](x, y, levelToRadius(parseInt(response.level)), 0, response.color, response.name);
+					stageRotation(tank).then(rotation => {
+						tank.angle = rotation;
+						addRender(tank);
+					});
+				}
+			});
+		},
+		name: "Tank Placer",
+	},
+	test: {
+		cursor: "help",
+		description: "Debug the tool system",
+		hidden: true,
+		mousedown: () => alert("It works!"),
+		name: "Testing Tool",
+	},
+	text: {
+		cursor: "text",
+		description: "Place text",
+		mousedown: (event, x, y) => {
+			formPopup(event.x, event.y, elem("div", {
+				children: elem(Input, {
+					name: "text",
+					placeholder: "Text",
+					type: "text",
+				}),
+			}), "Place Text").then(options => {
+				if (options && options.text) {
+					addRender(new renders.Text(x, y, options.text));
+				}
+			});
+		}, name: "Text Placer",
 	},
 	zoom: {
-		name: "Zoom",
+		cursor: "zoom-in",
 		description: "Zoom with the mouse",
 		mousedown: event => {
 			if (event.buttons === 1) {
@@ -567,14 +564,7 @@ const tools = {
 				setZoom(-1);
 			}
 		},
-		cursor: "zoom-in",
-	},
-	test: {
-		name: "Testing Tool",
-		description: "Debug the tool system",
-		mousedown: () => alert("It works!"),
-		hidden: true,
-		cursor: "help",
+		name: "Zoom",
 	},
 };
 

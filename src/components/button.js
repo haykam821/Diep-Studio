@@ -9,8 +9,8 @@ class Button extends React.Component {
 	constructor(properties) {
 		super(properties);
 		this.state = {
-			hover: false,
 			active: false,
+			hover: false,
 		};
 	}
 
@@ -18,38 +18,21 @@ class Button extends React.Component {
 		const color = (colorByProp(this.props.color) || colorByProp("teamBrown")).color;
 		const lightened = chroma(color).brighten(0.67).hex();
 		const activeLightened = chroma(color).darken(0.67).hex();
+
+		/* eslint-disable-next-line no-nested-ternary */
 		const gradColor = this.state.active ? activeLightened : (this.state.hover ? lightened : "rgba(173, 173, 173, 1)");
 
 		return elem("button", {
 			...this.props,
-			style: {
-				backgroundColor: (this.state.hover || this.state.active) ? color : "#8B8B8B",
-				backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, ${gradColor} 50%)`,
-				border: "2px solid #333333",
-				borderRadius: "2px",
-				color: "white",
-				width: "100px",
-				lineHeight: "15px",
-				textAlign: "center",
-				fontFamily: "Ubuntu",
-				textDecoration: "none",
-				textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, -1px -1px black, -1px 1px black, 1px 1px black, 1px -1px black",
-				display: "inline-block",
-				fontSize: "11px",
-				fontWeight: 600,
-				padding: "1px",
-				outline: "none",
-				...this.props.style,
-			},
 			children: this.props.label,
 			onMouseDown: () => {
 				this.setState({
 					active: true,
 				});
 			},
-			onMouseUp: () => {
+			onMouseEnter: () => {
 				this.setState({
-					active: false,
+					hover: true,
 				});
 			},
 			onMouseOut: () => {
@@ -58,10 +41,29 @@ class Button extends React.Component {
 					hover: false,
 				});
 			},
-			onMouseEnter: () => {
+			onMouseUp: () => {
 				this.setState({
-					hover: true,
+					active: false,
 				});
+			},
+			style: {
+				backgroundColor: (this.state.hover || this.state.active) ? color : "#8B8B8B",
+				backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, ${gradColor} 50%)`,
+				border: "2px solid #333333",
+				borderRadius: "2px",
+				color: "white",
+				display: "inline-block",
+				fontFamily: "Ubuntu",
+				fontSize: "11px",
+				fontWeight: 600,
+				lineHeight: "15px",
+				outline: "none",
+				padding: "1px",
+				textAlign: "center",
+				textDecoration: "none",
+				textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, -1px -1px black, -1px 1px black, 1px 1px black, 1px -1px black",
+				width: "100px",
+				...this.props.style,
 			},
 		});
 	}
