@@ -4,7 +4,7 @@ require("file-loader?name=[name].[ext]!./index.css");
 const React = require("react");
 const ReactDOM = require("react-dom");
 
-const Sidebar = require("./sidebar.js");
+const Sidebar = require("./sidebar.jsx");
 const { DebugMenu } = require("./debug.jsx");
 
 const loading = document.querySelector("#loading");
@@ -26,6 +26,7 @@ class Canvas extends React.Component {
 
 function render() {
 	ReactDOM.render(<React.Fragment>
+		<Sidebar />
 		<DebugMenu render={render} />
 		<Canvas />
 	</React.Fragment>, document.getElementById("app"));
