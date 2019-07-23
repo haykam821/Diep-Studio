@@ -1,7 +1,14 @@
 const path = require("path");
 
 module.exports = {
-	entry: "./src/index.js",
+	entry: "./src/index.jsx",
+	mode: process.env.WEBPACK_MODE || "production",
+	module: {
+		rules: [{
+			test: /\.jsx$/,
+			use: "jsx-loader",
+		}],
+	},
 	output: {
 		filename: "index.js",
 		path: path.join(__dirname, "/dist"),
