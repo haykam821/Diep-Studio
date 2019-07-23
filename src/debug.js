@@ -1,23 +1,19 @@
 const React = require("react");
 const elem = React.createElement;
 
-const ReactDOM = require("react-dom");
-
 const Paragraph = require("./components/paragraph.js");
 const ButtonPair = require("./components/buttonpair.js");
 const Button = require("./components/button.js");
 const Input = require("./components/input.js");
 
-const render = require("./sidebar.js");
-
 const cornerStyles = require("./utils/corner-styles.js");
+
+const { render } = require(".");
 
 const debug = location.protocol === "file:";
 module.exports.debug = debug;
 
-const debugElement = document.querySelector("#debug");
-
-class Debug extends React.Component {
+class DebugMenu extends React.Component {
 	render() {
 		return elem("div", {
 			children: [
@@ -79,8 +75,4 @@ class Debug extends React.Component {
 		});
 	}
 }
-
-function debugRender() {
-	ReactDOM.render(elem(Debug), debugElement);
-}
-module.exports.debugRender = debugRender;
+module.exports.DebugMenu = DebugMenu;
