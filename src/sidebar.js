@@ -13,7 +13,7 @@ const Select = require("./components/select.js");
 const Icon = require("./components/icon.js");
 
 const { notify } = require("./notifications.js");
-const { setValues, setCamValues, setZoom, setTool } = require(".");
+const { setValues, setCamValues, setZoom, setTool } = require("./index.jsx");
 
 const { config } = require("./utils/config.js");
 

@@ -4,21 +4,25 @@
 		"lint": "eslint \"./**/*.js\" --ignore-path .gitignore"
 	},
 	"devDependencies": {
+		"babel-eslint": "^10.0.2",
 		"eslint": "^5.16.0",
 		"eslint-config-haykam": "^1.7.0",
 		"eslint-plugin-extra-rules": "0.0.0-development",
 		"eslint-plugin-html": "^5.0.5",
 		"eslint-plugin-json": "^1.4.0",
 		"eslint-plugin-markdown": "^1.0.0",
+		"eslint-plugin-react": "^7.14.3",
 		"eslint-plugin-unicorn": "^9.1.1",
 		"file-loader": "^3.0.1",
 		"html-minify-loader": "^1.4.0",
-		"webpack": "^4.31.0",
-		"webpack-cli": "^3.3.2"
+		"jsx-loader": "^0.13.2",
+		"webpack": "^4.37.0",
+		"webpack-cli": "^3.3.6"
 	},
 	"dependencies": {
 		"chroma-js": "^2.0.3",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6"
-	}
+	},
+	"main": "./src/index.jsx"
 }
