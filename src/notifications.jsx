@@ -1,9 +1,7 @@
 const React = require("react");
-const elem = React.createElement;
-
 const ReactDOM = require("react-dom");
 
-const Notification = require("./components/notification.js");
+const Notification = require("./components/notification.jsx");
 
 const notifs = [];
 
@@ -13,11 +11,7 @@ function renderNotifs() {
 module.exports.renderNotifs = renderNotifs;
 
 function notify(header, text, options = {}) {
-	notifs.push(elem(Notification, {
-		header,
-		text,
-		...options,
-	}));
+	notifs.push(<Notification header={header} text={text} {...options} />);
 	renderNotifs();
 }
 module.exports.notify = notify;

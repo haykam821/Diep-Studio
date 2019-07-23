@@ -1,9 +1,9 @@
 const React = require("react");
 
-const Paragraph = require("./components/paragraph.js");
-const ButtonPair = require("./components/buttonpair.js");
-const Button = require("./components/button.js");
-const Input = require("./components/input.js");
+const Paragraph = require("./components/paragraph.jsx");
+const ButtonPair = require("./components/buttonpair.jsx");
+const Button = require("./components/button.jsx");
+const Input = require("./components/input.jsx");
 
 const cornerStyles = require("./utils/corner-styles.js");
 

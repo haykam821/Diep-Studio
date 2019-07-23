@@ -1,11 +1,10 @@
 const React = require("react");
-const elem = React.createElement;
 
-const configInput = require("./../hoc/configinput.js");
-const errorBoundary = require("./../hoc/error-boundary.js");
+const configInput = require("../hoc/configinput.js");
+const errorBoundary = require("../hoc/error-boundary.js");
 
-const ButtonPair = require("./buttonpair.js");
-const Input = require("./input.js");
+const ButtonPair = require("./buttonpair.jsx");
+const Input = require("./input.jsx");
 
 const colorGroups = {
 	bg: "Background",
@@ -104,65 +103,48 @@ function colorByProperty(value, property = "id") {
 	return colors.find(color => color[property] === value);
 }
 
-const ColorPicker = errorBoundary(configInput(class extends React.Component {
+const ColorPicker = errorBoundary(configInput(class ColorPicker extends React.Component {
 	renderColorPicker() {
-		return elem(Input, {
-			name: this.props.name,
-			onChange: event => {
-				this.setState({
-					source: "pickerUpdate",
-					value: event.target.value,
-				});
-			},
-			style: {
-				marginRight: 0,
-			},
-			type: "color",
-			value: this.state.value,
-		});
+		return <Input name={this.props.name} onChange={event => {
+			this.setState({
+				source: "pickerUpdate",
+				value: event.target.value,
+			});
+		}} style={{
+			marginRight: 0,
+		}} type="color" value={this.state.value} />;
 	}
 
 	render() {
 		const valueColor = colorByProperty(this.state.value, "color");
-		const diepSelect = elem("select", {
-			children: Object.entries(colorGroups).map(colorGroup => {
-				return elem("optgroup", {
-					children: colors.filter(color => {
+		const diepSelect = <select onChange={event => {
+			const color = colorByProperty(event.target.value);
+			if (color) {
+				this.setState({
+					source: "selectUpdate",
+					value: color.color,
+				});
+			}
+		}} style={{ marginLeft: 0 }} value={valueColor ? valueColor.id : "custom"} >
+			{Object.entries(colorGroups).map(colorGroup => {
+				return <optgroup label={colorGroup[1]} key={colorGroup[0]}>
+					{colors.filter(color => {
 						return color.group === colorGroup[0];
 					}).map(color => {
-						return elem("option", {
-							children: color.name,
-							value: color.id,
-						});
-					}),
-					label: colorGroup[1],
-				});
-			}).concat(elem("option", {
-				children: "Custom",
-				value: "custom",
-			})),
-			onChange: event => {
-				const color = colorByProperty(event.target.value);
-				if (color) {
-					this.setState({
-						source: "selectUpdate",
-						value: color.color,
-					});
-				}
-			},
-			style: {
-				marginLeft: 0,
-			},
-			value: valueColor ? valueColor.id : "custom",
-		});
+						return <option value={color.id} key={color.id}>
+							{color.name}
+						</option>;
+					})}
+				</optgroup>;
+			}).concat(<option value="custom" key="custom">
+				Custom
+			</option>)}
+		</select>;
 
-		return elem(ButtonPair, {
-			children: [
-				diepSelect,
-				this.renderColorPicker(),
-			],
-			...this.props.style,
-		});
+		return <ButtonPair {...this.props.style}>
+			{diepSelect}
+			{this.renderColorPicker()}
+		</ButtonPair>;
 	}
 
 	renderError() {

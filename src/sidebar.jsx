@@ -1,17 +1,18 @@
 const React = require("react");
+React.__spread = Object.assign;
 
-const Paragraph = require("./components/paragraph.js");
-const SidebarSection = require("./components/sidebar-section.js");
-const ImportBox = require("./components/import-box.js");
-const ButtonPair = require("./components/buttonpair.js");
-const Button = require("./components/button.js");
-const OptionRow = require("./components/optionrow.js");
-const Input = require("./components/input.js");
-const ColorPicker = require("./components/colorpicker.js");
-const Select = require("./components/select.js");
-const Icon = require("./components/icon.js");
+const Paragraph = require("./components/paragraph.jsx");
+const SidebarSection = require("./components/sidebar-section.jsx");
+const ImportBox = require("./components/import-box.jsx");
+const ButtonPair = require("./components/buttonpair.jsx");
+const Button = require("./components/button.jsx");
+const OptionRow = require("./components/optionrow.jsx");
+const Input = require("./components/input.jsx");
+const ColorPicker = require("./components/colorpicker.jsx");
+const Select = require("./components/select.jsx");
+const Icon = require("./components/icon.jsx");
 
-const { notify } = require("./notifications.js");
+const { notify } = require("./notifications.jsx");
 const { setValues, setCamValues, setZoom, setTool } = require("./index.jsx");
 
 const { config } = require("./utils/config.js");

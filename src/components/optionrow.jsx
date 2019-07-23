@@ -1,5 +1,4 @@
 const React = require("react");
-const elem = React.createElement;
 
 function truncate(text, limit = 20, truncator = "...") {
 	if (text.length - truncator.length <= limit) {
@@ -18,20 +17,12 @@ class OptionRow extends React.Component {
 			},
 		});
 
-		return elem("div", {
-			children: [
-				elem("span", {
-					children: truncate(this.props.label + ":", 11),
-					style: {
-						whiteSpace: "nowrap",
-					},
-				}),
-				control,
-			],
-			style: {
-				display: "flex",
-			},
-		});
+		return <div style={{ display: "flex" }}>
+			<span style={{ whiteSpace: "nowrap" }}>
+				{truncate(this.props.label + ":", 11)}
+			</span>
+			{control}
+		</div>;
 	}
 }
 module.exports = OptionRow;
