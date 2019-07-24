@@ -11,12 +11,34 @@ const debug = location.protocol === "file:";
 module.exports.debug = debug;
 
 class EvalBar extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			/**
+			 * Whether the previous evaluation errored.
+			 */
+			pastDidError: false,
+		};
+	}
+
 	render() {
 		return <Input placeholder="Evaluate JavaScript" onKeyDown={event => {
+			if (event.key.length === 1 || event.keyCode === 8 || event.keyCode === 46) {
+				this.setState({
+					pastDidError: false,
+				});
+			}
+
 			if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
-				/* eslint-disable-next-line no-eval */
-				eval(event.target.value);
-				event.target.value = "";
+				try {
+					/* eslint-disable-next-line no-eval */
+					eval(event.target.value);
+
+				} catch (error) {
+					this.setState({
+						pastDidError: true,
+					});
+				}
 			}
 		}} style={{
 			fontFamily: [
@@ -24,6 +46,7 @@ class EvalBar extends React.Component {
 				"monospace",
 			],
 			width: "100%",
+			color: this.state.pastDidError && "red",
 		}} />;
 	}
 }

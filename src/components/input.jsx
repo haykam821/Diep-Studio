@@ -15,7 +15,7 @@ const Input = configInput(class Input extends React.Component {
 			...formStyles,
 			padding: this.props.type === "color" ? 0 : 2,
 			...this.props.style,
-		}} value={this.props.value || this.state.value} />;
+		}} value={(this.props.value !== undefined ? this.props.value : this.state.value) || ""} />;
 	}
 });
 module.exports = Input;
