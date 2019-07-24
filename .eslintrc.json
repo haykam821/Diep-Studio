@@ -9,5 +9,10 @@
 	"parser": "babel-eslint",
 	"rules": {
 		"require-jsdoc": "off"
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
 	}
 }
