@@ -6,6 +6,7 @@ const ReactDOM = require("react-dom");
 
 const Sidebar = require("./sidebar.jsx");
 const { DebugMenu } = require("./debug.jsx");
+const Scene = require("./components/scene.jsx");
 
 const loading = document.querySelector("#loading");
 window.addEventListener("load", () => {
@@ -15,20 +16,17 @@ window.addEventListener("load", () => {
 	}, 1000);
 });
 
-class Canvas extends React.Component {
+class App extends React.Component {
 	render() {
-		return <canvas style={{
-			height: "100%",
-			width: "100%",
-		}}></canvas>;
+		return <React.Fragment>
+			<Sidebar />
+			<DebugMenu render={render} />
+			<Scene />
+		</React.Fragment>;
 	}
 }
 
 function render() {
-	ReactDOM.render(<React.Fragment>
-		<Sidebar />
-		<DebugMenu render={render} />
-		<Canvas />
-	</React.Fragment>, document.getElementById("app"));
+	ReactDOM.render(<App />, document.getElementById("app"));
 }
 render();

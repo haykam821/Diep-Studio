@@ -24,18 +24,6 @@ kbd {
 	border-radius: 3px;
 }
 
-#coordinates {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-family: 'Ubuntu';
-    padding: 8px;
-    border-top-left-radius: 8px;
-    user-select: none;
-}
-
 textarea, select {
     background-color: #f8f8f8;
     color: black;
@@ -133,18 +121,6 @@ select:focus {
 	flex-grow: 100;
 	margin: 2px;
 	padding: 3px;
-}
-
-.posDisplay {
-	min-width: 60px;
-}
-
-.posLabel {
-	padding-right: 8px;
-}
-
-.posVal {
-	float: right;
 }
 
 /* Loading stuff */
