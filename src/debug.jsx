@@ -5,12 +5,13 @@ const ButtonPair = require("./components/buttonpair.jsx");
 const Button = require("./components/button.jsx");
 const Input = require("./components/input.jsx");
 
+const styled = require("styled-components").default;
 const cornerStyles = require("./utils/corner-styles.js");
 
 const debug = location.protocol === "file:";
 module.exports.debug = debug;
 
-class EvalBar extends React.Component {
+const EvalBar = styled(class EvalBar extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -22,7 +23,7 @@ class EvalBar extends React.Component {
 	}
 
 	render() {
-		return <Input placeholder="Evaluate JavaScript" onKeyDown={event => {
+		return <Input className={this.props.className} placeholder="Evaluate JavaScript" onKeyDown={event => {
 			if (event.key.length === 1 || event.keyCode === 8 || event.keyCode === 46) {
 				this.setState({
 					pastDidError: false,
@@ -41,31 +42,18 @@ class EvalBar extends React.Component {
 				}
 			}
 		}} style={{
-			fontFamily: [
-				"Ubuntu Mono",
-				"monospace",
-			],
-			width: "100%",
 			color: this.state.pastDidError && "red",
 		}} />;
 	}
-}
+})`
+	font-family: "Ubuntu Mono", monospace;
+	width: 100%;
+`;
 
-class DebugMenu extends React.Component {
+const DebugMenu = styled(class DebugMenu extends React.Component {
 	render() {
-		return <div style={{
-			...cornerStyles,
-			borderBottomLeftRadius: 8,
-			right: 0,
-			top: 0,
-			width: 150,
-		}}>
-			<p style={{
-				color: "white",
-				fontWeight: "bold",
-				margin: 5,
-				textAlign: "center",
-			}}>Debug Mode</p>
+		return <div className={this.props.className}>
+			<p>Debug Mode</p>
 			<Paragraph size={12} text={"This number randomizes upon each render: " + Math.round(Math.random() * 500)} />
 			<EvalBar />
 			<ButtonPair>
@@ -74,5 +62,18 @@ class DebugMenu extends React.Component {
 			</ButtonPair>
 		</div>;
 	}
-}
+})`
+	${cornerStyles}
+	border-bottom-left-radius: 8px;
+	right: 0;
+	top: 0;
+	width: 150px;
+
+	& > p {
+		color: white;
+		font-weight: bold;
+		margin: 5px;
+		text-align: center;
+	}
+`;
 module.exports.DebugMenu = DebugMenu;

@@ -1,14 +1,10 @@
 const React = require("react");
 
-class Notification extends React.Component {
+const styled = require("styled-components").default;
+
+const Notification = styled(class Notification extends React.Component {
 	render() {
-		return <div width={50} style={{
-			backgroundColor: "white",
-			borderRadius: 8,
-			margin: 8,
-			padding: 8,
-			textAlign: "center",
-		}}>
+		return <div width={50} className={this.props.className}>
 			<h3 style={{
 				fontSize: "initial",
 				fontWeight: "bold",
@@ -21,7 +17,13 @@ class Notification extends React.Component {
 			</p>}
 		</div>;
 	}
-}
+})`
+	background-color: white;
+	border-radius: 8px,
+	margin: 8px;
+	padding: 8px;
+	text-align: center;
+`;
 Notification.defaultProps = {
 	header: "Notification",
 };
