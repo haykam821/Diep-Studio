@@ -8,7 +8,8 @@
 	},
 	"parser": "babel-eslint",
 	"rules": {
-		"require-jsdoc": "off"
+		"require-jsdoc": "off",
+		"react/prop-types": "off"
 	},
 	"settings": {
 		"react": {
