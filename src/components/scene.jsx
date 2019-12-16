@@ -1,42 +1,9 @@
 const React = require("react");
 const styled = require("styled-components").default;
 
-const CoordinatesDisplay = styled(class CoordinatesDisplay extends React.Component {
-	render() {
-		return <div className={this.props.className}>
-			<div className="posDisplay">
-				<span className="posLabel">X:</span>
-				<span className="posVal">{this.props.x || 0}</span>
-			</div>
-			<div className="posDisplay">
-				<span className="posLabel">Y:</span>
-				<span className="posVal">{this.props.y || 0}</span>
-			</div>
-		</div>;
-	}
-})`
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
-	background-color: rgba(0, 0, 0, 0.5);
-	color: white;
-	font-family: 'Ubuntu';
-	padding: 8px;
-	border-top-left-radius: 8px;
-	user-select: none;
+const Coordinates = require("./coordinates.jsx");
 
-	.posDisplay {
-		min-width: 60px;
-	}
-	.posLabel {
-		padding-right: 8px;
-	}
-	.posVal {
-		float: right;
-	}
-`;
-
-const Scene = styled(class Scene extends React.Component {
+class SceneUnstyled extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -71,10 +38,15 @@ const Scene = styled(class Scene extends React.Component {
 	}
 
 	render() {
-		return <div className={this.props.className}>
+		return <div>
 			<canvas ref={this.canvas} width={window.innerWidth} height={window.innerHeight}></canvas>
-			<CoordinatesDisplay x={this.state.mouseX} y={this.state.mouseY} />
+			<Coordinates x={this.state.mouseX} y={this.state.mouseY} />
 		</div>;
 	}
-})``;
+}
+SceneUnstyled.propTypes = {
+
+};
+
+const Scene = styled(SceneUnstyled)``;
 module.exports = Scene;

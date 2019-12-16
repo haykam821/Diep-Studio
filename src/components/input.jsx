@@ -1,20 +1,18 @@
 const React = require("react");
-
-const configInput = require("../hoc/configinput.js");
-
 const styled = require("styled-components").default;
-const formStyles = require("../utils/form-styles.js");
 
-const Input = styled(configInput(class Input extends React.Component {
+const formStyles = require("../form-styles.js");
+
+class InputUnstyled extends React.Component {
 	render() {
-		return <input className={this.props.className} onChange={event => {
-			this.setState({
-				source: "inputUpdate",
-				value: event.target.value,
-			});
-		}} {...this.props} value={(this.props.value !== undefined ? this.props.value : this.state.value) || ""} />;
+		return <input className={this.props.className} data-config={this.props.config} {...this.props} />;
 	}
-}))`
+}
+InputUnstyled.propTypes = {
+
+};
+
+const Input = styled(InputUnstyled)`
 	${formStyles}
 	padding: ${props => props.type === "color" ? 0 : 2};
 `;

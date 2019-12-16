@@ -1,17 +1,21 @@
 const React = require("react");
-const errorBoundary = require("../hoc/error-boundary.js");
+const styled = require("styled-components").default;
 
-const Paragraph = errorBoundary(class Paragraph extends React.Component {
+class ParagraphUnstyled extends React.Component {
 	render() {
-		return <p style={{
-			color: this.state.error ? "#ff9699" : "white",
-			fontSize: this.props.size || 16,
-			margin: 5,
-			textAlign: "center",
-			...this.props.style,
-		}}>
-			{this.state.error ? "Oh no! An error occurred!" : this.props.text || this.props.children}
+		return <p className={this.props.className}>
+			{this.props.children}
 		</p>;
 	}
-});
+}
+ParagraphUnstyled.propTypes = {
+
+};
+
+const Paragraph = styled(ParagraphUnstyled)`
+	color: white;
+	font-size: ${props => props.size || 16};
+	margin: 5px;
+	text-align: center;
+`;
 module.exports = Paragraph;

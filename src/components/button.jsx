@@ -1,64 +1,87 @@
 const React = require("react");
+const styled = require("styled-components").default;
 
 const chroma = require("chroma-js");
+const { colorByProperty } = require("../colors.js");
 
-const { colorByProp } = require("./colorpicker.jsx");
 
-class Button extends React.Component {
-	constructor(properties) {
-		super(properties);
+class ButtonUnstyled extends React.Component {
+	constructor(props) {
+		super(props);
+
 		this.state = {
 			active: false,
 			hover: false,
 		};
+
+		this.setActive = this.setActive.bind(this);
+		this.setInactive = this.setInactive.bind(this);
+		this.setHover = this.setHover.bind(this);
+		this.setCancel = this.setCancel.bind(this);
+	}
+
+	setActive() {
+		this.setState({
+			active: true,
+		});
+	}
+
+	setInactive() {
+		this.setState({
+			active: false,
+		});
+	}
+
+	setHover() {
+		this.setState({
+			hover: true,
+		});
+	}
+
+	setCancel() {
+		this.setState({
+			active: false,
+			hover: false,
+		});
+	}
+
+	getGradColor(color) {
+		if (this.state.active) return chroma(color).brighten(0.67).hex();
+		if (this.state.hover) return chroma(color).darken(0.67).hex();
+
+		return "rgba(173, 173, 173, 1)";
 	}
 
 	render() {
-		const color = (colorByProp(this.props.color) || colorByProp("teamBrown")).color;
-		const lightened = chroma(color).brighten(0.67).hex();
-		const activeLightened = chroma(color).darken(0.67).hex();
+		const color = (colorByProperty(this.props.color) || colorByProperty("teamBrown")).color;
+		const gradColor = this.getGradColor(color);
 
-		/* eslint-disable-next-line no-nested-ternary */
-		const gradColor = this.state.active ? activeLightened : (this.state.hover ? lightened : "rgba(173, 173, 173, 1)");
-
-		return <button {...this.props} onMouseDown={() => {
-			this.setState({
-				active: true,
-			});
-		}} onMouseEnter={() => {
-			this.setState({
-				hover: true,
-			});
-		}} onMouseOut={() => {
-			this.setState({
-				active: false,
-				hover: false,
-			});
-		}} onMouseUp={() => {
-			this.setState({
-				active: false,
-			});
-		}} style={{
+		return <button {...this.props} className={this.props.className} onMouseDown={this.setActive} onMouseEnter={this.setHover} onMouseOut={this.setCancel} onMouseUp={this.setInactive} style={{
 			backgroundColor: (this.state.hover || this.state.active) ? color : "#8B8B8B",
 			backgroundImage: `linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 40%, ${gradColor} 50%)`,
-			border: "2px solid #333333",
-			borderRadius: "2px",
-			color: "white",
-			display: "inline-block",
-			fontFamily: "Ubuntu",
-			fontSize: "11px",
-			fontWeight: 600,
-			lineHeight: "15px",
-			outline: "none",
-			padding: "1px",
-			textAlign: "center",
-			textDecoration: "none",
-			textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, -1px -1px black, -1px 1px black, 1px 1px black, 1px -1px black",
-			width: "100px",
-			...this.props.style,
 		}} >
 			{this.props.label}
 		</button>;
 	}
 }
+ButtonUnstyled.propTypes = {
+
+};
+
+const Button = styled(ButtonUnstyled)`
+	border: 2px solid #333333;
+	border-radius: 2px;
+	color: white;
+	display: inline-block;
+	font-family: "Ubuntu";
+	font-size: 11px;
+	font-weight: 600;
+	line-height: 15px;
+	outline: none;
+	padding: 1px;
+	text-align: center;
+	text-decoration: none;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, -1px -1px black, -1px 1px black, 1px 1px black, 1px -1px black;
+	width: 100px;
+`;
 module.exports = Button;
