@@ -30,6 +30,14 @@ const Coordinates = styled(CoordinatesUnstyled)`
 	border-top-left-radius: 8px;
 	user-select: none;
 
+	@media (max-width: 1000px) and (orientation: portrait) {
+		bottom: unset;
+		top: 0;
+
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 8px;
+	}
+
 	.posDisplay {
 		min-width: 60px;
 	}

@@ -104,15 +104,28 @@ const Sidebar = styled(SidebarUnstyled)`
 	background-color: rgba(0, 0, 0, 0.5);
 	color: white;
 	font-family: "Ubuntu";
-	height: 100%;
-	left: 0;
-	min-width: 232px;
+	user-select: none;
 	overflow-x: hidden;
 	overflow-y: auto;
 	position: absolute;
-	top: 0;
-	user-select: none;
-	width: 20%;
+
+	@media (max-width: 1000px) and (orientation: portrait) {
+		left: 4px;
+		right: 4px;
+		bottom: 0;
+
+		max-height: 50%;
+
+		border-top-left-radius: 8px;
+		border-top-right-radius: 8px;
+	}
+	@media not all and (max-width: 1000px) and (orientation: portrait) {
+		height: 100%;
+		left: 0;
+		min-width: 232px;
+		max-width: 50%;
+		bottom: 0;
+	}
 
 	.title {
 		margin-bottom: 5px;
