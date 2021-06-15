@@ -1,6 +1,13 @@
 const React = require("react");
 const styled = require("styled-components").default;
 
+/**
+ * Truncates a string to a given length.
+ * @param {string} text The text to truncate.
+ * @param {string} limit The maximum length.
+ * @param {string} truncator The string to use to indicate truncated text.
+ * @returns The truncated text.
+ */
 function truncate(text, limit = 20, truncator = "...") {
 	if (text.length - truncator.length <= limit) {
 		return text;

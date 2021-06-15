@@ -21,9 +21,6 @@ class SceneUnstyled extends React.Component {
 
 	componentDidMount() {
 		window.addEventListener("mousemove", this.updateCoordinates);
-
-		const can = this.canvas.current;
-		const ctx = can.getContext("2d");
 	}
 
 	componentWillUnmount() {

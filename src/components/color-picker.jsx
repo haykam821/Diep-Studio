@@ -36,19 +36,22 @@ class ColorPickerUnstyled extends React.Component {
 	render() {
 		const valueColor = colorByProperty(this.state.value, "color");
 
-		const selectOptions = Object.entries(colorGroups).map(colorGroup => {
-			return <optgroup label={colorGroup[1]} key={colorGroup[0]}>
-				{colors.filter(color => {
-					return color.group === colorGroup[0];
-				}).map(color => {
-					return <option value={color.id} key={color.id}>
-						{color.name}
-					</option>;
-				})}
-			</optgroup>;
-		}).concat(<option value="custom" key="custom">
-			Custom
-		</option>);
+		const selectOptions = [
+			...Object.entries(colorGroups).map(colorGroup => {
+				return <optgroup label={colorGroup[1]} key={colorGroup[0]}>
+					{colors.filter(color => {
+						return color.group === colorGroup[0];
+					}).map(color => {
+						return <option value={color.id} key={color.id}>
+							{color.name}
+						</option>;
+					})}
+				</optgroup>;
+			}),
+			<option value="custom" key="custom">
+				Custom
+			</option>,
+		];
 
 		return <div className={this.props.className}>
 			<ButtonPair>

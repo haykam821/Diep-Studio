@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 const React = require("react");
 const styled = require("styled-components").default;
 

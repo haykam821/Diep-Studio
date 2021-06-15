@@ -10,8 +10,5 @@ const App = require("./components/app.jsx");
 // Remove loading screen
 const loading = document.getElementById("loading");
 loading.remove();
-setTimeout(() => {
-
-}, 0);
 
 ReactDOM.render(<App />, document.getElementById("app"));

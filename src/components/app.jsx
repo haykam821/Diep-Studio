@@ -4,6 +4,10 @@ const styled = require("styled-components").default;
 const Scene = require("./scene.jsx");
 const Sidebar = require("./sidebar.jsx");
 
+/**
+ * Gets the saved config from local storage.
+ * @returns The saved config.
+ */
 function getSavedConfig() {
 	try {
 		const parsed = JSON.parse(localStorage.getItem("diep-studio:saved"));
@@ -13,6 +17,7 @@ function getSavedConfig() {
 		}
 		return parsed;
 	} catch (error) {
+		/* eslint-disable-next-line no-console */
 		console.warn("Saved config error:", error);
 		return {};
 	}

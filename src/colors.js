@@ -94,6 +94,12 @@ const colors = [{
 }];
 module.exports.colors = colors;
 
+/**
+ * Gets a color by a given property.
+ * @param {*} value The required property.
+ * @param {string} property The property to search by.
+ * @returns The found color.
+ */
 function colorByProperty(value, property = "id") {
 	return colors.find(color => color[property] === value);
 }
