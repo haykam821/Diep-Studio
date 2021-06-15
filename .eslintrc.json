@@ -1,16 +1,21 @@
 {
 	"extends": [
 		"eslint-config-haykam",
-		"plugin:react/recommended"
+		"plugin:@typescript-eslint/eslint-recommended",
+		"plugin:@typescript-eslint/recommended"
 	],
-	"parser": "babel-eslint",
+	"parser": "@typescript-eslint/parser",
+	"plugins": [
+		"@typescript-eslint"
+	],
 	"rules": {
-		"require-jsdoc": "off",
-		"react/prop-types": "off"
-	},
-	"settings": {
-		"react": {
-			"version": "detect"
-		}
+		"semi": "off",
+		"@typescript-eslint/semi": "error",
+		"no-shadow": "off",
+		"@typescript-eslint/no-shadow": "error",
+		"sort-imports": "error",
+		"@typescript-eslint/no-empty-interface": "off",
+		"jsdoc/require-param-type": "off",
+		"jsdoc/require-return-type": "off"
 	}
 }

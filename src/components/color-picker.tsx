@@ -1,13 +1,26 @@
-const React = require("react");
-const styled = require("styled-components").default;
+import React, { ChangeEvent } from "react";
+import { colorByProperty, colorGroups, colors } from "../colors";
 
-const ButtonPair = require("./button-pair.jsx");
-const Input = require("./input.jsx");
+import ButtonPair from "./button-pair";
+import Input from "./input";
+import styled from "styled-components";
 
-const { colorByProperty, colorGroups, colors } = require("../colors.js");
+interface ColorPickerProps {
+	config: string;
+	className: string;
+	value: string;
+}
 
-class ColorPickerUnstyled extends React.Component {
-	constructor(props) {
+interface ColorPickerState {
+	value: string;
+}
+
+class ColorPickerUnstyled extends React.Component<ColorPickerProps, ColorPickerState> {
+	public static readonly defaultProps: Partial<ColorPickerProps> = {
+		value: "#00b0e1",
+	};
+
+	constructor(props: Readonly<ColorPickerProps>) {
 		super(props);
 
 		this.state = {
@@ -18,7 +31,7 @@ class ColorPickerUnstyled extends React.Component {
 		this.setColor = this.setColor.bind(this);
 	}
 
-	setColorName(event) {
+	setColorName(event: ChangeEvent<HTMLSelectElement>) {
 		const color = colorByProperty(event.target.value);
 		if (color) {
 			this.setState({
@@ -27,7 +40,7 @@ class ColorPickerUnstyled extends React.Component {
 		}
 	}
 
-	setColor(event) {
+	setColor(event: ChangeEvent<HTMLInputElement>) {
 		this.setState({
 			value: event.target.value,
 		});
@@ -63,16 +76,10 @@ class ColorPickerUnstyled extends React.Component {
 		</div>;
 	}
 }
-ColorPickerUnstyled.defaultProps = {
-	value: "#00b0e1",
-};
-ColorPickerUnstyled.propTypes = {
-
-};
 
 const ColorPicker = styled(ColorPickerUnstyled)`
 	& > ${Input} {
 		margin-right: 0;
 	}
 `;
-module.exports = ColorPicker;
+export default ColorPicker;

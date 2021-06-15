@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	backgroundColor: 0xF8F8F8,
 	border: "2px solid black",
 	borderRadius: 3,

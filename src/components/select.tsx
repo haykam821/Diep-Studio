@@ -1,7 +1,15 @@
-const React = require("react");
-const styled = require("styled-components").default;
+import React from "react";
+import styled from "styled-components";
 
-class SelectUnstyled extends React.Component {
+type Option = [string, string];
+
+interface SelectProps {
+	className?: string;
+	config: string;
+	options: Option[];
+}
+
+class SelectUnstyled extends React.Component<SelectProps> {
 	render() {
 		return <select data-config={this.props.config} className={this.props.className}>
 			{
@@ -14,9 +22,6 @@ class SelectUnstyled extends React.Component {
 		</select>;
 	}
 }
-SelectUnstyled.propTypes = {
-
-};
 
 const Select = styled(SelectUnstyled)``;
-module.exports = Select;
+export default Select;

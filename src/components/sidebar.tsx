@@ -1,23 +1,69 @@
 /* eslint-disable no-undef */
 
-const React = require("react");
-const styled = require("styled-components").default;
+import { faDiscord, faGithub, faReddit } from "@fortawesome/free-brands-svg-icons";
 
-const Paragraph = require("./paragraph.jsx");
-const ConfigField = require("./config-field.jsx");
-const SidebarSection = require("./sidebar-section.jsx");
-const ImportBox = require("./import-box.jsx");
-const ButtonPair = require("./button-pair.jsx");
-const Button = require("./button.jsx");
-const OptionRow = require("./option-row.jsx");
-const Input = require("./input.jsx");
-const ColorPicker = require("./color-picker.jsx");
-const Select = require("./select.jsx");
+import Button from "./button";
+import ButtonPair from "./button-pair";
+import ColorPicker from "./color-picker";
+import { Config } from "./app";
+import ConfigField from "./config-field";
+import Icon from "./icon";
+import ImportBox from "./import-box";
+import Input from "./input";
+import OptionRow from "./option-row";
+import Paragraph from "./paragraph";
+import React from "react";
+import Select from "./select";
+import SidebarSection from "./sidebar-section";
+import styled from "styled-components";
 
-const Icon = require("./icon.jsx");
-const { faReddit, faGithub, faDiscord } = require("@fortawesome/free-brands-svg-icons");
+interface SidebarProps {
+	config: Config;
+	changeConfig: (key: string, value: unknown) => void;
+	className?: string;
+}
 
-class SidebarUnstyled extends React.Component {
+/**
+ * Unimplemented
+ * @param values Values
+ */
+function setValues(values: Config) {
+	throw new Error("Not implemented: " + values);
+}
+
+/**
+ * Unimplemented
+ * @param title Title
+ * @param description Description
+ */
+function notify(title: string, description: string) {
+	throw new Error("Not implemented: " + title + ", " + description);
+}
+
+/**
+ * Unimplemented
+ */
+function setCamValues() {
+	throw new Error("Not implemented");
+}
+
+/**
+ * Unimplemented
+ * @param zoom Zoom
+ */
+function setZoom(zoom: number) {
+	throw new Error("Not implemented: " + zoom);
+}
+
+/**
+ * Unimplemented
+ * @param tool Tool
+ */
+function setTool(tool: string) {
+	throw new Error("Not implemented: " + tool);
+}
+
+class SidebarUnstyled extends React.Component<SidebarProps> {
 	render() {
 		return <div className={this.props.className}>
 			<h1 className="title">
@@ -32,7 +78,7 @@ class SidebarUnstyled extends React.Component {
 					<ImportBox id="dataBox" placeholder="Paste your scene here" value={JSON.stringify(this.props.config, null, "\t")} />
 					<ButtonPair>
 						<Button color="statBulletSpeed" id="import" label="Import" onClick={() => {
-							const boxValue = document.querySelector("#dataBox").value;
+							const boxValue = (document.querySelector("#dataBox") as HTMLTextAreaElement).value;
 							if (boxValue) {
 								try {
 									setValues(JSON.parse(boxValue));
@@ -46,12 +92,12 @@ class SidebarUnstyled extends React.Component {
 					<ButtonPair>
 						<Button color="statReload" label="Save & Export" onClick={() => {
 							const output = JSON.stringify(this.props.config);
-							document.querySelector("#dataBox").value = output;
+							(document.querySelector("#dataBox") as HTMLTextAreaElement).value = output;
 							localStorage.setItem("saved", output);
 						}} title="Saves and exports as JSON." />
 					</ButtonPair>
 					<ButtonPair>
-						<Button color="statBulletDamage" label="Clear" onClick={() => setValues()} title="This will remove all progress on the current scene!" />
+						<Button color="statBulletDamage" label="Clear" onClick={() => setValues({})} title="This will remove all progress on the current scene!" />
 					</ButtonPair>
 				</SidebarSection>
 				<SidebarSection header="Camera">
@@ -98,9 +144,6 @@ class SidebarUnstyled extends React.Component {
 		</div>;
 	}
 }
-SidebarUnstyled.propTypes = {
-
-};
 
 const Sidebar = styled(SidebarUnstyled)`
 	background-color: rgba(0, 0, 0, 0.5);
@@ -132,4 +175,4 @@ const Sidebar = styled(SidebarUnstyled)`
 		text-align: center;
 	}
 `;
-module.exports = Sidebar;
+export default Sidebar;

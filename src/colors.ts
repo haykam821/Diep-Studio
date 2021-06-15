@@ -1,12 +1,19 @@
-const colorGroups = {
+export const colorGroups = {
 	bg: "Background",
 	other: "Other",
 	stat: "Stats",
 	team: "Teams",
 };
-module.exports.colorGroups = colorGroups;
+type ColorGroup = keyof typeof colorGroups;
 
-const colors = [{
+interface Color {
+	color: string;
+	group: ColorGroup;
+	id: string;
+	name: string;
+}
+
+export const colors: Color[] = [{
 	color: "#00b0e1",
 	group: "team",
 	id: "teamBlue",
@@ -92,7 +99,6 @@ const colors = [{
 	id: "statMovementSpeed",
 	name: "Movement Speed",
 }];
-module.exports.colors = colors;
 
 /**
  * Gets a color by a given property.
@@ -100,7 +106,10 @@ module.exports.colors = colors;
  * @param {string} property The property to search by.
  * @returns The found color.
  */
-function colorByProperty(value, property = "id") {
-	return colors.find(color => color[property] === value);
+export function colorByProperty<K extends keyof Color>(value: Color[K], property?: K): Color | undefined {
+	if (typeof property === "undefined") {
+		return colors.find(color => color.id === value);
+	} else {
+		return colors.find(color => color[property] === value);
+	}
 }
-module.exports.colorByProperty = colorByProperty;

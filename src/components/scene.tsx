@@ -1,10 +1,27 @@
-const React = require("react");
-const styled = require("styled-components").default;
+import React, { RefObject } from "react";
 
-const Coordinates = require("./coordinates.jsx");
+import { Config } from "./app";
+import Coordinates from "./coordinates";
+import styled from "styled-components";
 
-class SceneUnstyled extends React.Component {
-	constructor(props) {
+interface SceneProps {
+	config: Config;
+	changeConfig: (key: string, value: unknown) => void;
+	className?: string;
+}
+
+interface SceneState {
+	camX: number;
+	camY: number;
+	mouseX: number;
+	mouseY: number;
+	zoom: number;
+}
+
+class SceneUnstyled extends React.Component<SceneProps, SceneState> {
+	private readonly canvas: RefObject<HTMLCanvasElement>;
+
+	constructor(props: Readonly<SceneProps>) {
 		super(props);
 
 		this.canvas = React.createRef();
@@ -27,7 +44,7 @@ class SceneUnstyled extends React.Component {
 		window.removeEventListener("mousemove", this.updateCoordinates);
 	}
 
-	updateCoordinates(event) {
+	updateCoordinates(event: MouseEvent) {
 		this.setState({
 			mouseX: Math.round((event.clientX - this.canvas.current.offsetLeft) * (1 / this.state.zoom) + this.state.camX),
 			mouseY: Math.round((event.clientY - this.canvas.current.offsetTop) * (1 / this.state.zoom) + this.state.camY),
@@ -35,15 +52,12 @@ class SceneUnstyled extends React.Component {
 	}
 
 	render() {
-		return <div>
+		return <div className={this.props.className}>
 			<canvas ref={this.canvas} width={window.innerWidth} height={window.innerHeight}></canvas>
 			<Coordinates x={this.state.mouseX} y={this.state.mouseY} />
 		</div>;
 	}
 }
-SceneUnstyled.propTypes = {
-
-};
 
 const Scene = styled(SceneUnstyled)``;
-module.exports = Scene;
+export default Scene;

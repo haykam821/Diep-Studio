@@ -1,12 +1,21 @@
-const React = require("react");
-const styled = require("styled-components").default;
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import chroma, { Color } from "chroma-js";
 
-const chroma = require("chroma-js");
-const { colorByProperty } = require("../colors.js");
+import { colorByProperty } from "../colors";
+import styled from "styled-components";
 
+interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
+	color: string;
+	label: string;
+}
 
-class ButtonUnstyled extends React.Component {
-	constructor(props) {
+interface ButtonState {
+	active: boolean;
+	hover: boolean;
+}
+
+class ButtonUnstyled extends React.Component<ButtonProps, ButtonState> {
+	constructor(props: Readonly<ButtonProps>) {
 		super(props);
 
 		this.state = {
@@ -45,7 +54,7 @@ class ButtonUnstyled extends React.Component {
 		});
 	}
 
-	getGradColor(color) {
+	getGradColor(color: string | number | Color) {
 		if (this.state.active) return chroma(color).brighten(0.67).hex();
 		if (this.state.hover) return chroma(color).darken(0.67).hex();
 
@@ -64,9 +73,6 @@ class ButtonUnstyled extends React.Component {
 		</button>;
 	}
 }
-ButtonUnstyled.propTypes = {
-
-};
 
 const Button = styled(ButtonUnstyled)`
 	border: 2px solid #333333;
@@ -84,4 +90,4 @@ const Button = styled(ButtonUnstyled)`
 	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black, -1px -1px black, -1px 1px black, 1px 1px black, 1px -1px black;
 	width: 100px;
 `;
-module.exports = Button;
+export default Button;

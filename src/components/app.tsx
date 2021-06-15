@@ -1,14 +1,15 @@
-const React = require("react");
-const styled = require("styled-components").default;
+import React from "react";
+import Scene from "./scene";
+import Sidebar from "./sidebar";
+import styled from "styled-components";
 
-const Scene = require("./scene.jsx");
-const Sidebar = require("./sidebar.jsx");
+export type Config = Record<string, unknown>;
 
 /**
  * Gets the saved config from local storage.
  * @returns The saved config.
  */
-function getSavedConfig() {
+function getSavedConfig(): Config {
 	try {
 		const parsed = JSON.parse(localStorage.getItem("diep-studio:saved"));
 
@@ -23,8 +24,18 @@ function getSavedConfig() {
 	}
 }
 
-class AppUnstyled extends React.Component {
-	constructor(props) {
+interface AppProps {
+	className?: string;
+}
+
+type Tool = "pan";
+interface AppState {
+	config: Config;
+	tool: Tool;
+}
+
+class AppUnstyled extends React.Component<AppProps, AppState> {
+	constructor(props: Readonly<AppProps>) {
 		super(props);
 
 		this.state = {
@@ -35,7 +46,7 @@ class AppUnstyled extends React.Component {
 		this.changeConfig = this.changeConfig.bind(this);
 	}
 
-	changeConfig(key, value) {
+	changeConfig(key: string, value: unknown) {
 		this.setState(state => {
 			state.config[key] = value;
 			return state;
@@ -50,8 +61,6 @@ class AppUnstyled extends React.Component {
 		</div>;
 	}
 }
-AppUnstyled.propTypes = {
-};
 
 const App = styled(AppUnstyled)`
 	width: 100%;
@@ -59,4 +68,4 @@ const App = styled(AppUnstyled)`
 
 	background: pink;
 `;
-module.exports = App;
+export default App;

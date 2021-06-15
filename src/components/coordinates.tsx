@@ -1,7 +1,13 @@
-const React = require("react");
-const styled = require("styled-components").default;
+import React from "react";
+import styled from "styled-components";
 
-class CoordinatesUnstyled extends React.Component {
+interface CoordinatesProps {
+	className?: string;
+	x?: number;
+	y?: number;
+}
+
+class CoordinatesUnstyled extends React.Component<CoordinatesProps> {
 	render() {
 		return <div className={this.props.className}>
 			<div className="posDisplay">
@@ -15,9 +21,6 @@ class CoordinatesUnstyled extends React.Component {
 		</div>;
 	}
 }
-CoordinatesUnstyled.propTypes = {
-
-};
 
 const Coordinates = styled(CoordinatesUnstyled)`
 	position: absolute;
@@ -40,4 +43,4 @@ const Coordinates = styled(CoordinatesUnstyled)`
 		float: right;
 	}
 `;
-module.exports = Coordinates;
+export default Coordinates;

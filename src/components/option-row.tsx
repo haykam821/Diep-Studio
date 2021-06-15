@@ -1,14 +1,14 @@
-const React = require("react");
-const styled = require("styled-components").default;
+import React from "react";
+import styled from "styled-components";
 
 /**
  * Truncates a string to a given length.
- * @param {string} text The text to truncate.
- * @param {string} limit The maximum length.
- * @param {string} truncator The string to use to indicate truncated text.
+ * @param text The text to truncate.
+ * @param limit The maximum length.
+ * @param truncator The string to use to indicate truncated text.
  * @returns The truncated text.
  */
-function truncate(text, limit = 20, truncator = "...") {
+function truncate(text: string, limit = 20, truncator = "..."): string {
 	if (text.length - truncator.length <= limit) {
 		return text;
 	} else {
@@ -16,7 +16,13 @@ function truncate(text, limit = 20, truncator = "...") {
 	}
 }
 
-class OptionRowUnstyled extends React.Component {
+interface OptionRowProps {
+	children: JSX.Element;
+	className?: string;
+	label: string;
+}
+
+class OptionRowUnstyled extends React.Component<OptionRowProps> {
 	render() {
 		const control = React.cloneElement(this.props.children, {
 			className: "control",
@@ -30,9 +36,6 @@ class OptionRowUnstyled extends React.Component {
 		</div>;
 	}
 }
-OptionRowUnstyled.propTypes = {
-
-};
 
 const OptionRow = styled(OptionRowUnstyled)`
 	display: flex;
@@ -46,4 +49,4 @@ const OptionRow = styled(OptionRowUnstyled)`
 		margin-left: 8px;
 	}
 `;
-module.exports = OptionRow;
+export default OptionRow;

@@ -1,13 +1,22 @@
-const React = require("react");
-const styled = require("styled-components").default;
+import { faAngleDown, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 
-const Paragraph = require("./paragraph.jsx");
+import Icon from "./icon";
+import Paragraph from "./paragraph";
+import React from "react";
+import styled from "styled-components";
 
-const Icon = require("./icon.jsx");
-const { faAngleDown, faAngleRight } = require("@fortawesome/free-solid-svg-icons");
+interface SidebarSectionProps {
+	className?: string;
+	description?: string;
+	header: string;
+}
 
-class SidebarSectionUnstyled extends React.Component {
-	constructor(props) {
+interface SidebarSectionState {
+	expanded: boolean;
+}
+
+class SidebarSectionUnstyled extends React.Component<SidebarSectionProps, SidebarSectionState> {
+	constructor(props: Readonly<SidebarSectionProps>) {
 		super(props);
 
 		this.state = {
@@ -17,7 +26,7 @@ class SidebarSectionUnstyled extends React.Component {
 		this.toggleExpansion = this.toggleExpansion.bind(this);
 	}
 
-	toggleExpansion() {
+	toggleExpansion(): void {
 		this.setState({
 			expanded: !this.state.expanded,
 		});
@@ -44,9 +53,6 @@ class SidebarSectionUnstyled extends React.Component {
 		</div>;
 	}
 }
-SidebarSectionUnstyled.propTypes = {
-
-};
 
 const SidebarSection = styled(SidebarSectionUnstyled)`
 	.header {
@@ -69,4 +75,4 @@ const SidebarSection = styled(SidebarSectionUnstyled)`
 		}
 	}
 `;
-module.exports = SidebarSection;
+export default SidebarSection;
