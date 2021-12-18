@@ -15,6 +15,7 @@ class ParagraphUnstyled extends React.Component<ParagraphProps> {
 	}
 }
 
+/* eslint-disable unicorn/explicit-length-check */
 const Paragraph = styled(ParagraphUnstyled)`
 	color: white;
 	font-size: ${props => props.size || 16};

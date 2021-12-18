@@ -73,7 +73,9 @@ class SidebarUnstyled extends React.Component<SidebarProps> {
 				Welcome to Diep Studio! It is currently in beta; please send haykam any questions or concerns you may have. Thanks!
 			</Paragraph>
 
-			<ConfigField changeConfig={this.props.changeConfig} style={{ margin: 12 }}>
+			<ConfigField changeConfig={this.props.changeConfig} style={{
+				margin: 12,
+			}}>
 				<SidebarSection header="Manage">
 					<ImportBox id="dataBox" placeholder="Paste your scene here" value={JSON.stringify(this.props.config, null, "\t")} />
 					<ButtonPair>
